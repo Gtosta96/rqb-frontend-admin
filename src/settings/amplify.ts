@@ -1,10 +1,10 @@
-import Amplify from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 
 import { AWS } from './constants';
 
-(window as any).Amplify = Amplify;
+(window as any).Auth = Auth;
 
 export const getAmplifyConfig = () => {
-  Amplify.configure(AWS);
+  Auth.configure(AWS);
   return AWS;
 };

@@ -1,6 +1,6 @@
+import Auth from '@aws-amplify/auth';
 import MuiMenu from '@material-ui/core/Menu';
 import MuiMenuItem from '@material-ui/core/MenuItem';
-import Amplify from 'aws-amplify';
 import React from 'react';
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 
 const Menu: React.FC<IProps> = (props) => {
   function signOut() {
-    Amplify.Auth.signOut();
+    Auth.signOut();
   }
 
   return (

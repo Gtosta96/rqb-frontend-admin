@@ -1,4 +1,4 @@
-import Amplify from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import * as rxjs from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 import * as rxjsOperators from 'rxjs/operators';
@@ -23,12 +23,12 @@ class ApiService {
   private mergeHeaders = (headers = {}) => {
     return rxjs.defer(async () => {
       // https://github.com/aws-amplify/amplify-js/wiki/FAQ
-      const { accessToken, idToken } = await Amplify.Auth.currentSession();
+      const { getAccessToken, getIdToken } = await Auth.currentSession();
 
       return {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken.jwtToken}`,
-        idtoken: idToken.jwtToken,
+        Authorization: `Bearer ${getAccessToken().getJwtToken()}`,
+        idtoken: getIdToken().getJwtToken(),
         ...headers
       };
     });

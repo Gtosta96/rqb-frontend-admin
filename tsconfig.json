@@ -15,9 +15,5 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "include": ["src"],
-  "baseUrl": ".",
-  "paths": {
-    "aws-amplify": ["src/declarations/aws-amplify.react.d.ts"]
-  }
+  "include": ["src"]
 }
