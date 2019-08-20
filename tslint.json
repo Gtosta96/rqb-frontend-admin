@@ -1,0 +1,15 @@
+{
+  "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
+  "rules": {
+    "object-literal-sort-keys": false,
+    "no-submodule-imports": false,
+    "no-empty-interface": false,
+    "no-implicit-dependencies": [true, "dev"],
+    "no-console": false,
+    "arrow-parens": true
+  },
+  "rulesDirectory": ["node_modules/tslint-eslint-rules/dist/rules"],
+  "linterOptions": {
+    "exclude": ["node_modules"]
+  }
+}

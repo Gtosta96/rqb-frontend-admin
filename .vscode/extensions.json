@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "EditorConfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "rbbit.typescript-hero",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "vscode-icons-team.vscode-icons",
+    "mikestead.dotenv"
+  ]
+}
