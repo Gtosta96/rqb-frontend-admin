@@ -1,3 +1,4 @@
+// @ts-ignore
 import Auth from '@aws-amplify/auth';
 import MuiMenu from '@material-ui/core/Menu';
 import MuiMenuItem from '@material-ui/core/MenuItem';

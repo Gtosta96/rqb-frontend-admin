@@ -1,4 +1,5 @@
 {
+  "baseUrl": "./src",
   "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "object-literal-sort-keys": false,

@@ -3,11 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/analytics": "^1.2.23",
+    "@aws-amplify/api": "^1.0.42",
+    "@aws-amplify/auth": "^1.2.31",
+    "@aws-amplify/interactions": "^1.0.35",
+    "@aws-amplify/storage": "^1.1.0",
+    "@aws-amplify/ui": "^1.0.23",
+    "@aws-amplify/xr": "^0.1.22",
     "@material-ui/core": "^4.3.2",
     "@material-ui/icons": "^4.2.1",
-    "aws-amplify": "^1.1.36",
     "aws-amplify-react": "^2.3.12",
     "classnames": "^2.2.6",
+    "formik": "^1.5.8",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
@@ -38,7 +45,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "npx tslint --fix -c tslint.json src/**/*.{ts,tsx}",
-    "health-check": "npx tsc --diagnostics --listFiles"
+    "health-check": "npx tsc --diagnostics --listFiles",
+    "analyze": "yarn build && npx source-map-explorer build/static/js/main.*"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,3 +1,4 @@
+// @ts-ignore
 import Auth from '@aws-amplify/auth';
 
 import { AWS } from './constants';

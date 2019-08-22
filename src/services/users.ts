@@ -1,19 +1,19 @@
-import * as rxjs from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { IResponseUser } from '../models/User';
 import { API } from '../settings/constants';
 import apiService from './api';
 
 class UsersService {
-  private users$ = new rxjs.BehaviorSubject<IResponseUser[]>([]);
+  private users$ = new BehaviorSubject<IResponseUser[]>([]);
 
   public getUsers = (cache: boolean = true) => {
     if (cache && this.users$.getValue().length > 0) {
       return this.users$.asObservable();
     }
 
-    apiService.get(`${API.user}/users`).subscribe((users) => {
-      this.users$.next(users.users);
+    apiService.get<{ users: IResponseUser[] }>(`${API.user}/users`).subscribe((response) => {
+      this.users$.next(response.users);
     });
 
     return this.users$.asObservable();
