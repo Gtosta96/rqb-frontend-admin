@@ -1,3 +1,16 @@
+type IValidatorFunction = (value: string) => string | undefined;
+
+export const compose = (...validators: IValidatorFunction[]) => async (value: string) => {
+  for (let i = 0; i < validators.length; i++) {
+    const validator = validators[i];
+    const result = await validator(value);
+
+    if (result) {
+      return result;
+    }
+  }
+};
+
 export const required = (value: string) => {
   return value ? undefined : "This field is required";
 };

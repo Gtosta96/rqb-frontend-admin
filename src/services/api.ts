@@ -4,22 +4,26 @@ import { defer, Observable, of, throwError } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import usersMock from './users.mock.json';
+interface IResponse<T> {
+  response: T;
+  error?: boolean | null;
+  message?: string | null;
+}
 
 class ApiService {
-  public get = <T = any>(url: string, customHeaders?: any): Observable<T> =>
+  public get = <T = any>(url: string, customHeaders?: any) =>
     this.request<T>("GET", url, customHeaders);
 
-  public post = <T = any>(url: string, body: any, customHeaders?: any): Observable<T> =>
+  public post = <T = any>(url: string, body: any, customHeaders?: any) =>
     this.request<T>("POST", url, customHeaders, body);
 
-  public put = <T = any>(url: string, body: any, customHeaders?: any): Observable<T> =>
+  public put = <T = any>(url: string, body: any, customHeaders?: any) =>
     this.request<T>("PUT", url, customHeaders, body);
 
-  public delete = <T = any>(url: string, customHeaders?: any): Observable<T> =>
+  public delete = <T = any>(url: string, customHeaders?: any) =>
     this.request<T>("DELETE", url, customHeaders);
 
-  public mock = (url?: string, body?: any, customHeaders?: any): Observable<any> => of(usersMock);
+  public mock = (url?: string, body?: any, customHeaders?: any): Observable<any> => of({});
 
   // ------ //
 
@@ -44,7 +48,7 @@ class ApiService {
     url: string,
     customHeaders: any,
     body?: any
-  ): Observable<T> => {
+  ): Observable<IResponse<T>> => {
     return this.mergeHeaders(customHeaders).pipe(
       switchMap((headers) => fromFetch(url, { method, body: JSON.stringify(body), headers })),
       switchMap((response) => {
@@ -53,12 +57,13 @@ class ApiService {
         }
 
         // Server is returning a status requiring the client to try something else.
-        return throwError({ message: `Error ${response.status}` });
+        return throwError({ error: true, message: `Error ${response.status}`, response: {} as T });
       }),
-      catchError((err) => {
+      switchMap((response) => of({ error: false, message: null, response })),
+      catchError((err: IResponse<T>) => {
         // Network or other error, handle appropriately
         console.error(err);
-        return throwError({ error: true, message: err.message });
+        return of(err);
       })
     );
   };

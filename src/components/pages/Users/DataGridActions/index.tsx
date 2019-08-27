@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import React, { useEffect } from 'react';
 
-import { IResponseUser } from '../../../../models/User';
+import { IUserResponse } from '../../../../models/User';
 import UsersForm from './UsersForm';
 
 const useStyles = makeStyles({
@@ -13,12 +13,11 @@ const useStyles = makeStyles({
 
 interface IProps {
   newUser: () => void;
-  userInfo?: IResponseUser;
+  userInfo?: IUserResponse;
 }
 
 const DataGridActions: React.FC<IProps> = (props) => {
   const classes = useStyles();
-
   const [state, setState] = React.useState({
     open: false
   });

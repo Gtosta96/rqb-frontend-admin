@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 import { useObservable } from 'react-use-observable';
 
-import { IResponseUser } from '../../../models/User';
+import { IUserResponse } from '../../../models/User';
 import usersService from '../../../services/users';
 import Loading from '../../shared/Loading';
 import DataGrid from './DataGrid';
 import DataGridActions from './DataGridActions';
 
 const Users = () => {
-  const [users] = useObservable(() => usersService.getUsers(), []);
-  const [userInfo, setUserInfo] = useState<IResponseUser>();
+  const [usersState] = useObservable(() => usersService.getUsers(), []);
+  const [userInfo, setUserInfo] = useState<IUserResponse>();
 
-  function setUser(data?: IResponseUser) {
-    setUserInfo(({ ...data } || {}) as IResponseUser);
+  function setUser(data?: IUserResponse) {
+    setUserInfo(({ ...data } || {}) as IUserResponse);
   }
 
-  if (!users || users.length === 0) {
+  if (!usersState || !usersState.users || usersState.users.length === 0) {
     return <Loading />;
   }
 
   return (
     <>
       <DataGridActions userInfo={userInfo} newUser={setUser} />
-      <DataGrid users={users} editUser={setUser} />
+      <DataGrid users={usersState.users} editUser={setUser} />
     </>
   );
 };

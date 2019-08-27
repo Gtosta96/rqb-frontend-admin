@@ -43,5 +43,6 @@ export const API = {
   document: makeApiURL(process.env.REACT_APP_API_HOST_DOCUMENT),
   endorsement: makeApiURL(process.env.REACT_APP_API_HOST_ENDORSEMENT),
   auditHistory: makeApiURL(process.env.REACT_APP_API_HOST_AUDIT_HISTORY),
-  cognito: makeApiURL(process.env.REACT_APP_API_HOST_COGNITO)
+  cognito: makeApiURL(process.env.REACT_APP_API_HOST_COGNITO),
+  xpto: makeApiURL(process.env.REACT_APP_API_HOST_XPTO)
 };

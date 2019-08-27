@@ -1,22 +1,27 @@
 import Button from '@material-ui/core/Button';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
-import { Field, FieldProps, Form, Formik, FormikActions } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import React from 'react';
+import { useObservable } from 'react-use-observable';
 
-import { required } from '../../../../helpers/formValidators';
-import { isEmpty } from '../../../../helpers/functions';
-import { IResponseUser } from '../../../../models/User';
+import { compose, email, required } from '../../../../helpers/formValidators';
+import { get, isEmpty } from '../../../../helpers/functions';
+import { IUserRequest, IUserResponse } from '../../../../models/User';
+import usersService from '../../../../services/users';
+import DatePicker from './fields/DatePicker';
+import Dropdown from './fields/Dropdown';
+import Input from './fields/Input';
+import Toggle from './fields/Toggle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      height: "100%",
+      padding: theme.spacing(1),
       display: "flex",
       flexDirection: "column",
-      padding: theme.spacing(1)
+      height: "100%"
     },
     form: {
       display: "flex",
@@ -30,8 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1, 0)
     },
     textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
+      margin: theme.spacing(0.5, 1, 0.5, 1),
       width: 450
     },
     controlsContainer: {}
@@ -39,146 +43,176 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface IProps {
-  userInfo?: IResponseUser;
+  userInfo?: IUserResponse;
 }
 
-interface IFormValues extends IResponseUser {
+interface IFormValues extends IUserResponse {
+  appUserId: number;
   roleName: string;
   firmName: string;
 }
 
-const CustomField = ({
-  field,
-  form,
-  className,
-  label
-}: FieldProps<IFormValues> & {
-  className: string;
-  label: string;
-}) => {
-  // @ts-ignore
-  const errorText = form.touched[field.name] && form.errors[field.name];
-
-  return (
-    <TextField
-      {...field}
-      margin="normal"
-      value={field.value || ""}
-      className={className}
-      label={label}
-      error={!!errorText}
-      helperText={errorText}
-    />
-  );
-};
-
 const UsersForm: React.FC<IProps> = (props) => {
   const classes = useStyles();
 
-  function handleSubmit(values: any, actions: FormikActions<any>) {
-    console.log({ values, actions });
-    console.log("submit");
+  const isCreatingUser = isEmpty(props.userInfo);
+
+  const [firmsState] = useObservable(() => usersService.getFirms(), []);
+  const [rolesState] = useObservable(() => usersService.getRoles(), []);
+
+  const formFields = React.useMemo(
+    () => [
+      {
+        name: "userStatus",
+        controlLabel: "User Status",
+        label: "Active",
+        initialValue: get("userStatus", props.userInfo, ""),
+        validate: [],
+        component: Toggle
+      },
+      {
+        name: "fullName",
+        label: "Full Name",
+        initialValue: get("fullName", props.userInfo, ""),
+        validate: required,
+        component: Input
+      },
+      {
+        name: "firstName",
+        label: "First Name",
+        initialValue: get("firstName", props.userInfo, ""),
+        validate: required,
+        component: Input
+      },
+      {
+        name: "lastName",
+        label: "Last Name",
+        initialValue: get("lastName", props.userInfo, ""),
+        validate: required,
+        component: Input
+      },
+      {
+        name: "initials",
+        label: "Initials",
+        initialValue: get("initials", props.userInfo, ""),
+        validate: required,
+        component: Input
+      },
+      {
+        name: "shortName",
+        label: "Short Name",
+        initialValue: get("shortName", props.userInfo, ""),
+        validate: required,
+        component: Input
+      },
+      {
+        name: "username",
+        label: "Username",
+        initialValue: get("username", props.userInfo, ""),
+        validate: required,
+        component: Input
+      },
+      {
+        name: "email",
+        label: "Email",
+        initialValue: get("email", props.userInfo, ""),
+        validate: compose(
+          required,
+          email
+        ),
+        component: Input
+      },
+      {
+        name: "firmId",
+        label: "Firm",
+        initialValue: get("firm.firmId", props.userInfo, ""),
+        validate: required,
+        component: Dropdown,
+        options: firmsState && firmsState.firms
+      },
+      {
+        name: "telephoneNumber",
+        label: "Telephone",
+        initialValue: get("telephoneNumber", props.userInfo, ""),
+        validate: required,
+        component: Input
+      },
+      {
+        name: "mobileTelephone",
+        label: "Mobile / Cell",
+        initialValue: get("mobileTelephone", props.userInfo, ""),
+        validate: [],
+        component: Input
+      },
+      {
+        name: "jobTitle",
+        label: "Job Title",
+        initialValue: get("jobTitle", props.userInfo, ""),
+        validate: [],
+        component: Input
+      },
+      {
+        name: "roleId",
+        label: "RQB Role",
+        initialValue: get("role.roleId", props.userInfo, ""),
+        validate: required,
+        component: Dropdown,
+        options: rolesState && rolesState.roles
+      },
+      {
+        name: "onboarded",
+        label: "Onboarded",
+        initialValue: get("onboarded", props.userInfo, ""),
+        validate: required,
+        component: DatePicker,
+        type: isCreatingUser ? "hidden" : "text",
+        disabled: !isCreatingUser
+      },
+      {
+        name: "appUserId",
+        label: "User ID",
+        initialValue: get("appUserId", props.userInfo, ""),
+        validate: required,
+        component: Input,
+        type: isCreatingUser ? "hidden" : "text",
+        disabled: !isCreatingUser
+      }
+    ],
+    [props.userInfo, firmsState, rolesState, isCreatingUser]
+  );
+
+  const initialValues = React.useMemo(
+    () =>
+      formFields.reduce(
+        (prev, cur) => {
+          prev[cur.name] = cur.initialValue;
+          return prev;
+        },
+        {} as { [key: string]: string }
+      ),
+    [formFields]
+  );
+
+  function handleSubmit(values: IFormValues) {
+    if (isCreatingUser) {
+      usersService.createUser((values as unknown) as IUserRequest);
+    } else {
+      usersService.updateUser((values as unknown) as IUserRequest);
+    }
   }
 
   return (
     <div className={classes.root}>
       <Typography align="center" variant="h4">
-        {isEmpty(props.userInfo) ? "Add" : "Edit"} User
+        {isCreatingUser ? "Add" : "Edit"} User
       </Typography>
 
-      <Formik initialValues={props.userInfo} onSubmit={handleSubmit}>
+      <Formik initialValues={initialValues as any} onSubmit={handleSubmit}>
         <Form className={classes.form}>
           <div className={classes.inputsContainer}>
-            <Field
-              name={"fullName"}
-              label="Full Name"
-              className={classes.textField}
-              component={CustomField}
-              validate={required}
-            />
-            <Field
-              name={"firstName"}
-              label="First Name"
-              className={classes.textField}
-              component={CustomField}
-              validate={required}
-            />
-            <Field
-              name={"lastName"}
-              label="Last Name"
-              className={classes.textField}
-              component={CustomField}
-              validate={required}
-            />
-
-            <Field
-              name={"initials"}
-              label="Initials"
-              className={classes.textField}
-              component={CustomField}
-              validate={required}
-            />
-
-            <Field
-              name={"shortName"}
-              label="Short Name"
-              className={classes.textField}
-              component={CustomField}
-              validate={required}
-            />
-
-            <Field
-              name={"username"}
-              label="Username"
-              className={classes.textField}
-              component={CustomField}
-              validate={required}
-            />
-
-            <Field
-              name={"email"}
-              label="Email"
-              className={classes.textField}
-              component={CustomField}
-              validate={required}
-            />
-
-            <Field
-              name={"firmName"}
-              label="Firm"
-              className={classes.textField}
-              component={CustomField}
-              validate={required}
-            />
-
-            <Field
-              name={"telephoneNumber"}
-              label="Telephone"
-              className={classes.textField}
-              component={CustomField}
-            />
-
-            <Field
-              name={"mobileTelephone"}
-              label="Mobile / Cell"
-              className={classes.textField}
-              component={CustomField}
-            />
-
-            <Field
-              name={"jobTitle"}
-              label="Job Title"
-              className={classes.textField}
-              component={CustomField}
-            />
-
-            <Field
-              name={"roleName"}
-              label="RQB Role"
-              className={classes.textField}
-              component={CustomField}
-              validate={required}
-            />
+            {formFields.map((formField) => (
+              <Field key={formField.name} className={classes.textField} {...formField} />
+            ))}
           </div>
 
           <div className={classes.controlsContainer}>
@@ -200,7 +234,7 @@ const UsersForm: React.FC<IProps> = (props) => {
 };
 
 UsersForm.defaultProps = {
-  userInfo: {} as any
+  userInfo: {} as IUserResponse
 };
 
 export default React.memo(UsersForm);

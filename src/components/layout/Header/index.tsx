@@ -1,5 +1,6 @@
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
+import Chip from '@material-ui/core/Chip';
 import IconButton from '@material-ui/core/IconButton';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -30,6 +31,13 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up("sm")]: {
         display: "block"
       }
+    },
+    environment: {
+      padding: theme.spacing(1),
+      margin: theme.spacing(1),
+      textTransform: "uppercase",
+      borderColor: "#fff",
+      color: "#fff"
     },
     sectionDesktop: {
       display: "none",
@@ -89,6 +97,7 @@ function Header() {
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap={true}>
             RQB Administration
+            <Chip className={classes.environment} label="dev" variant="outlined" />
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

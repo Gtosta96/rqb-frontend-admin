@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Edit from '@material-ui/icons/Edit';
 import React from 'react';
 
-import { IResponseUser } from '../../../../models/User';
+import { IUserResponse } from '../../../../models/User';
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -51,14 +51,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface IProps {
-  users: IResponseUser[] | undefined;
+  users: IUserResponse[] | undefined;
   editUser: (userInfo: any) => void;
 }
 
 const DataGrid: React.FC<IProps> = (props) => {
   const classes = useStyles();
 
-  function editUser(user: IResponseUser) {
+  function editUser(user: IUserResponse) {
     return () => props.editUser(user);
   }
 
