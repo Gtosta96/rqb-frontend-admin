@@ -2,58 +2,73 @@ import Drawer from '@material-ui/core/Drawer';
 import Fab from '@material-ui/core/Fab';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import React, { useEffect } from 'react';
 
-import { IUserResponse } from '../../../../models/User';
+import { IUserResponse } from '../../../../interfaces/models/user';
+import ConfirmDiscardDialog from './ConfirmDiscardDialog';
 import UsersForm from './UsersForm';
 
 const useStyles = makeStyles({
-  drawer: {}
+  root: {
+    display: "flex",
+    justifyContent: "space-evenly",
+    width: 150,
+    marginLeft: "auto"
+  }
 });
 
 interface IProps {
-  newUser: () => void;
   userInfo?: IUserResponse;
+  newUser: () => void;
+  refresh: () => void;
 }
 
 const DataGridActions: React.FC<IProps> = (props) => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    open: false
-  });
+  const [drawer, setDrawer] = React.useState(false);
+  const [modal, setModal] = React.useState(false);
 
   useEffect(() => {
-    setState({ open: !!props.userInfo });
+    setDrawer(!!props.userInfo);
   }, [props.userInfo]);
 
-  function toggleDrawer(open: boolean) {
-    return (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      ) {
-        return;
-      }
-
-      setState({ open });
-    };
-  }
-
   function add() {
-    toggleDrawer(true);
+    setDrawer(true);
     props.newUser();
   }
 
+  function closeDialog(discard: boolean) {
+    setModal(false);
+    setDrawer(!discard);
+  }
+
+  function closeDrawer(event: React.KeyboardEvent | React.MouseEvent) {
+    if (
+      event.type === "keydown" &&
+      ((event as React.KeyboardEvent).key === "Tab" ||
+        (event as React.KeyboardEvent).key === "Shift")
+    ) {
+      return;
+    }
+
+    setModal(true);
+  }
+
   return (
-    <div>
-      <Fab color="primary" aria-label="add" onClick={add}>
+    <div className={classes.root}>
+      <Fab color="secondary" onClick={props.refresh}>
+        <RefreshIcon />
+      </Fab>
+      <Fab color="primary" onClick={add}>
         <AddIcon />
       </Fab>
 
-      <Drawer anchor={"right"} open={state.open} onClose={toggleDrawer(false)}>
+      <Drawer anchor={"right"} open={drawer} onClose={closeDrawer}>
         <UsersForm userInfo={props.userInfo} />
       </Drawer>
+
+      {modal && <ConfirmDiscardDialog open={modal} onClose={closeDialog} />}
     </div>
   );
 };

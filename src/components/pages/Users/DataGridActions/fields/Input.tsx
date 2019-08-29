@@ -19,7 +19,7 @@ const Input = ({
   const errorText = form.touched[field.name] && form.errors[field.name];
 
   if (type === "hidden") {
-    return <input {...field} type={type} />;
+    return <input {...field} type={type} disabled={disabled} />;
   }
 
   return (

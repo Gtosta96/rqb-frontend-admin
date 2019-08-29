@@ -11,7 +11,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import classnames from 'classnames';
 import React, { SyntheticEvent } from 'react';
 
-import { ISnackbarIcons, ISnackbarPayload, ISnackbarVariants } from '../../../models/ui';
+import { ISnackbarIcons, ISnackbarPayload, ISnackbarVariants } from '../../../interfaces/ui';
 import uiService from '../../../services/ui';
 
 const variantIcon: ISnackbarIcons = {

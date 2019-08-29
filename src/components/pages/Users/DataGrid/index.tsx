@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Edit from '@material-ui/icons/Edit';
 import React from 'react';
 
-import { IUserResponse } from '../../../../models/User';
+import { IUserResponse } from '../../../../interfaces/models/user';
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({

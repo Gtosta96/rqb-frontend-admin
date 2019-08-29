@@ -1,11 +1,8 @@
+import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import React from 'react';
-
-interface IProps {
-  fullscreen?: boolean;
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,14 +25,28 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-const Loading: React.FC<IProps> = (props) => {
+
+interface IProps {
+  fullscreen?: boolean;
+}
+const Loading: React.FC<IProps> = ({ fullscreen }) => {
   const classes = useStyles();
 
   return (
-    <div className={classnames(classes.root, { "-fullscreen": props.fullscreen })}>
-      <CircularProgress className={classes.progress} />
-    </div>
+    <>
+      <Backdrop open={!!fullscreen} style={{ zIndex: 9998 }} />
+      <div
+        style={{ zIndex: 9999 }}
+        className={classnames(classes.root, { "-fullscreen": fullscreen })}
+      >
+        <CircularProgress className={classes.progress} />
+      </div>
+    </>
   );
+};
+
+Loading.defaultProps = {
+  fullscreen: false
 };
 
 export default React.memo(Loading);

@@ -4,10 +4,10 @@ import { defer, Observable, of, throwError } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 import { catchError, switchMap } from 'rxjs/operators';
 
-interface IResponse<T> {
+export interface IResponse<T> {
   response: T;
-  error?: boolean | null;
-  message?: string | null;
+  error: boolean;
+  message: string;
 }
 
 class ApiService {
@@ -31,19 +31,23 @@ class ApiService {
     return defer(async () => {
       // https://github.com/aws-amplify/amplify-js/wiki/FAQ
 
-      // @ts-ignore
-      const { accessToken, idToken } = await Auth.currentSession();
+      try {
+        // @ts-ignore
+        const { accessToken, idToken } = await Auth.currentSession();
 
-      return {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken.jwtToken}`,
-        idtoken: idToken.jwtToken,
-        ...headers
-      };
+        return {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken.jwtToken}`,
+          idtoken: idToken.jwtToken,
+          ...headers
+        };
+      } catch (e) {
+        console.error("ERROR WHILE GETTING USER INFO", e);
+      }
     });
   };
 
-  private request = <T>(
+  private request2 = <T>(
     method: string,
     url: string,
     customHeaders: any,
@@ -57,13 +61,37 @@ class ApiService {
         }
 
         // Server is returning a status requiring the client to try something else.
-        return throwError({ error: true, message: `Error ${response.status}`, response: {} as T });
+        return throwError({ error: true, message: `Error ${response.status}`, response: {} });
       }),
-      switchMap((response) => of({ error: false, message: null, response })),
+      switchMap((response) => of({ error: false, message: "OK", response })),
       catchError((err: IResponse<T>) => {
         // Network or other error, handle appropriately
         console.error(err);
         return of(err);
+      })
+    );
+  };
+
+  private request = <T>(
+    method: string,
+    url: string,
+    customHeaders: any,
+    body?: any
+  ): Observable<IResponse<T>> => {
+    return this.mergeHeaders(customHeaders).pipe(
+      switchMap((headers) => fromFetch(url, { method, body: JSON.stringify(body), headers })),
+      switchMap((xhr) => defer(() => xhr.json()).pipe(switchMap((json) => of({ xhr, json })))),
+      switchMap(({ xhr, json }) => {
+        const error = !xhr.ok;
+        const message = json.message || (error ? "NOK" : "OK") + " - " + xhr.status;
+        const response = json as T;
+
+        return of({ error, message, response });
+      }),
+      catchError((err) => {
+        // Network or other error, handle appropriately
+        console.error(err);
+        return of({ error: true, message: err, response: {} as T });
       })
     );
   };

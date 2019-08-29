@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { EPaths } from '../settings/constants';
 import Layout from './layout';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Err from './pages/Error/Error';
 import Users from './pages/Users';
+import Err from './shared/Err';
 
 interface IProps {
   authState?: string;

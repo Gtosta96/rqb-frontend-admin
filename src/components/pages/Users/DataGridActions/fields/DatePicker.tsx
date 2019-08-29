@@ -17,7 +17,7 @@ const DatePicker = ({
   disabled: boolean;
 }) => {
   // @ts-ignore
-  // const errorText = form.touched[field.name] && form.errors[field.name];
+  const errorText = form.touched[field.name] && form.errors[field.name];
 
   function onChange(value: any) {
     form.setFieldValue(field.name, value);
@@ -28,7 +28,7 @@ const DatePicker = ({
       <MuiDatePicker
         {...field}
         className={className}
-        value={field.value || new Date()}
+        value={field.value}
         label={label}
         onChange={onChange}
         disabled={disabled}

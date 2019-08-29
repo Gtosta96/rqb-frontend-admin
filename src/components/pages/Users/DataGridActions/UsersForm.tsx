@@ -8,12 +8,14 @@ import { useObservable } from 'react-use-observable';
 
 import { compose, email, required } from '../../../../helpers/formValidators';
 import { get, isEmpty } from '../../../../helpers/functions';
-import { IUserRequest, IUserResponse } from '../../../../models/User';
-import usersService from '../../../../services/users';
-import DatePicker from './fields/DatePicker';
-import Dropdown from './fields/Dropdown';
-import Input from './fields/Input';
-import Toggle from './fields/Toggle';
+import { IUserRequest, IUserResponse } from '../../../../interfaces/models/user';
+import firmsService from '../../../../services/users/firms';
+import rolesService from '../../../../services/users/roles';
+import usersService from '../../../../services/users/users';
+import DatePicker from './Fields/DatePicker';
+import Dropdown from './Fields/Dropdown';
+import Input from './Fields/Input';
+import Toggle from './Fields/Toggle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,8 +59,8 @@ const UsersForm: React.FC<IProps> = (props) => {
 
   const isCreatingUser = isEmpty(props.userInfo);
 
-  const [firmsState] = useObservable(() => usersService.getFirms(), []);
-  const [rolesState] = useObservable(() => usersService.getRoles(), []);
+  const [firmsState] = useObservable(() => firmsService.getFirms(), []);
+  const [rolesState] = useObservable(() => rolesService.getRoles(), []);
 
   const formFields = React.useMemo(
     () => [
@@ -66,8 +68,8 @@ const UsersForm: React.FC<IProps> = (props) => {
         name: "userStatus",
         controlLabel: "User Status",
         label: "Active",
-        initialValue: get("userStatus", props.userInfo, ""),
-        validate: [],
+        initialValue: get("userStatus", props.userInfo, false),
+        validate: undefined,
         component: Toggle
       },
       {
@@ -141,14 +143,14 @@ const UsersForm: React.FC<IProps> = (props) => {
         name: "mobileTelephone",
         label: "Mobile / Cell",
         initialValue: get("mobileTelephone", props.userInfo, ""),
-        validate: [],
+        validate: undefined,
         component: Input
       },
       {
         name: "jobTitle",
         label: "Job Title",
         initialValue: get("jobTitle", props.userInfo, ""),
-        validate: [],
+        validate: undefined,
         component: Input
       },
       {
@@ -162,17 +164,15 @@ const UsersForm: React.FC<IProps> = (props) => {
       {
         name: "onboarded",
         label: "Onboarded",
-        initialValue: get("onboarded", props.userInfo, ""),
+        initialValue: get("onboarded", props.userInfo, new Date()),
         validate: required,
         component: DatePicker,
-        type: isCreatingUser ? "hidden" : "text",
         disabled: !isCreatingUser
       },
       {
         name: "appUserId",
         label: "User ID",
-        initialValue: get("appUserId", props.userInfo, ""),
-        validate: required,
+        initialValue: get("appUserId", props.userInfo, undefined),
         component: Input,
         type: isCreatingUser ? "hidden" : "text",
         disabled: !isCreatingUser
@@ -194,10 +194,12 @@ const UsersForm: React.FC<IProps> = (props) => {
   );
 
   function handleSubmit(values: IFormValues) {
+    const payload = (values as unknown) as IUserRequest;
+
     if (isCreatingUser) {
-      usersService.createUser((values as unknown) as IUserRequest);
+      usersService.createUser(payload);
     } else {
-      usersService.updateUser((values as unknown) as IUserRequest);
+      usersService.updateUser(payload);
     }
   }
 
