@@ -1,6 +1,6 @@
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
-import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,7 +11,17 @@ import React from 'react';
 
 import { IUserResponse } from '../../../../interfaces/models/user';
 
-const StyledTableCell = withStyles((theme: Theme) =>
+const useTableRowStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      "&:nth-of-type(odd)": {
+        backgroundColor: theme.palette.background.default
+      }
+    }
+  })
+);
+
+const useTableCellStyles = makeStyles((theme: Theme) =>
   createStyles({
     head: {
       backgroundColor: theme.palette.common.black,
@@ -21,24 +31,12 @@ const StyledTableCell = withStyles((theme: Theme) =>
       fontSize: 14
     }
   })
-)(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "&:nth-of-type(odd)": {
-        backgroundColor: theme.palette.background.default
-      }
-    }
-  })
-)(TableRow);
+);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
-      marginTop: theme.spacing(3),
-      overflowX: "auto"
+      marginTop: theme.spacing(3)
     },
     table: {
       minWidth: 700
@@ -51,11 +49,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface IProps {
-  users: IUserResponse[] | undefined;
+  users: IUserResponse[] | null;
   editUser: (userInfo: any) => void;
 }
 
 const DataGrid: React.FC<IProps> = (props) => {
+  const tableCellClasses = useTableCellStyles();
+  const tableRowClasses = useTableRowStyles();
   const classes = useStyles();
 
   function editUser(user: IUserResponse) {
@@ -67,47 +67,49 @@ const DataGrid: React.FC<IProps> = (props) => {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <StyledTableCell className={classes.action}>&nbsp;</StyledTableCell>
-            <StyledTableCell>Full Name</StyledTableCell>
-            <StyledTableCell>First Name</StyledTableCell>
-            <StyledTableCell>Last Name</StyledTableCell>
-            <StyledTableCell>Initials</StyledTableCell>
-            <StyledTableCell>Short Name</StyledTableCell>
-            <StyledTableCell>Username</StyledTableCell>
-            <StyledTableCell>Email</StyledTableCell>
+            <TableCell classes={tableCellClasses} className={classes.action}>
+              &nbsp;
+            </TableCell>
+            <TableCell classes={tableCellClasses}>Full Name</TableCell>
+            <TableCell classes={tableCellClasses}>First Name</TableCell>
+            <TableCell classes={tableCellClasses}>Last Name</TableCell>
+            <TableCell classes={tableCellClasses}>Initials</TableCell>
+            <TableCell classes={tableCellClasses}>Short Name</TableCell>
+            <TableCell classes={tableCellClasses}>Username</TableCell>
+            <TableCell classes={tableCellClasses}>Email</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.users &&
             props.users.map((user) => (
-              <StyledTableRow key={user.fullName}>
-                <StyledTableCell className={classes.action} align="center">
+              <TableRow key={user.fullName} classes={tableRowClasses}>
+                <TableCell classes={tableCellClasses} className={classes.action} align="center">
                   <IconButton aria-label="delete" onClick={editUser(user)}>
                     <Edit />
                   </IconButton>
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
+                </TableCell>
+                <TableCell classes={tableCellClasses} component="th" scope="row">
                   {user.fullName}
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
+                </TableCell>
+                <TableCell classes={tableCellClasses} component="th" scope="row">
                   {user.firstName}
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
+                </TableCell>
+                <TableCell classes={tableCellClasses} component="th" scope="row">
                   {user.lastName}
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
+                </TableCell>
+                <TableCell classes={tableCellClasses} component="th" scope="row">
                   {user.initials}
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
+                </TableCell>
+                <TableCell classes={tableCellClasses} component="th" scope="row">
                   {user.shortName}
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
+                </TableCell>
+                <TableCell classes={tableCellClasses} component="th" scope="row">
                   {user.username}
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
+                </TableCell>
+                <TableCell classes={tableCellClasses} component="th" scope="row">
                   {user.email}
-                </StyledTableCell>
-              </StyledTableRow>
+                </TableCell>
+              </TableRow>
             ))}
         </TableBody>
       </Table>

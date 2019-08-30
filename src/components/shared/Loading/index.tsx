@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
       width: "100%",
       "&.-fullscreen": {
-        position: "absolute",
+        position: "fixed",
         top: 0,
         left: 0,
         width: "100vw",

@@ -9,7 +9,10 @@ import DataGrid from './DataGrid';
 import DataGridActions from './DataGridActions';
 
 const Users = () => {
-  const [usersState] = useObservable(() => usersService.getUsers(), []);
+  const [usersState] = useObservable(() => {
+    usersService.getUsers();
+    return usersService.listenState();
+  }, []);
   const [userInfo, setUserInfo] = useState<IUserResponse>();
 
   function setUser(data?: IUserResponse) {
@@ -17,28 +20,31 @@ const Users = () => {
   }
 
   function refresh() {
-    usersService
-      .getUsers(false)
-      .subscribe()
-      .unsubscribe();
+    usersService.getUsers();
   }
 
-  if (!usersState) {
-    return null;
-  }
+  // ----- //
 
-  if (usersState.loading) {
-    return <Loading />;
-  }
+  function loadGrid() {
+    if (!usersState) {
+      return null;
+    }
 
-  if (usersState.error) {
-    return <Err />;
+    if (usersState.loading) {
+      return <Loading />;
+    }
+
+    if (usersState.error) {
+      return <Err />;
+    }
+
+    return <DataGrid users={usersState.payload} editUser={setUser} />;
   }
 
   return (
     <>
       <DataGridActions userInfo={userInfo} newUser={setUser} refresh={refresh} />
-      <DataGrid users={usersState.users} editUser={setUser} />
+      {loadGrid()}
     </>
   );
 };

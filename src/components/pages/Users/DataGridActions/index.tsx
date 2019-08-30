@@ -4,8 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import React, { useEffect } from 'react';
+import { useObservable } from 'react-use-observable';
+import { tap } from 'rxjs/operators';
 
 import { IUserResponse } from '../../../../interfaces/models/user';
+import usersService from '../../../../services/users/users';
 import ConfirmDiscardDialog from './ConfirmDiscardDialog';
 import UsersForm from './UsersForm';
 
@@ -28,6 +31,20 @@ const DataGridActions: React.FC<IProps> = (props) => {
   const classes = useStyles();
   const [drawer, setDrawer] = React.useState(false);
   const [modal, setModal] = React.useState(false);
+
+  useObservable(
+    () =>
+      usersService.listenUser().pipe(
+        tap(({ error }) => {
+          setDrawer(error); // keep modal open if error.
+
+          if (!error) {
+            props.refresh();
+          }
+        })
+      ),
+    []
+  );
 
   useEffect(() => {
     setDrawer(!!props.userInfo);

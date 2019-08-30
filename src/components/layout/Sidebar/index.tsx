@@ -28,11 +28,13 @@ const useStyles = makeStyles((theme: Theme) =>
     drawerPaper: {
       width: drawerWidth
     },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3)
+    main: {
+      flexGrow: 1
     },
-    toolbar: theme.mixins.toolbar
+    toolbar: theme.mixins.toolbar,
+    content: {
+      padding: theme.spacing(3)
+    }
   })
 );
 
@@ -72,9 +74,9 @@ function Sidebar(props: any) {
         </List>
       </Drawer>
 
-      <main className={classes.content}>
+      <main className={classes.main}>
         <div className={classes.toolbar} />
-        {children}
+        <div className={classes.content}>{children}</div>
       </main>
     </div>
   );

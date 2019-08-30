@@ -1,6 +1,6 @@
 // @ts-ignore
 import Auth from '@aws-amplify/auth';
-import { defer, Observable, of, throwError } from 'rxjs';
+import { defer, Observable, of } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 import { catchError, switchMap } from 'rxjs/operators';
 
@@ -45,31 +45,6 @@ class ApiService {
         console.error("ERROR WHILE GETTING USER INFO", e);
       }
     });
-  };
-
-  private request2 = <T>(
-    method: string,
-    url: string,
-    customHeaders: any,
-    body?: any
-  ): Observable<IResponse<T>> => {
-    return this.mergeHeaders(customHeaders).pipe(
-      switchMap((headers) => fromFetch(url, { method, body: JSON.stringify(body), headers })),
-      switchMap((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-
-        // Server is returning a status requiring the client to try something else.
-        return throwError({ error: true, message: `Error ${response.status}`, response: {} });
-      }),
-      switchMap((response) => of({ error: false, message: "OK", response })),
-      catchError((err: IResponse<T>) => {
-        // Network or other error, handle appropriately
-        console.error(err);
-        return of(err);
-      })
-    );
   };
 
   private request = <T>(

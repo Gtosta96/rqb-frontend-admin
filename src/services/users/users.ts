@@ -1,61 +1,58 @@
-import { BehaviorSubject, of } from 'rxjs';
+import { Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
 import { IUserRequest, IUserResponse } from '../../interfaces/models/user';
 import { API } from '../../settings/constants';
-import apiService from '../api';
+import apiService, { IResponse } from '../api';
+import State from '../state';
 import uiService from '../ui';
 
-interface IUsersState {
-  users: IUserResponse[];
-  loading: boolean;
-  error: boolean;
-}
+class UsersService extends State<IUserResponse[]> {
+  private handleUser$ = new Subject<IResponse<IUserResponse>>();
 
-class UsersService {
-  private usersState$ = new BehaviorSubject<IUsersState>({
-    users: [],
-    loading: false,
-    error: false
-  });
+  constructor() {
+    super();
 
-  public getUsers = (cache: boolean = true) => {
-    if (!cache || this.usersState$.getValue().users.length === 0) {
-      of(true)
-        .pipe(
-          tap(() =>
-            this.usersState$.next({
-              ...this.usersState$.getValue(),
-              loading: true
-            })
-          ),
-          switchMap(() =>
-            uiService.withSnackbarFeedback(
-              apiService.get<{ users: IUserResponse[] }>(`${API.user}/users`)
-            )
-          )
-        )
-        .subscribe((xhr) => {
-          this.usersState$.next({
-            ...this.usersState$.getValue(),
-            loading: false,
-            error: xhr.error,
-            users: xhr.response.users || []
-          });
-        });
-    }
+    this.onGetUsers();
+  }
 
-    return this.usersState$.asObservable();
+  public getUsers = () => {
+    this.stateHandler$.next();
+  };
+
+  public listenUser = () => {
+    return this.handleUser$.asObservable();
   };
 
   public createUser = (user: IUserRequest) => {
-    uiService.withUIFeedback(apiService.post<IUserRequest>(`${API.user}/users`, user)).subscribe();
+    uiService
+      .withUIFeedback(apiService.post<IUserResponse>(`${API.user}/users`, user))
+      .subscribe((response) => this.handleUser$.next(response));
   };
 
   public updateUser = (user: IUserRequest) => {
     uiService
-      .withUIFeedback(apiService.put<IUserRequest>(`${API.user}/users/${user.appUserId}`, user))
-      .subscribe();
+      .withUIFeedback(apiService.put<IUserResponse>(`${API.user}/users/${user.appUserId}`, user))
+      .subscribe((response) => this.handleUser$.next(response));
+  };
+
+  private onGetUsers = () => {
+    this.stateHandler$
+      .pipe(
+        tap(() => this.setLoadingState(true)),
+        switchMap(() =>
+          uiService.withSnackbarFeedback(
+            apiService.get<{ users: IUserResponse[] }>(`${API.user}/users`)
+          )
+        )
+      )
+      .subscribe((xhr) => {
+        this.setState({
+          loading: false,
+          error: xhr.error,
+          payload: xhr.response.users || []
+        });
+      });
   };
 }
 
