@@ -3,8 +3,8 @@ import { useObservable } from 'react-use-observable';
 
 import { IUserResponse } from '../../../interfaces/models/user';
 import usersService from '../../../services/users/users';
-import Err from '../../shared/Err';
-import Loading from '../../shared/Loading';
+import Feedback from '../../shared/Feedback';
+import BrokerGroupRouting from './BrokerGroupRouting';
 import DataGrid from './DataGrid';
 import DataGridActions from './DataGridActions';
 
@@ -13,10 +13,16 @@ const Users = () => {
     usersService.getUsers();
     return usersService.listenState();
   }, []);
-  const [userInfo, setUserInfo] = useState<IUserResponse>();
 
-  function setUser(data?: IUserResponse) {
+  const [userInfo, setUserInfo] = useState<IUserResponse>();
+  const [routeUser, setRouteUser] = useState<any>();
+
+  function setUserFn(data?: IUserResponse) {
     setUserInfo(({ ...data } || {}) as IUserResponse);
+  }
+
+  function routeUserFn(data?: IUserResponse) {
+    setRouteUser(({ ...data } || {}) as IUserResponse);
   }
 
   function refresh() {
@@ -30,20 +36,20 @@ const Users = () => {
       return null;
     }
 
-    if (usersState.loading) {
-      return <Loading />;
-    }
+    return (
+      <>
+        <Feedback loading={usersState.loading} error={usersState.error}>
+          <DataGrid users={usersState.payload} editUser={setUserFn} routeUser={routeUserFn} />
+        </Feedback>
 
-    if (usersState.error) {
-      return <Err />;
-    }
-
-    return <DataGrid users={usersState.payload} editUser={setUser} />;
+        {routeUser && <BrokerGroupRouting userInfo={routeUser} />}
+      </>
+    );
   }
 
   return (
     <>
-      <DataGridActions userInfo={userInfo} newUser={setUser} refresh={refresh} />
+      <DataGridActions userInfo={userInfo} newUser={setUserFn} refresh={refresh} />
       {loadGrid()}
     </>
   );

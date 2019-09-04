@@ -1,11 +1,7 @@
-// @ts-ignore
-import Auth from '@aws-amplify/auth';
-
+import sessionService from '../services/session';
 import { AWS } from './constants';
 
-(window as any).Auth = Auth;
-
 export const getAmplifyConfig = () => {
-  Auth.configure(AWS);
+  sessionService.configure(AWS);
   return AWS;
 };

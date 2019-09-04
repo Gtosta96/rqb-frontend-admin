@@ -1,8 +1,9 @@
 // @ts-ignore
-import Auth from '@aws-amplify/auth';
 import { defer, Observable, of } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 import { catchError, switchMap } from 'rxjs/operators';
+
+import sessionService from './session';
 
 export interface IResponse<T> {
   response: T;
@@ -33,7 +34,7 @@ class ApiService {
 
       try {
         // @ts-ignore
-        const { accessToken, idToken } = await Auth.currentSession();
+        const { accessToken, idToken } = await sessionService.currentSession();
 
         return {
           "Content-Type": "application/json",

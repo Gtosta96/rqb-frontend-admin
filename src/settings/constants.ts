@@ -22,16 +22,19 @@ export const AWS = {
 };
 
 /**
+ * ENVIRONMENT
+ */
+export const appEnvironment = process.env.REACT_APP_ENDPOINT_ENVIRONMENT;
+
+/**
  * APIS
  */
 const makeApiURL = (host: string | undefined) => {
-  const env = process.env.REACT_APP_ENDPOINT_ENVIRONMENT;
-
-  if (!env || !host || host.includes("http")) {
+  if (!appEnvironment || !host || host.includes("http")) {
     throw new Error("INVALID ENV/HOST RECEIVED");
   }
 
-  return `https://${host}/${env}`;
+  return `https://${host}/${appEnvironment}`;
 };
 
 export const API = {

@@ -7,11 +7,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import React from 'react';
 
+import { appEnvironment } from '../../../settings/constants';
 import Menu from './Menu';
 import MobileMenu from './MobileMenu';
 
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     environment: {
       padding: theme.spacing(1),
-      margin: theme.spacing(1),
+      margin: theme.spacing(0, 1),
       textTransform: "uppercase",
       borderColor: "#fff",
       color: "#fff"
@@ -87,17 +87,17 @@ function Header() {
     <>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography className={classes.title} variant="h6" noWrap={true}>
             RQB Administration
-            <Chip className={classes.environment} label="dev" variant="outlined" />
+            <Chip className={classes.environment} label={appEnvironment} variant="outlined" />
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

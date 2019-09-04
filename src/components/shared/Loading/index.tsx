@@ -21,7 +21,10 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     progress: {
-      margin: theme.spacing(2)
+      margin: theme.spacing(2),
+      "&.-fullscreen": {
+        color: "#fff"
+      }
     }
   })
 );
@@ -32,14 +35,13 @@ interface IProps {
 const Loading: React.FC<IProps> = ({ fullscreen }) => {
   const classes = useStyles();
 
+  const fullscreenCls = { "-fullscreen": fullscreen };
+
   return (
     <>
       <Backdrop open={!!fullscreen} style={{ zIndex: 9998 }} />
-      <div
-        style={{ zIndex: 9999 }}
-        className={classnames(classes.root, { "-fullscreen": fullscreen })}
-      >
-        <CircularProgress className={classes.progress} />
+      <div style={{ zIndex: 9999 }} className={classnames(classes.root, fullscreenCls)}>
+        <CircularProgress className={classnames(classes.progress, fullscreenCls)} />
       </div>
     </>
   );

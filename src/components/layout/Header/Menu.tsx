@@ -1,8 +1,9 @@
-// @ts-ignore
-import Auth from '@aws-amplify/auth';
+import { Typography } from '@material-ui/core';
 import MuiMenu from '@material-ui/core/Menu';
 import MuiMenuItem from '@material-ui/core/MenuItem';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import sessionService from '../../../services/session';
 
 interface IProps {
   anchorEl: any;
@@ -12,8 +13,14 @@ interface IProps {
 }
 
 const Menu: React.FC<IProps> = (props) => {
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    sessionService.userData().then((credentials) => setEmail(credentials.email));
+  }, []);
+
   function signOut() {
-    Auth.signOut();
+    sessionService.signOut();
   }
 
   return (
@@ -26,8 +33,9 @@ const Menu: React.FC<IProps> = (props) => {
       open={props.isMenuOpen}
       onClose={props.handleMenuClose}
     >
-      <MuiMenuItem onClick={props.handleMenuClose}>Profile</MuiMenuItem>
-      <MuiMenuItem onClick={props.handleMenuClose}>My account</MuiMenuItem>
+      <MuiMenuItem>
+        <Typography variant="caption">{email}</Typography>
+      </MuiMenuItem>
       <MuiMenuItem onClick={signOut}>Sign Out</MuiMenuItem>
     </MuiMenu>
   );

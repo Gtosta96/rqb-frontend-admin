@@ -6,11 +6,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import DeviceHub from '@material-ui/icons/DeviceHub';
 import Edit from '@material-ui/icons/Edit';
 import React from 'react';
 
-import { IUserResponse } from '../../../../interfaces/models/user';
+import { IUserResponse } from '../../../../../interfaces/models/user';
 
 const useTableRowStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,16 +42,16 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: 700
     },
     action: {
-      width: "125px",
+      width: "50px",
       padding: "16px 14px"
     }
   })
 );
 
 interface IProps {
-  users: IUserResponse[] | null;
-  editUser: (userInfo: IUserResponse) => void;
-  routeUser: (userInfo: any) => void;
+  users?: IUserResponse[] | null;
+  editUser?: (userInfo: IUserResponse) => void;
+  routeUser?: (userInfo: any) => void;
 }
 
 const DataGrid: React.FC<IProps> = (props) => {
@@ -61,11 +60,8 @@ const DataGrid: React.FC<IProps> = (props) => {
   const classes = useStyles();
 
   function editUser(user: IUserResponse) {
-    return () => props.editUser(user);
-  }
-
-  function routeUser(user: IUserResponse) {
-    return () => props.routeUser(user);
+    // return () => props.editUser(user);
+    return () => {};
   }
 
   return (
@@ -86,40 +82,34 @@ const DataGrid: React.FC<IProps> = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.users &&
-            props.users.map((user) => (
-              <TableRow key={user.fullName} classes={tableRowClasses}>
-                <TableCell classes={tableCellClasses} className={classes.action} align="center">
-                  <IconButton aria-label="delete" onClick={editUser(user)}>
-                    <Edit />
-                  </IconButton>
-                  <IconButton aria-label="delete" onClick={routeUser(user)}>
-                    <DeviceHub />
-                  </IconButton>
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.fullName}
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.firstName}
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.lastName}
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.initials}
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.shortName}
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.username}
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.email}
-                </TableCell>
-              </TableRow>
-            ))}
+          <TableRow key={"xpto"} classes={tableRowClasses}>
+            <TableCell classes={tableCellClasses} className={classes.action} align="center">
+              <IconButton aria-label="delete" onClick={editUser({} as any)}>
+                <Edit />
+              </IconButton>
+            </TableCell>
+            <TableCell classes={tableCellClasses} component="th" scope="row">
+              fullName
+            </TableCell>
+            <TableCell classes={tableCellClasses} component="th" scope="row">
+              firstName
+            </TableCell>
+            <TableCell classes={tableCellClasses} component="th" scope="row">
+              lastName
+            </TableCell>
+            <TableCell classes={tableCellClasses} component="th" scope="row">
+              initials
+            </TableCell>
+            <TableCell classes={tableCellClasses} component="th" scope="row">
+              shortName
+            </TableCell>
+            <TableCell classes={tableCellClasses} component="th" scope="row">
+              username
+            </TableCell>
+            <TableCell classes={tableCellClasses} component="th" scope="row">
+              email
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </Paper>
