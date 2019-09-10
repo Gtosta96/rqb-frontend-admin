@@ -10,6 +10,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import classnames from 'classnames';
 import React, { SyntheticEvent } from 'react';
+import { useObservable } from 'react-use-observable';
+import { tap } from 'rxjs/operators';
 
 import { ISnackbarIcons, ISnackbarPayload, ISnackbarVariants } from '../../../interfaces/ui';
 import uiService from '../../../services/ui';
@@ -54,7 +56,7 @@ export interface IProps {
   variant: ISnackbarVariants;
 }
 
-const MySnackbarContentWrapper: React.FC<IProps> = (props) => {
+const MySnackbarContentWrapper: React.FC<IProps> = props => {
   const classes = useStyles1();
   const { className, message, onClose, variant, ...other } = props;
   const Icon = variantIcon[variant];
@@ -83,12 +85,16 @@ const CustomizedSnackbars: React.FC = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [payload, setPayload] = React.useState<ISnackbarPayload>();
 
-  React.useEffect(() => {
-    uiService.listenSnackbar().subscribe((payload) => {
-      setOpen(true);
-      setPayload(payload);
-    });
-  });
+  useObservable(
+    () =>
+      uiService.listenSnackbar().pipe(
+        tap((payload: ISnackbarPayload) => {
+          setOpen(true);
+          setPayload(payload);
+        })
+      ),
+    []
+  );
 
   function handleClose(event?: SyntheticEvent, reason?: string) {
     if (reason === "clickaway") {

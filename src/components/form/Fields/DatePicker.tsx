@@ -2,22 +2,15 @@ import 'date-fns';
 
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker as MuiDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { FieldProps } from 'formik';
 import React from 'react';
 
-const DatePicker = ({
-  field,
-  form,
-  className,
-  label,
-  disabled
-}: FieldProps & {
-  className: string;
-  label: string;
-  disabled: boolean;
-}) => {
-  // @ts-ignore
-  const errorText = form.touched[field.name] && form.errors[field.name];
+import { IDefaultFieldProps, useDefaultFieldEvents } from './useDefaultFieldEvents';
+
+interface IProps extends IDefaultFieldProps {}
+
+const DatePicker: React.FC<IProps> = props => {
+  const { form, field, className, label, disabled } = props;
+  const { error, errorText, events } = useDefaultFieldEvents(props);
 
   function onChange(value: any) {
     form.setFieldValue(field.name, value);

@@ -2,7 +2,5 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
 
-  "prettier.tslintIntegration": true,
-
   "typescriptHero.imports.organizeOnSave": true
 }

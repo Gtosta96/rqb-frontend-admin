@@ -1,4 +1,3 @@
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,7 +7,10 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import MailIcon from '@material-ui/icons/Mail';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
+import { EPaths, PATHS_LABEL } from '../../../settings/constants';
+import RouterBreadcrumbs from '../Breadcrumbs';
 import Header from '../Header';
 
 const drawerWidth = 240;
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     toolbar: theme.mixins.toolbar,
     content: {
-      padding: theme.spacing(3)
+      padding: theme.spacing(3, 2)
     }
   })
 );
@@ -41,7 +43,14 @@ const useStyles = makeStyles((theme: Theme) =>
 function Sidebar(props: any) {
   const classes = useStyles();
 
-  const { children } = props;
+  const paths = [
+    { path: EPaths.ROOT, label: PATHS_LABEL[EPaths.ROOT] },
+    { path: EPaths.USERS, label: PATHS_LABEL[EPaths.USERS] },
+    { path: EPaths.AGENT_FIRMS, label: PATHS_LABEL[EPaths.AGENT_FIRMS] },
+    { path: EPaths.BINDERS, label: PATHS_LABEL[EPaths.BINDERS] },
+    { path: EPaths.BROKER_GROUPS, label: PATHS_LABEL[EPaths.BROKER_GROUPS] },
+    { path: EPaths.SURPLUS_LINES, label: PATHS_LABEL[EPaths.SURPLUS_LINES] }
+  ];
 
   return (
     <div className={classes.root}>
@@ -56,19 +65,10 @@ function Sidebar(props: any) {
       >
         <div className={classes.toolbar} />
         <List>
-          {["Users", "Agent Firms", "Binders"].map((text, index) => (
-            <ListItem button={true} key={text}>
+          {paths.map((path, index) => (
+            <ListItem key={path.path} button={true} component={RouterLink} to={path.path}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["Broker Groups", "Surplus Lines"].map((text, index) => (
-            <ListItem button={true} key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={path.label} />
             </ListItem>
           ))}
         </List>
@@ -76,7 +76,10 @@ function Sidebar(props: any) {
 
       <main className={classes.main}>
         <div className={classes.toolbar} />
-        <div className={classes.content}>{children}</div>
+        <div className={classes.content}>
+          <RouterBreadcrumbs />
+          <div>{props.children}</div>
+        </div>
       </main>
     </div>
   );

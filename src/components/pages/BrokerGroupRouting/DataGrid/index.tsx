@@ -7,13 +7,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Tooltip from '@material-ui/core/Tooltip';
-import DeviceHub from '@material-ui/icons/DeviceHub';
+import Delete from '@material-ui/icons/Delete';
 import Edit from '@material-ui/icons/Edit';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 
-import { IUserResponse } from '../../../../interfaces/models/user';
-import { EPaths } from '../../../../settings/constants';
+import { IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
 
 const useTableRowStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -55,8 +53,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface IProps {
-  users: IUserResponse[] | null;
-  editUser: (userInfo: IUserResponse) => void;
+  routes?: IBrokerGroupRoutingResponse[] | null;
+  editRoute: (userInfo: IBrokerGroupRoutingResponse) => void;
+  deleteRoute: (userInfo: IBrokerGroupRoutingResponse) => void;
 }
 
 const DataGrid: React.FC<IProps> = props => {
@@ -64,8 +63,12 @@ const DataGrid: React.FC<IProps> = props => {
   const tableRowClasses = useTableRowStyles();
   const classes = useStyles();
 
-  function editUser(user: IUserResponse) {
-    return () => props.editUser(user);
+  function editRoute(route: IBrokerGroupRoutingResponse) {
+    return () => props.editRoute(route);
+  }
+
+  function deleteRoute(route: IBrokerGroupRoutingResponse) {
+    return () => props.deleteRoute(route);
   }
 
   return (
@@ -76,58 +79,40 @@ const DataGrid: React.FC<IProps> = props => {
             <TableCell classes={tableCellClasses} className={classes.action}>
               &nbsp;
             </TableCell>
-            <TableCell classes={tableCellClasses}>Full Name</TableCell>
-            <TableCell classes={tableCellClasses}>First Name</TableCell>
-            <TableCell classes={tableCellClasses}>Last Name</TableCell>
-            <TableCell classes={tableCellClasses}>Initials</TableCell>
-            <TableCell classes={tableCellClasses}>Short Name</TableCell>
-            <TableCell classes={tableCellClasses}>Username</TableCell>
-            <TableCell classes={tableCellClasses}>Email</TableCell>
+            <TableCell classes={tableCellClasses}>Risk List</TableCell>
+            <TableCell classes={tableCellClasses}>Risk Names</TableCell>
+            <TableCell classes={tableCellClasses}>Broker Group ID</TableCell>
+            <TableCell classes={tableCellClasses}>Broker Group Name</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.users &&
-            props.users.map(user => (
-              <TableRow key={user.fullName} classes={tableRowClasses}>
+          {props.routes &&
+            props.routes.map(route => (
+              <TableRow key={route.riskName} classes={tableRowClasses}>
                 <TableCell classes={tableCellClasses} className={classes.action} align="center">
-                  <Tooltip title="Edit User" placement="top">
-                    <IconButton onClick={editUser(user)}>
+                  <Tooltip title="Edit Route" placement="top">
+                    <IconButton onClick={editRoute(route)}>
                       <Edit />
                     </IconButton>
                   </Tooltip>
 
-                  <Tooltip title="Broker Group Routing" placement="top">
-                    <IconButton
-                      component={RouterLink}
-                      to={{
-                        pathname: EPaths.USERS_BROKER_GROUP_ROUTING,
-                        state: { user }
-                      }}
-                    >
-                      <DeviceHub />
+                  <Tooltip title="Delete Route" placement="top">
+                    <IconButton onClick={deleteRoute(route)}>
+                      <Delete />
                     </IconButton>
                   </Tooltip>
                 </TableCell>
                 <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.fullName}
+                  {route.riskIdList}
                 </TableCell>
                 <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.firstName}
+                  {route.riskName}
                 </TableCell>
                 <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.lastName}
+                  {route.bgId}
                 </TableCell>
                 <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.initials}
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.shortName}
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.username}
-                </TableCell>
-                <TableCell classes={tableCellClasses} component="th" scope="row">
-                  {user.email}
+                  {route.bgName}
                 </TableCell>
               </TableRow>
             ))}

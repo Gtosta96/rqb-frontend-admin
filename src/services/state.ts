@@ -1,23 +1,47 @@
 import { BehaviorSubject, Subject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
+import { isEmpty } from '../helpers/functions';
 
 interface IState<T> {
   payload: T | null;
   loading: boolean;
   error: boolean;
+  empty: boolean;
+}
+
+interface INext {
+  payload: any;
+  force: boolean;
 }
 
 class State<T> {
-  protected stateHandler$ = new Subject<boolean>();
+  protected stateHandler$ = new Subject<any>();
 
-  protected state$ = new BehaviorSubject<IState<T>>({
+  private state$ = new BehaviorSubject<IState<T>>({
     payload: null,
     loading: false,
-    error: false
+    error: false,
+    empty: false
   });
 
-  public listenState() {
+  protected next = (payload: any, force: boolean) => {
+    return this.stateHandler$.next({ payload, force } as INext);
+  };
+
+  protected onNext = () => {
+    return this.stateHandler$.pipe(
+      filter((next: INext) => {
+        const state = this.getStateValues();
+        return next.force || (isEmpty(state.payload) && state.empty === false);
+      }),
+      map((next: INext) => next.payload)
+    );
+  };
+
+  public listenState = () => {
     return this.state$.asObservable();
-  }
+  };
 
   protected setLoadingState = (loading: boolean) => {
     this.setInternal("loading", loading);
@@ -29,6 +53,10 @@ class State<T> {
 
   protected setPayloadState = (payload: T) => {
     this.setInternal("payload", payload);
+  };
+
+  protected setEmptyState = (empty: boolean) => {
+    this.setInternal("empty", empty);
   };
 
   protected setState = (next: IState<T>) => {

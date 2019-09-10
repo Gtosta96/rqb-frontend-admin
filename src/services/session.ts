@@ -1,5 +1,7 @@
 import Auth from '@aws-amplify/auth';
 
+(window as any).Auth = Auth;
+
 class SessionService {
   public configure(configs: any) {
     Auth.configure(configs);

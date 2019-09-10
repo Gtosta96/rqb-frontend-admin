@@ -21,8 +21,11 @@ class ApiService {
   public put = <T = any>(url: string, body: any, customHeaders?: any) =>
     this.request<T>("PUT", url, customHeaders, body);
 
-  public delete = <T = any>(url: string, customHeaders?: any) =>
-    this.request<T>("DELETE", url, customHeaders);
+  public delete = <T = any>(url: string, body: any, customHeaders?: any) =>
+    this.request<T>("DELETE", url, customHeaders, body);
+
+  public patch = <T = any>(url: string, body: any, customHeaders?: any) =>
+    this.request<T>("PATCH", url, customHeaders, body);
 
   public mock = (url?: string, body?: any, customHeaders?: any): Observable<any> => of({});
 
@@ -55,8 +58,8 @@ class ApiService {
     body?: any
   ): Observable<IResponse<T>> => {
     return this.mergeHeaders(customHeaders).pipe(
-      switchMap((headers) => fromFetch(url, { method, body: JSON.stringify(body), headers })),
-      switchMap((xhr) => defer(() => xhr.json()).pipe(switchMap((json) => of({ xhr, json })))),
+      switchMap(headers => fromFetch(url, { method, body: JSON.stringify(body), headers })),
+      switchMap(xhr => defer(() => xhr.json()).pipe(switchMap(json => of({ xhr, json })))),
       switchMap(({ xhr, json }) => {
         const error = !xhr.ok;
         const message = json.message || (error ? "NOK" : "OK") + " - " + xhr.status;
@@ -64,10 +67,10 @@ class ApiService {
 
         return of({ error, message, response });
       }),
-      catchError((err) => {
+      catchError(err => {
         // Network or other error, handle appropriately
         console.error(err);
-        return of({ error: true, message: err, response: {} as T });
+        return of({ error: true, message: err.message, response: {} as T });
       })
     );
   };

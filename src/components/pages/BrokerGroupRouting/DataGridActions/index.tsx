@@ -7,10 +7,10 @@ import React, { useEffect } from 'react';
 import { useObservable } from 'react-use-observable';
 import { tap } from 'rxjs/operators';
 
-import { IUserResponse } from '../../../../interfaces/models/user';
-import usersService from '../../../../services/users/users';
+import { IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
+import brokerGroupRoutingService from '../../../../services/broker-group-routing/broker-group-routing';
 import ConfirmDiscardDialog from '../../../shared/ConfirmDiscardDialog';
-import UsersForm from './UsersForm';
+import BrokerGroupRoutingForm from './BrokerGroupRoutingForm';
 
 const useStyles = makeStyles({
   root: {
@@ -22,19 +22,20 @@ const useStyles = makeStyles({
 });
 
 interface IProps {
-  userInfo?: IUserResponse;
-  newUser: () => void;
+  appUserId: number;
+  routeInfo?: IBrokerGroupRoutingResponse;
+  newRoute: () => void;
   refresh: () => void;
 }
 
-const DataGridActions: React.FC<IProps> = (props) => {
+const DataGridActions: React.FC<IProps> = props => {
   const classes = useStyles();
   const [drawer, setDrawer] = React.useState(false);
   const [modal, setModal] = React.useState(false);
 
   useObservable(
     () =>
-      usersService.listenUser().pipe(
+      brokerGroupRoutingService.listenRoute().pipe(
         tap(({ error }) => {
           setDrawer(error); // keep modal open if error.
 
@@ -47,12 +48,12 @@ const DataGridActions: React.FC<IProps> = (props) => {
   );
 
   useEffect(() => {
-    setDrawer(!!props.userInfo);
-  }, [props.userInfo]);
+    setDrawer(!!props.routeInfo);
+  }, [props.routeInfo]);
 
   function add() {
     setDrawer(true);
-    props.newUser();
+    props.newRoute();
   }
 
   function closeDialog(discard: boolean) {
@@ -82,7 +83,7 @@ const DataGridActions: React.FC<IProps> = (props) => {
       </Fab>
 
       <Drawer anchor={"right"} open={drawer} onClose={closeDrawer}>
-        <UsersForm userInfo={props.userInfo} />
+        <BrokerGroupRoutingForm appUserId={props.appUserId} routeInfo={props.routeInfo} />
       </Drawer>
 
       {modal && <ConfirmDiscardDialog open={modal} onClose={closeDialog} />}

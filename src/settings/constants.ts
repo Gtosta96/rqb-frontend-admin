@@ -1,13 +1,31 @@
 /**
  * PATHS
  */
+
 export enum EPaths {
   ROOT = "/",
-  DASHBOARD = "/dashboard",
   LOGIN = "/login",
-
-  USERS = "/users"
+  USERS = "/users",
+  USERS_BROKER_GROUP_ROUTING = "/users/broker-group-routing",
+  AGENT_FIRMS = "/agent-firms",
+  BINDERS = "/binders",
+  BROKER_GROUPS = "/broker-groups",
+  SURPLUS_LINES = "/surplus-lines"
 }
+
+export const PATHS_LABEL = {
+  [EPaths.ROOT]: "Home",
+
+  [EPaths.LOGIN]: "Login",
+
+  [EPaths.USERS]: "Users",
+  [EPaths.USERS_BROKER_GROUP_ROUTING]: "Broker Group Routing",
+
+  [EPaths.AGENT_FIRMS]: "Agent Firms",
+  [EPaths.BINDERS]: "Binders",
+  [EPaths.BROKER_GROUPS]: "Broker Groups",
+  [EPaths.SURPLUS_LINES]: "Surplus Lines"
+};
 
 /**
  * AWS PROVIDER COGNITO CONFIG
@@ -47,5 +65,6 @@ export const API = {
   endorsement: makeApiURL(process.env.REACT_APP_API_HOST_ENDORSEMENT),
   auditHistory: makeApiURL(process.env.REACT_APP_API_HOST_AUDIT_HISTORY),
   cognito: makeApiURL(process.env.REACT_APP_API_HOST_COGNITO),
-  xpto: makeApiURL(process.env.REACT_APP_API_HOST_XPTO)
+  xpto: makeApiURL(process.env.REACT_APP_API_HOST_XPTO),
+  brokerGroup: makeApiURL(process.env.REACT_APP_API_HOST_BROKER_GROUP)
 };

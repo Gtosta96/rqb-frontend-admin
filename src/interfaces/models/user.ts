@@ -16,6 +16,7 @@ export interface IUserRequest {
 }
 
 export interface IUserResponse {
+  appUserId: number;
   fullName: string;
   firstName: string;
   lastName: string;

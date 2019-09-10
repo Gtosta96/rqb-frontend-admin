@@ -1,9 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 import { EPaths } from '../settings/constants';
 import Layout from './layout';
-import Dashboard from './pages/Dashboard/Dashboard';
+import BrokerGroupRouting from './pages/BrokerGroupRouting';
 import Users from './pages/Users';
 import Err from './shared/Err';
 
@@ -11,28 +11,34 @@ interface IProps {
   authState?: string;
 }
 
-const Routes: React.FC<IProps> = (props) => {
+const Routes: React.FC<IProps> = props => {
   if (!props.authState || props.authState !== "signedIn") {
     return null;
   }
 
   return (
-    <Layout>
-      <Router>
+    <Router>
+      <Layout>
         <Switch>
-          {/* <Route path={EPaths.ROOT} component={Login} />
-        <Route path={EPaths.LOGIN} component={Login} /> */}
+          <Route exact={true} path={EPaths.ROOT} component={Users} />
 
-          {/* <Route path={EPaths.ROOT} component={Dashboard} /> */}
-          <Route path={EPaths.DASHBOARD} component={Dashboard} />
+          <Route exact={true} path={EPaths.USERS} component={Users} />
 
-          <Route path={EPaths.ROOT} component={Users} />
-          <Route path={EPaths.USERS} component={Users} />
+          <Route
+            path={`${EPaths.USERS_BROKER_GROUP_ROUTING}`}
+            render={props => {
+              return props.location.state && props.location.state.user ? (
+                <BrokerGroupRouting {...props} />
+              ) : (
+                <Redirect to={EPaths.USERS} />
+              );
+            }}
+          />
 
           <Route component={Err} />
         </Switch>
-      </Router>
-    </Layout>
+      </Layout>
+    </Router>
   );
 };
 

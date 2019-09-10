@@ -1,22 +1,15 @@
 import TextField from '@material-ui/core/TextField';
-import { FieldProps } from 'formik';
 import React from 'react';
 
-const Input = ({
-  field,
-  form,
-  className,
-  label,
-  type,
-  disabled
-}: FieldProps<any> & {
-  className: string;
-  label: string;
+import { IDefaultFieldProps, useDefaultFieldEvents } from './useDefaultFieldEvents';
+
+interface IProps extends IDefaultFieldProps {
   type: "text" | "hidden";
-  disabled: boolean;
-}) => {
-  // @ts-ignore
-  const errorText = form.touched[field.name] && form.errors[field.name];
+}
+
+const Input: React.FC<IProps> = props => {
+  const { className, field, label, type, disabled } = props;
+  const { error, errorText, events } = useDefaultFieldEvents(props);
 
   if (type === "hidden") {
     return <input {...field} type={type} disabled={disabled} />;
@@ -25,10 +18,11 @@ const Input = ({
   return (
     <TextField
       {...field}
+      {...events}
       className={className}
       type={type}
       label={label}
-      error={!!errorText}
+      error={error}
       helperText={errorText}
       disabled={disabled}
     />
@@ -36,8 +30,7 @@ const Input = ({
 };
 
 Input.defaultProps = {
-  type: "text",
-  readonly: false
+  type: "text"
 };
 
 export default React.memo(Input);
