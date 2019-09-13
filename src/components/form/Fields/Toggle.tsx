@@ -10,7 +10,7 @@ interface IProps extends IDefaultFieldProps {
   controlLabel: string;
 }
 
-const Toggle: React.FC<IProps> = props => {
+function Toggle(props: IProps) {
   const { className, controlLabel, label, field, disabled } = props;
   const { error, errorText, events } = useDefaultFieldEvents(props);
 
@@ -31,6 +31,6 @@ const Toggle: React.FC<IProps> = props => {
       />
     </FormControl>
   );
-};
+}
 
 export default React.memo(Toggle);

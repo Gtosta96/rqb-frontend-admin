@@ -11,7 +11,7 @@ interface IProps {
   onClose: (keepOpen: boolean) => void;
 }
 
-const ConfirmDiscardDialog: React.FC<IProps> = (props) => {
+function ConfirmDiscardDialog(props: IProps) {
   function close(discard: boolean) {
     return () => props.onClose(discard);
   }
@@ -32,6 +32,6 @@ const ConfirmDiscardDialog: React.FC<IProps> = (props) => {
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 export default React.memo(ConfirmDiscardDialog);

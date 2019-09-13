@@ -1,7 +1,7 @@
+import { isEmpty } from 'lodash';
 import { Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { isEmpty } from '../../helpers/functions';
 import { IBrokerGroupRoutesRequest, IBrokerGroupRoutingResponse } from '../../interfaces/models/broker-group-routing';
 import { API } from '../../settings/constants';
 import apiService, { IResponse } from '../api';
@@ -67,7 +67,7 @@ class BrokerGroupRoutingService extends State<IBrokerGroupRoutingResponse[]> {
         tap(() => this.setLoadingState(true)),
         switchMap(appUserId =>
           uiService.withSnackbarFeedback(
-            apiService.get<{ routes: IBrokerGroupRoutingResponse[] }>(
+            apiService.get<{ routes?: IBrokerGroupRoutingResponse[] }>(
               `${API.brokerGroup}/broker_groups/routes/${appUserId}`
             )
           )

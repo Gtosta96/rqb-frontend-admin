@@ -32,8 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IProps {
   fullscreen?: boolean;
 }
-const Loading: React.FC<IProps> = ({ fullscreen }) => {
+function Loading(props: IProps) {
   const classes = useStyles();
+  const { fullscreen } = props;
 
   const fullscreenCls = { "-fullscreen": fullscreen };
 
@@ -45,7 +46,7 @@ const Loading: React.FC<IProps> = ({ fullscreen }) => {
       </div>
     </>
   );
-};
+}
 
 Loading.defaultProps = {
   fullscreen: false

@@ -1,9 +1,9 @@
 type IValidatorFunction = (value: string) => string | undefined;
 
-export const compose = (...validators: IValidatorFunction[]) => async (value: string) => {
+export const compose = (...validators: IValidatorFunction[]) => (value: string) => {
   for (let i = 0; i < validators.length; i++) {
     const validator = validators[i];
-    const result = await validator(value);
+    const result = validator(value);
 
     if (result) {
       return result;
@@ -22,3 +22,6 @@ export const email = (value: string) =>
 
 export const minLength = (min: number) => (value: string) =>
   value && value.length < min ? `This field must have ${min} characters or more` : undefined;
+
+export const maxLength = (max: number) => (value: string) =>
+  value && value.length > max ? `This field must have ${max} characters or less` : undefined;

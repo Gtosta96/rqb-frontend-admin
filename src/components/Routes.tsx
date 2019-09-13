@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 
 import { EPaths } from '../settings/constants';
 import Layout from './layout';
+import AgentFirm from './pages/AgentFirm';
 import BrokerGroupRouting from './pages/BrokerGroupRouting';
 import Users from './pages/Users';
 import Err from './shared/Err';
@@ -11,7 +12,7 @@ interface IProps {
   authState?: string;
 }
 
-const Routes: React.FC<IProps> = props => {
+function Routes(props: IProps) {
   if (!props.authState || props.authState !== "signedIn") {
     return null;
   }
@@ -35,11 +36,13 @@ const Routes: React.FC<IProps> = props => {
             }}
           />
 
+          <Route path={EPaths.AGENT_FIRMS} component={AgentFirm} />
+
           <Route component={Err} />
         </Switch>
       </Layout>
     </Router>
   );
-};
+}
 
 export default React.memo(Routes);

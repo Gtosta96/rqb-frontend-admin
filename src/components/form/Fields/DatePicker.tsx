@@ -8,7 +8,7 @@ import { IDefaultFieldProps, useDefaultFieldEvents } from './useDefaultFieldEven
 
 interface IProps extends IDefaultFieldProps {}
 
-const DatePicker: React.FC<IProps> = props => {
+function DatePicker(props: IProps) {
   const { form, field, className, label, disabled } = props;
   const { error, errorText, events } = useDefaultFieldEvents(props);
 
@@ -31,6 +31,6 @@ const DatePicker: React.FC<IProps> = props => {
       />
     </MuiPickersUtilsProvider>
   );
-};
+}
 
 export default React.memo(DatePicker);

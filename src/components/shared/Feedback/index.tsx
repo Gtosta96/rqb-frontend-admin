@@ -9,7 +9,7 @@ interface IProps {
   children: React.ReactNode;
 }
 
-const Feedback: React.FC<IProps> = (props) => {
+function Feedback(props: IProps) {
   if (props.loading) {
     return <Loading />;
   }
@@ -19,6 +19,6 @@ const Feedback: React.FC<IProps> = (props) => {
   }
 
   return <>{props.children}</>;
-};
+}
 
 export default React.memo(Feedback);

@@ -7,12 +7,13 @@ import { IUserResponse } from '../../../interfaces/models/user';
 import brokerGroupRoutingService from '../../../services/broker-group-routing/broker-group-routing';
 import ConfirmDiscardDialog from '../../shared/ConfirmDiscardDialog';
 import Feedback from '../../shared/Feedback';
-import DataGrid from './DataGrid';
-import DataGridActions from './DataGridActions';
+import MGridActions from '../../shared/MGridActions';
+import BrokerGroupRoutingForm from './BrokerGroupRoutingForm';
+import BrokerGroupRoutingGrid from './BrokerGroupRoutingGrid';
 
 interface IProps extends RouteComponentProps {}
 
-const BrokerGroupRouting: React.FC<IProps> = props => {
+function BrokerGroupRouting(props: IProps) {
   const user: IUserResponse = props.location.state.user;
 
   const [brokerGroupRoutingState] = useObservable(() => {
@@ -20,13 +21,17 @@ const BrokerGroupRouting: React.FC<IProps> = props => {
     return brokerGroupRoutingService.listenState();
   }, []);
 
-  const [routeInfo, setRoute] = useState<IBrokerGroupRoutingResponse>();
+  const [route, setRoute] = useState<IBrokerGroupRoutingResponse>();
   const [deleteHandler, setDeleteHandler] = useState<
     { showConfirmModal: boolean; route: IBrokerGroupRoutingResponse } | undefined
   >();
 
   function setRouteFn(data?: IBrokerGroupRoutingResponse) {
     setRoute(({ ...data } || {}) as IBrokerGroupRoutingResponse);
+  }
+
+  function clearRouteFn() {
+    setRoute(undefined);
   }
 
   function confirmDeleteRoute(data: IBrokerGroupRoutingResponse) {
@@ -45,37 +50,32 @@ const BrokerGroupRouting: React.FC<IProps> = props => {
     brokerGroupRoutingService.getRoutes(user.appUserId);
   }
 
-  // ----- //
-
-  function loadGrid() {
-    return (
-      brokerGroupRoutingState && (
-        <Feedback loading={brokerGroupRoutingState.loading} error={brokerGroupRoutingState.error}>
-          <DataGrid
-            routes={brokerGroupRoutingState.payload}
-            editRoute={setRouteFn}
-            deleteRoute={confirmDeleteRoute}
-          />
-        </Feedback>
-      )
-    );
-  }
-
   return (
     <>
       {deleteHandler && deleteHandler.showConfirmModal && (
         <ConfirmDiscardDialog open={true} onClose={deleteRoute} />
       )}
 
-      <DataGridActions
-        appUserId={user.appUserId}
-        routeInfo={routeInfo}
-        newRoute={setRouteFn}
-        refresh={getRoutes}
-      />
-      {loadGrid()}
+      {brokerGroupRoutingState && (
+        <Feedback loading={brokerGroupRoutingState.loading} error={brokerGroupRoutingState.error}>
+          <MGridActions
+            openDrawer={!!route}
+            onCloseDrawer={clearRouteFn}
+            newUser={setRouteFn}
+            refresh={getRoutes}
+            formListener={brokerGroupRoutingService.listenRoute}
+            form={<BrokerGroupRoutingForm appUserId={user.appUserId} info={route} />}
+          />
+
+          <BrokerGroupRoutingGrid
+            routes={brokerGroupRoutingState.payload}
+            editRoute={setRouteFn}
+            deleteRoute={confirmDeleteRoute}
+          />
+        </Feedback>
+      )}
     </>
   );
-};
+}
 
 export default React.memo(BrokerGroupRouting);

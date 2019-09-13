@@ -12,11 +12,11 @@ interface IProps {
   handleMenuClose: any;
 }
 
-const Menu: React.FC<IProps> = (props) => {
+function Menu(props: IProps) {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    sessionService.userData().then((credentials) => setEmail(credentials.email));
+    sessionService.userData().then(credentials => setEmail(credentials.email));
   }, []);
 
   function signOut() {
@@ -39,6 +39,6 @@ const Menu: React.FC<IProps> = (props) => {
       <MuiMenuItem onClick={signOut}>Sign Out</MuiMenuItem>
     </MuiMenu>
   );
-};
+}
 
 export default Menu;

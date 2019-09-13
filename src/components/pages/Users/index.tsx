@@ -4,43 +4,47 @@ import { useObservable } from 'react-use-observable';
 import { IUserResponse } from '../../../interfaces/models/user';
 import usersService from '../../../services/users/users';
 import Feedback from '../../shared/Feedback';
-import DataGrid from './DataGrid';
-import DataGridActions from './DataGridActions';
+import MGridActions from '../../shared/MGridActions';
+import UsersForm from './UsersForm';
+import UsersGrid from './UsersGrid';
 
-const Users = () => {
+function Users() {
   const [usersState] = useObservable(() => {
     getUsers(false);
     return usersService.listenState();
   }, []);
 
-  const [userInfo, setUserInfo] = useState<IUserResponse>();
+  const [user, setUser] = useState<IUserResponse>();
 
   function setUserFn(data?: IUserResponse) {
-    setUserInfo(({ ...data } || {}) as IUserResponse);
+    setUser(({ ...data } || {}) as IUserResponse);
+  }
+
+  function clearUserFn() {
+    setUser(undefined);
   }
 
   function getUsers(force: boolean = true) {
     usersService.getUsers(force);
   }
 
-  // ----- //
-
-  function loadGrid() {
-    return (
-      usersState && (
-        <Feedback loading={usersState.loading} error={usersState.error}>
-          <DataGrid users={usersState.payload} editUser={setUserFn} />
-        </Feedback>
-      )
-    );
-  }
-
   return (
     <>
-      <DataGridActions userInfo={userInfo} newUser={setUserFn} refresh={getUsers} />
-      {loadGrid()}
+      {usersState && (
+        <Feedback loading={usersState.loading} error={usersState.error}>
+          <MGridActions
+            openDrawer={!!user}
+            onCloseDrawer={clearUserFn}
+            newUser={setUserFn}
+            refresh={getUsers}
+            formListener={usersService.listenUser}
+            form={<UsersForm info={user} />}
+          />
+          <UsersGrid users={usersState.payload} editUser={setUserFn} />
+        </Feedback>
+      )}
     </>
   );
-};
+}
 
 export default React.memo(Users);

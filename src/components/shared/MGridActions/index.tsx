@@ -5,12 +5,11 @@ import AddIcon from '@material-ui/icons/Add';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import React, { useEffect } from 'react';
 import { useObservable } from 'react-use-observable';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
-import brokerGroupRoutingService from '../../../../services/broker-group-routing/broker-group-routing';
-import ConfirmDiscardDialog from '../../../shared/ConfirmDiscardDialog';
-import BrokerGroupRoutingForm from './BrokerGroupRoutingForm';
+import { IResponse } from '../../../services/api';
+import ConfirmDiscardDialog from '../ConfirmDiscardDialog';
 
 const useStyles = makeStyles({
   root: {
@@ -22,25 +21,28 @@ const useStyles = makeStyles({
 });
 
 interface IProps {
-  appUserId: number;
-  routeInfo?: IBrokerGroupRoutingResponse;
-  newRoute: () => void;
+  openDrawer: boolean;
+  onCloseDrawer?: () => void;
+  newUser: () => void;
   refresh: () => void;
+  form: React.ReactNode;
+  formListener: () => Observable<IResponse<any>>;
 }
 
-const DataGridActions: React.FC<IProps> = props => {
+function MGridActions(props: IProps) {
   const classes = useStyles();
   const [drawer, setDrawer] = React.useState(false);
   const [modal, setModal] = React.useState(false);
 
   useObservable(
     () =>
-      brokerGroupRoutingService.listenRoute().pipe(
+      props.formListener().pipe(
         tap(({ error }) => {
           setDrawer(error); // keep modal open if error.
 
           if (!error) {
-            props.refresh();
+            refresh();
+            closeDialog(true);
           }
         })
       ),
@@ -48,17 +50,25 @@ const DataGridActions: React.FC<IProps> = props => {
   );
 
   useEffect(() => {
-    setDrawer(!!props.routeInfo);
-  }, [props.routeInfo]);
+    setDrawer(props.openDrawer);
+  }, [props.openDrawer]);
+
+  function refresh() {
+    props.refresh();
+  }
 
   function add() {
     setDrawer(true);
-    props.newRoute();
+    props.newUser();
   }
 
   function closeDialog(discard: boolean) {
     setModal(false);
     setDrawer(!discard);
+
+    if (discard === true && props.onCloseDrawer) {
+      props.onCloseDrawer();
+    }
   }
 
   function closeDrawer(event: React.KeyboardEvent | React.MouseEvent) {
@@ -75,7 +85,7 @@ const DataGridActions: React.FC<IProps> = props => {
 
   return (
     <div className={classes.root}>
-      <Fab color="secondary" onClick={props.refresh}>
+      <Fab color="secondary" onClick={refresh}>
         <RefreshIcon />
       </Fab>
       <Fab color="primary" onClick={add}>
@@ -83,12 +93,12 @@ const DataGridActions: React.FC<IProps> = props => {
       </Fab>
 
       <Drawer anchor={"right"} open={drawer} onClose={closeDrawer}>
-        <BrokerGroupRoutingForm appUserId={props.appUserId} routeInfo={props.routeInfo} />
+        {props.form}
       </Drawer>
 
       {modal && <ConfirmDiscardDialog open={modal} onClose={closeDialog} />}
     </div>
   );
-};
+}
 
-export default React.memo(DataGridActions);
+export default React.memo(MGridActions);

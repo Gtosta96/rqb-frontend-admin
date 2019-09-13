@@ -3,17 +3,17 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import { Field, Form, Formik, FormikProps } from 'formik';
+import { get, isEmpty } from 'lodash';
 import React from 'react';
 import { useObservable } from 'react-use-observable';
 
-import { getInitialValues } from '../../../../helpers/form';
-import { required } from '../../../../helpers/formValidators';
-import { get, isEmpty } from '../../../../helpers/functions';
-import { IBrokerGroupRoutesRequest, IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
-import brokerGroupRoutingService from '../../../../services/broker-group-routing/broker-group-routing';
-import targetBrokerGroupsService from '../../../../services/broker-group-routing/target-broker-groups';
-import Dropdown from '../../../form/Fields/Dropdown';
-import RadioButtonsGroup from '../../../form/Fields/RadioButtonsGroup';
+import { getInitialValues } from '../../../helpers/form';
+import { required } from '../../../helpers/formValidators';
+import { IBrokerGroupRoutesRequest, IBrokerGroupRoutingResponse } from '../../../interfaces/models/broker-group-routing';
+import brokerGroupRoutingService from '../../../services/broker-group-routing/broker-group-routing';
+import targetBrokerGroupsService from '../../../services/broker-group-routing/target-broker-groups';
+import Dropdown from '../../form/Fields/Dropdown';
+import RadioButtonsGroup from '../../form/Fields/RadioButtonsGroup';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,18 +44,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IProps {
   appUserId: number;
-  routeInfo?: IBrokerGroupRoutingResponse;
+  info?: IBrokerGroupRoutingResponse;
 }
 
 interface IFormValues extends IBrokerGroupRoutesRequest {
   riskClass: string; // only for front-end control
 }
 
-const BrokerGroupRoutingForm: React.FC<IProps> = props => {
+function BrokerGroupRoutingForm(props: IProps) {
   const classes = useStyles();
 
   const [formValues, setFormValues] = React.useState<IFormValues>();
-  const isCreatingRoute = isEmpty(props.routeInfo);
+  const isCreatingRoute = isEmpty(props.info);
 
   const [targetBrokerGroups] = useObservable(
     () => targetBrokerGroupsService.getTargetBrokerGroups(),
@@ -71,11 +71,8 @@ const BrokerGroupRoutingForm: React.FC<IProps> = props => {
       {
         name: "riskClass",
         label: "Risk Class",
-        initValue: get(
-          "riskClassName",
-          props.routeInfo,
-          targetBrokerGroups.riskClasses[0].riskClassName
-        ),
+        initValue:
+          get(props.info, "riskClassName") || targetBrokerGroups.riskClasses[0].riskClassName,
         validate: required,
         component: Dropdown,
         disabled: !isCreatingRoute,
@@ -91,7 +88,7 @@ const BrokerGroupRoutingForm: React.FC<IProps> = props => {
       {
         name: "riskIdList",
         label: "Target Risks",
-        initValue: get("riskIdList", props.routeInfo, ""),
+        initValue: get(props.info, "riskIdList") || "",
         validate: required,
         component: RadioButtonsGroup,
         disabled: !isCreatingRoute,
@@ -115,7 +112,7 @@ const BrokerGroupRoutingForm: React.FC<IProps> = props => {
       {
         name: "targetBgId",
         label: "Target Broker Group",
-        initValue: get("bgId", props.routeInfo, ""),
+        initValue: get(props.info, "bgId") || "",
         validate: required,
         component: Dropdown,
         options: (() => {
@@ -137,9 +134,9 @@ const BrokerGroupRoutingForm: React.FC<IProps> = props => {
         })()
       }
     ];
-  }, [targetBrokerGroups, formValues]);
+  }, [targetBrokerGroups, formValues, props.info, isCreatingRoute]);
 
-  const initialValues = React.useMemo(() => getInitialValues(formFields), [targetBrokerGroups]);
+  const initialValues = React.useMemo(() => getInitialValues(formFields), [formFields]);
 
   function handleSubmit(values: IFormValues) {
     const payload = {
@@ -197,10 +194,10 @@ const BrokerGroupRoutingForm: React.FC<IProps> = props => {
       />
     </div>
   );
-};
+}
 
 BrokerGroupRoutingForm.defaultProps = {
-  routeInfo: {} as IBrokerGroupRoutingResponse
+  info: {} as IBrokerGroupRoutingResponse
 };
 
 export default React.memo(BrokerGroupRoutingForm);

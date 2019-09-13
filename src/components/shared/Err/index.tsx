@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Loading: React.FC = () => {
+function Loading() {
   const classes = useStyles();
 
   return (
@@ -24,6 +24,6 @@ const Loading: React.FC = () => {
       <ErrSVG />
     </div>
   );
-};
+}
 
 export default React.memo(Loading);

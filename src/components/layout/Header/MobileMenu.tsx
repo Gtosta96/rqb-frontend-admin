@@ -15,7 +15,7 @@ interface IProps {
   handleProfileMenuOpen: any;
 }
 
-const MobileMenu: React.FC<IProps> = (props) => {
+function MobileMenu(props: IProps) {
   return (
     <MuiMenu
       anchorEl={props.mobileMoreAnchorEl}
@@ -55,6 +55,6 @@ const MobileMenu: React.FC<IProps> = (props) => {
       </MuiMenuItem>
     </MuiMenu>
   );
-};
+}
 
 export default MobileMenu;

@@ -12,7 +12,7 @@ interface IProps extends IDefaultFieldProps {
   options: IDropdownOption[];
 }
 
-const Dropdown: React.FC<IProps> = props => {
+function Dropdown(props: IProps) {
   const { className, field, label, options, disabled } = props;
   const { error, errorText, events } = useDefaultFieldEvents(props);
 
@@ -39,6 +39,6 @@ const Dropdown: React.FC<IProps> = props => {
       {errorText && <FormHelperText>{errorText}</FormHelperText>}
     </FormControl>
   );
-};
+}
 
 export default React.memo(Dropdown);

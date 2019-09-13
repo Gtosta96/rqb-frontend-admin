@@ -9,12 +9,14 @@ import Login from './components/pages/Login/Login';
 
 (window as any).theme = mainTheme; // TODO: REMOVE
 
-const App: React.FC = () => (
-  <MuiThemeProvider theme={mainTheme}>
-    <CssBaseline />
+function App() {
+  return (
+    <MuiThemeProvider theme={mainTheme}>
+      <CssBaseline />
 
-    <Login />
-  </MuiThemeProvider>
-);
+      <Login />
+    </MuiThemeProvider>
+  );
+}
 
 export default React.memo(App);

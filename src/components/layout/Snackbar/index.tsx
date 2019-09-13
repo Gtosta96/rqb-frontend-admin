@@ -56,7 +56,7 @@ export interface IProps {
   variant: ISnackbarVariants;
 }
 
-const MySnackbarContentWrapper: React.FC<IProps> = props => {
+function MySnackbarContentWrapper(props: IProps) {
   const classes = useStyles1();
   const { className, message, onClose, variant, ...other } = props;
   const Icon = variantIcon[variant];
@@ -79,9 +79,9 @@ const MySnackbarContentWrapper: React.FC<IProps> = props => {
       {...other}
     />
   );
-};
+}
 
-const CustomizedSnackbars: React.FC = () => {
+function CustomizedSnackbars() {
   const [open, setOpen] = React.useState<boolean>(false);
   const [payload, setPayload] = React.useState<ISnackbarPayload>();
 
@@ -123,6 +123,6 @@ const CustomizedSnackbars: React.FC = () => {
       )}
     </Snackbar>
   );
-};
+}
 
 export default CustomizedSnackbars;

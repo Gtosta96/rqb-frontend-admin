@@ -3,20 +3,20 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
 import { Field, Form, Formik } from 'formik';
+import { get, isEmpty } from 'lodash';
 import React from 'react';
 import { useObservable } from 'react-use-observable';
 
-import { getInitialValues } from '../../../../helpers/form';
-import { compose, email, required } from '../../../../helpers/formValidators';
-import { get, isEmpty } from '../../../../helpers/functions';
-import { IUserRequest, IUserResponse } from '../../../../interfaces/models/user';
-import firmsService from '../../../../services/users/firms';
-import rolesService from '../../../../services/users/roles';
-import usersService from '../../../../services/users/users';
-import DatePicker from '../../../form/Fields/DatePicker';
-import Dropdown from '../../../form/Fields/Dropdown';
-import Input from '../../../form/Fields/Input';
-import Toggle from '../../../form/Fields/Toggle';
+import { getInitialValues } from '../../../helpers/form';
+import { compose, email, required } from '../../../helpers/formValidators';
+import { IUserRequest, IUserResponse } from '../../../interfaces/models/user';
+import firmsService from '../../../services/agent-firm/firms';
+import rolesService from '../../../services/users/roles';
+import usersService from '../../../services/users/users';
+import DatePicker from '../../form/Fields/DatePicker';
+import Dropdown from '../../form/Fields/Dropdown';
+import Input from '../../form/Fields/Input';
+import Toggle from '../../form/Fields/Toggle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,17 +46,20 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface IProps {
-  userInfo?: IUserResponse;
+  info?: IUserResponse;
 }
 
 interface IFormValues extends IUserRequest {}
 
-const UsersForm: React.FC<IProps> = props => {
+function UsersForm(props: IProps) {
   const classes = useStyles();
 
-  const isCreatingUser = isEmpty(props.userInfo);
+  const isCreatingUser = isEmpty(props.info);
 
-  const [firmsState] = useObservable(() => firmsService.getFirms(), []);
+  const [firmsState] = useObservable(() => {
+    firmsService.getFirms(false);
+    return firmsService.listenState();
+  }, []);
   const [rolesState] = useObservable(() => rolesService.getRoles(), []);
 
   const formFields = React.useMemo(
@@ -65,56 +68,63 @@ const UsersForm: React.FC<IProps> = props => {
         name: "userStatus",
         controlLabel: "User Status",
         label: "Active",
-        initValue: get("userStatus", props.userInfo, false),
+        initValue: get(props.info, "userStatus") || false,
         validate: undefined,
         component: Toggle
       },
       {
+        name: "appUserId",
+        label: "User ID",
+        initValue: get(props.info, "appUserId") || undefined,
+        component: Input,
+        disabled: !isCreatingUser
+      },
+      {
         name: "fullName",
         label: "Full Name",
-        initValue: get("fullName", props.userInfo, ""),
+        initValue: get(props.info, "fullName") || "",
         validate: required,
         component: Input
       },
       {
         name: "firstName",
         label: "First Name",
-        initValue: get("firstName", props.userInfo, ""),
+        initValue: get(props.info, "firstName") || "",
         validate: required,
         component: Input
       },
       {
         name: "lastName",
         label: "Last Name",
-        initValue: get("lastName", props.userInfo, ""),
+        initValue: get(props.info, "lastName") || "",
         validate: required,
         component: Input
       },
       {
         name: "initials",
         label: "Initials",
-        initValue: get("initials", props.userInfo, ""),
+        initValue: get(props.info, "initials") || "",
         validate: required,
         component: Input
       },
       {
         name: "shortName",
         label: "Short Name",
-        initValue: get("shortName", props.userInfo, ""),
+        initValue: get(props.info, "shortName") || "",
         validate: required,
         component: Input
       },
       {
         name: "username",
         label: "Username",
-        initValue: get("username", props.userInfo, ""),
+        initValue: get(props.info, "username") || "",
         validate: required,
         component: Input
       },
       {
         name: "email",
         label: "Email",
-        initValue: get("email", props.userInfo, ""),
+        initValue: get(props.info, "email") || "",
         validate: compose(
           required,
           email
@@ -124,36 +134,36 @@ const UsersForm: React.FC<IProps> = props => {
       {
         name: "firmId",
         label: "Firm",
-        initValue: get("firm.firmId", props.userInfo, ""),
+        initValue: get(props.info, "firm.firmId") || "",
         validate: required,
         component: Dropdown,
-        options: firmsState && firmsState.firms
+        options: firmsState && firmsState.payload && firmsState.payload.options
       },
       {
         name: "telephoneNumber",
         label: "Telephone",
-        initValue: get("telephoneNumber", props.userInfo, ""),
+        initValue: get(props.info, "telephoneNumber") || "",
         validate: required,
         component: Input
       },
       {
         name: "mobileTelephone",
         label: "Mobile / Cell",
-        initValue: get("mobileTelephone", props.userInfo, ""),
+        initValue: get(props.info, "mobileTelephone") || "",
         validate: undefined,
         component: Input
       },
       {
         name: "jobTitle",
         label: "Job Title",
-        initValue: get("jobTitle", props.userInfo, ""),
+        initValue: get(props.info, "jobTitle") || "",
         validate: undefined,
         component: Input
       },
       {
         name: "roleId",
         label: "RQB Role",
-        initValue: get("role.roleId", props.userInfo, ""),
+        initValue: get(props.info, "role.roleId") || "",
         validate: required,
         component: Dropdown,
         options: rolesState && rolesState.roles
@@ -161,21 +171,13 @@ const UsersForm: React.FC<IProps> = props => {
       {
         name: "onboarded",
         label: "Onboarded",
-        initValue: get("onboarded", props.userInfo, new Date()),
+        initValue: get(props.info, "onboarded") || new Date(),
         validate: required,
         component: DatePicker,
         disabled: !isCreatingUser
-      },
-      {
-        name: "appUserId",
-        label: "User ID",
-        initValue: get("appUserId", props.userInfo, undefined),
-        component: Input,
-        type: isCreatingUser ? "hidden" : "text",
-        disabled: !isCreatingUser
       }
     ],
-    [props.userInfo, firmsState, rolesState, isCreatingUser]
+    [props.info, firmsState, rolesState, isCreatingUser]
   );
 
   const initialValues = React.useMemo(() => getInitialValues(formFields), [formFields]);
@@ -220,10 +222,10 @@ const UsersForm: React.FC<IProps> = props => {
       </Formik>
     </div>
   );
-};
+}
 
 UsersForm.defaultProps = {
-  userInfo: {} as IUserResponse
+  info: {} as IUserResponse
 };
 
 export default React.memo(UsersForm);

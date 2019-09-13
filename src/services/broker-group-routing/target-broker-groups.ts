@@ -1,17 +1,17 @@
+import { isEmpty } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 
-import { isEmpty } from '../../helpers/functions';
 import { IBrokerGroupRoutesResponse } from '../../interfaces/models/broker-group-routing';
 import { API } from '../../settings/constants';
 import apiService from '../api';
 import uiService from '../ui';
 
-interface ITargetBrokerGroupsState {
+interface IState {
   riskClasses: IBrokerGroupRoutesResponse[];
 }
 
 class TargetBrokerGroupsService {
-  private riskClassesState$ = new BehaviorSubject<ITargetBrokerGroupsState>({
+  private riskClassesState$ = new BehaviorSubject<IState>({
     riskClasses: []
   });
 
@@ -19,7 +19,7 @@ class TargetBrokerGroupsService {
     if (!cache || isEmpty(this.riskClassesState$.getValue().riskClasses)) {
       uiService
         .withUIFeedback(
-          apiService.get<{ riskClasses: IBrokerGroupRoutesResponse[] }>(
+          apiService.get<{ riskClasses?: IBrokerGroupRoutesResponse[] }>(
             `${API.brokerGroup}/broker_groups/routes`
           ),
           {
@@ -28,7 +28,7 @@ class TargetBrokerGroupsService {
         )
         .subscribe(xhr => {
           this.riskClassesState$.next({
-            riskClasses: xhr.response.riskClasses
+            riskClasses: xhr.response.riskClasses || []
           });
         });
     }

@@ -1,7 +1,7 @@
+import { isEmpty } from 'lodash';
 import { Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { isEmpty } from '../../helpers/functions';
 import { IUserRequest, IUserResponse } from '../../interfaces/models/user';
 import { API } from '../../settings/constants';
 import apiService, { IResponse } from '../api';
@@ -43,7 +43,7 @@ class UsersService extends State<IUserResponse[]> {
         tap(() => this.setLoadingState(true)),
         switchMap(() =>
           uiService.withSnackbarFeedback(
-            apiService.get<{ users: IUserResponse[] }>(`${API.user}/users`)
+            apiService.get<{ users?: IUserResponse[] }>(`${API.user}/users`)
           )
         )
       )

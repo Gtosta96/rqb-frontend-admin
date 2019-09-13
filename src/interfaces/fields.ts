@@ -1,4 +1,4 @@
 export interface IDropdownOption {
-  value: number;
+  value: number | string;
   label: string;
 }
