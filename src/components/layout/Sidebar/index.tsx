@@ -4,8 +4,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import MailIcon from '@material-ui/icons/Mail';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import FolderIcon from '@material-ui/icons/FolderRounded';
+import GroupIcon from '@material-ui/icons/GroupRounded';
+import GroupWorkIcon from '@material-ui/icons/GroupWorkRounded';
+import PersonIcon from '@material-ui/icons/PersonRounded';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -44,12 +46,12 @@ function Sidebar(props: any) {
   const classes = useStyles();
 
   const paths = [
-    { path: EPaths.ROOT, label: PATHS_LABEL[EPaths.ROOT] },
-    { path: EPaths.USERS, label: PATHS_LABEL[EPaths.USERS] },
-    { path: EPaths.AGENT_FIRMS, label: PATHS_LABEL[EPaths.AGENT_FIRMS] },
-    { path: EPaths.BINDERS, label: PATHS_LABEL[EPaths.BINDERS] },
-    { path: EPaths.BROKER_GROUPS, label: PATHS_LABEL[EPaths.BROKER_GROUPS] },
-    { path: EPaths.SURPLUS_LINES, label: PATHS_LABEL[EPaths.SURPLUS_LINES] }
+    // { path: EPaths.ROOT, label: PATHS_LABEL[EPaths.ROOT], icon: null },
+    { path: EPaths.USERS, label: PATHS_LABEL[EPaths.USERS], icon: GroupIcon },
+    { path: EPaths.AGENT_FIRMS, label: PATHS_LABEL[EPaths.AGENT_FIRMS], icon: PersonIcon },
+    { path: EPaths.BINDERS, label: PATHS_LABEL[EPaths.BINDERS], icon: FolderIcon },
+    { path: EPaths.BROKER_GROUPS, label: PATHS_LABEL[EPaths.BROKER_GROUPS], icon: GroupWorkIcon }
+    // { path: EPaths.SURPLUS_LINES, label: PATHS_LABEL[EPaths.SURPLUS_LINES], icon: null }
   ];
 
   return (
@@ -67,7 +69,7 @@ function Sidebar(props: any) {
         <List>
           {paths.map((path, index) => (
             <ListItem key={path.path} button={true} component={RouterLink} to={path.path}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{<path.icon />}</ListItemIcon>
               <ListItemText primary={path.label} />
             </ListItem>
           ))}

@@ -21,7 +21,8 @@ function Routes(props: IProps) {
     <Router>
       <Layout>
         <Switch>
-          <Route exact={true} path={EPaths.ROOT} component={Users} />
+          {/* <Route exact={true} path={EPaths.ROOT} component={Users} /> */}
+          <Redirect exact from={EPaths.ROOT} to={EPaths.USERS} />
 
           <Route exact={true} path={EPaths.USERS} component={Users} />
 

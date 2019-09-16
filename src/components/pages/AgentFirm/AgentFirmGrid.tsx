@@ -39,7 +39,11 @@ function AgentFirmGrid(props: IProps) {
             field: "isAgentFirm",
             render: rowData => booleanToString(rowData, "isAgentFirm")
           },
-          { title: "Onboarded", field: "onboarded" }
+          {
+            title: "Onboarded",
+            field: "onboarded",
+            render: rowData => rowData.onboarded.substr(0, rowData.onboarded.indexOf(" 00:00:00"))
+          }
         ]}
         rows={props.firms}
       />
