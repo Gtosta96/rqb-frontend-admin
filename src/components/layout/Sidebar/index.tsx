@@ -8,42 +8,39 @@ import FolderIcon from '@material-ui/icons/FolderRounded';
 import GroupIcon from '@material-ui/icons/GroupRounded';
 import GroupWorkIcon from '@material-ui/icons/GroupWorkRounded';
 import PersonIcon from '@material-ui/icons/PersonRounded';
+import classnames from 'classnames';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { EPaths, PATHS_LABEL } from '../../../settings/constants';
-import RouterBreadcrumbs from '../Breadcrumbs';
-import Header from '../Header';
 
-const drawerWidth = 240;
+interface IProps {
+  open: boolean;
+  drawerOptions: {
+    width: number;
+    animationClass: string;
+  };
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: "flex"
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1
-    },
     drawer: {
-      width: drawerWidth,
-      flexShrink: 0
+      width: (props: IProps) => props.drawerOptions.width,
+      flexShrink: 0,
+      marginLeft: 0
     },
     drawerPaper: {
-      width: drawerWidth
+      width: (props: IProps) => props.drawerOptions.width,
+      marginLeft: 0
     },
-    main: {
-      flexGrow: 1
+    shift: {
+      marginLeft: (props: IProps) => -props.drawerOptions.width
     },
-    toolbar: theme.mixins.toolbar,
-    content: {
-      padding: theme.spacing(3, 2)
-    }
+    toolbar: theme.mixins.toolbar
   })
 );
-
-function Sidebar(props: any) {
-  const classes = useStyles();
+function Sidebar(props: IProps) {
+  const classes = useStyles(props);
 
   const paths = [
     // { path: EPaths.ROOT, label: PATHS_LABEL[EPaths.ROOT], icon: null },
@@ -55,36 +52,36 @@ function Sidebar(props: any) {
   ];
 
   return (
-    <div className={classes.root}>
-      <Header />
-
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.toolbar} />
-        <List>
-          {paths.map((path, index) => (
-            <ListItem key={path.path} button={true} component={RouterLink} to={path.path}>
-              <ListItemIcon>{<path.icon />}</ListItemIcon>
-              <ListItemText primary={path.label} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-
-      <main className={classes.main}>
-        <div className={classes.toolbar} />
-        <div className={classes.content}>
-          <RouterBreadcrumbs />
-          <div>{props.children}</div>
-        </div>
-      </main>
-    </div>
+    <Drawer
+      open={props.open}
+      className={classnames(classes.drawer, props.drawerOptions.animationClass, {
+        [classes.shift]: !props.open
+      })}
+      variant="permanent"
+      anchor="left"
+      classes={{
+        paper: classnames(classes.drawerPaper, props.drawerOptions.animationClass, {
+          [classes.shift]: !props.open
+        })
+      }}
+    >
+      <div className={classes.toolbar} />
+      <List>
+        {paths.map(path => (
+          <ListItem
+            key={path.path}
+            button={true}
+            component={RouterLink}
+            to={path.path}
+            tabIndex={props.open ? undefined : -1}
+          >
+            <ListItemIcon>{<path.icon />}</ListItemIcon>
+            <ListItemText primary={path.label} />
+          </ListItem>
+        ))}
+      </List>
+    </Drawer>
   );
 }
 
-export default Sidebar;
+export default React.memo(Sidebar);

@@ -9,6 +9,11 @@ import React from 'react';
 interface IProps {
   open: boolean;
   onClose: (keepOpen: boolean) => void;
+
+  title?: string | React.ReactNode;
+  content?: string | React.ReactNode;
+  yesButton?: string;
+  noButton?: string;
 }
 
 function ConfirmDiscardDialog(props: IProps) {
@@ -18,20 +23,27 @@ function ConfirmDiscardDialog(props: IProps) {
 
   return (
     <Dialog open={props.open} onClose={close(true)}>
-      <DialogTitle>Heads Up!</DialogTitle>
+      <DialogTitle>{props.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>Are you sure you want to discard your changes?</DialogContentText>
+        <DialogContentText>{props.content}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={close(true)} color="primary">
-          Discard
+          {props.yesButton}
         </Button>
-        <Button onClick={close(false)} color="primary" autoFocus={true}>
-          Continue
+        <Button onClick={close(false)} color="primary">
+          {props.noButton}
         </Button>
       </DialogActions>
     </Dialog>
   );
 }
+
+ConfirmDiscardDialog.defaultProps = {
+  title: "Heads Up!",
+  content: "Are you sure you want to discard your changes?",
+  yesButton: "YES",
+  noButton: "NO"
+};
 
 export default React.memo(ConfirmDiscardDialog);

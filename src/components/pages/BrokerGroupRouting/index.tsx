@@ -53,7 +53,13 @@ function BrokerGroupRouting(props: IProps) {
   return (
     <>
       {deleteHandler && deleteHandler.showConfirmModal && (
-        <ConfirmDiscardDialog open={true} onClose={deleteRoute} />
+        <ConfirmDiscardDialog
+          open={true}
+          onClose={deleteRoute}
+          content={
+            "Are you sure you want to delete this route. This will prevent the user from submitting requests for the risk(s)"
+          }
+        />
       )}
 
       {brokerGroupRoutingState && (

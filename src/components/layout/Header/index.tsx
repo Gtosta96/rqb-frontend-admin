@@ -7,11 +7,16 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
+import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import React from 'react';
 
 import { appEnvironment } from '../../../settings/constants';
 import Menu from './Menu';
+
+interface IProps {
+  onClickSidebarButton: () => void;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function Header() {
+function Header(props: IProps) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -55,20 +60,20 @@ function Header() {
     setAnchorEl(null);
   }
 
-  const menuId = "primary-search-account-menu";
+  const menuId = "header-menu";
 
   return (
     <>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          {/* <IconButton
+          <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
-            aria-label="open drawer"
+            onClick={props.onClickSidebarButton}
           >
             <MenuIcon />
-          </IconButton> */}
+          </IconButton>
           <Typography className={classes.title} variant="h6" noWrap={true}>
             RQB Administration
             <Chip className={classes.environment} label={appEnvironment} variant="outlined" />

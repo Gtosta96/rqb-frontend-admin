@@ -11,7 +11,9 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       justifyContent: "center",
       height: "100%",
-      width: "100%"
+      width: "100%",
+      maxWidth: "500px",
+      margin: "0 auto"
     }
   })
 );

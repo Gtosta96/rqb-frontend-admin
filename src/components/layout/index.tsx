@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Sidebar from '../layout/Sidebar';
+import Frame from './Frame';
 import Loader from './Loader';
 import CustomizedSnackbars from './Snackbar';
 
 const Layout = (props: any) => {
   return (
     <>
-      <Sidebar>{props.children}</Sidebar>
+      <Frame>{props.children}</Frame>
       <Loader />
       <CustomizedSnackbars />
     </>
