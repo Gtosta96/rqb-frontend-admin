@@ -10,11 +10,11 @@ import GroupWorkIcon from '@material-ui/icons/GroupWorkRounded';
 import PersonIcon from '@material-ui/icons/PersonRounded';
 import classnames from 'classnames';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { EPaths, PATHS_LABEL } from '../../../settings/constants';
 
-interface IProps {
+interface IProps extends RouteComponentProps {
   open: boolean;
   drawerOptions: {
     width: number;
@@ -74,6 +74,7 @@ function Sidebar(props: IProps) {
             component={RouterLink}
             to={path.path}
             tabIndex={props.open ? undefined : -1}
+            selected={path.path === props.location.pathname}
           >
             <ListItemIcon>{<path.icon />}</ListItemIcon>
             <ListItemText primary={path.label} />
@@ -84,4 +85,4 @@ function Sidebar(props: IProps) {
   );
 }
 
-export default React.memo(Sidebar);
+export default React.memo(withRouter(Sidebar));
