@@ -16,7 +16,7 @@ export default function RouterBreadcrumbs() {
 
   return (
     <Route>
-      {(route, ...rest) => {
+      {route => {
         const pathnames = route.location.pathname.split("/").filter(pathname => pathname);
 
         return (

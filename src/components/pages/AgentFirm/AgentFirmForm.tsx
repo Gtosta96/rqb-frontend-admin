@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       display: "flex",
       flexDirection: "column",
-      height: "100%"
+      flexGrow: 1
     },
     form: {
       display: "flex",
@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme: Theme) =>
     inputsContainer: {
       display: "flex",
       flexDirection: "column",
-      height: "100%",
-      padding: theme.spacing(1, 0)
+      padding: theme.spacing(1, 0),
+      flexGrow: 1
     },
     textField: {
       margin: theme.spacing(0.5, 1, 0.5, 1),
@@ -61,7 +61,7 @@ function AgentFirmForm(props: IProps) {
       {
         name: "isActive",
         controlLabel: "Firm Active",
-        label: "Active",
+        label: { active: "True", inactive: "False" },
         initValue: get(props.info, "isActive") || false,
         validate: undefined,
         component: Toggle
@@ -69,7 +69,7 @@ function AgentFirmForm(props: IProps) {
       {
         name: "isAgentFirm",
         controlLabel: "Agent Firm",
-        label: "Active",
+        label: { active: "Active", inactive: "Inactive" },
         initValue: get(props.info, "isAgentFirm") || false,
         validate: undefined,
         component: Toggle
@@ -108,20 +108,20 @@ function AgentFirmForm(props: IProps) {
       },
       {
         name: "address.line1",
-        label: "AddressLine 1",
+        label: "Address Line 1",
         initValue: get(props.info, "address.line1") || "",
         validate: required,
         component: Input
       },
       {
         name: "address.line2",
-        label: "AddressLine 2",
+        label: "Address Line 2",
         initValue: get(props.info, "address.line2") || "",
         component: Input
       },
       {
         name: "address.line3",
-        label: "AddressLine 3",
+        label: "Address Line 3",
         initValue: get(props.info, "address.line3") || "",
         component: Input
       },

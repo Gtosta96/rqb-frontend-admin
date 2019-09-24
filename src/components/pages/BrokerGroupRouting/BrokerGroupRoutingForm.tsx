@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       display: "flex",
       flexDirection: "column",
-      height: "100%"
+      flexGrow: 1
     },
     form: {
       display: "flex",
@@ -31,8 +31,8 @@ const useStyles = makeStyles((theme: Theme) =>
     inputsContainer: {
       display: "flex",
       flexDirection: "column",
-      height: "100%",
-      padding: theme.spacing(1, 0)
+      padding: theme.spacing(1, 0),
+      flexGrow: 1
     },
     textField: {
       margin: theme.spacing(0.5, 1, 0.5, 1),

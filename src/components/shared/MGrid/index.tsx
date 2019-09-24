@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type IProps<RowData extends object> = {
+  title?: string;
   actions?: (Action<RowData> | ((rowData: RowData) => Action<RowData>))[] | undefined;
   columns: Column<RowData>[];
   rows: RowData[] | ((query: Query<RowData>) => Promise<QueryResult<RowData>>);
@@ -21,12 +22,12 @@ type IProps<RowData extends object> = {
 
 function MGrid<RowData extends object>(props: IProps<RowData>) {
   const classes = useStyles();
-  const { actions, columns, rows, options } = props;
+  const { title, actions, columns, rows, options } = props;
 
   return (
     <div className={classes.root}>
       <MaterialTable
-        title=""
+        title={title}
         icons={icons}
         actions={actions}
         columns={columns}
@@ -41,7 +42,8 @@ function MGrid<RowData extends object>(props: IProps<RowData>) {
 }
 
 MGrid.defaultProps = {
-  options: {}
+  options: {},
+  title: ""
 };
 
 // Do not use React.Memo

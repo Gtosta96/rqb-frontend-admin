@@ -38,8 +38,8 @@ function BrokerGroupRouting(props: IProps) {
     setDeleteHandler({ showConfirmModal: true, route: data });
   }
 
-  function deleteRoute(discard: boolean) {
-    if (!discard && deleteHandler && deleteHandler.route) {
+  function deleteRoute(confirm: boolean) {
+    if (confirm && deleteHandler && deleteHandler.route) {
       brokerGroupRoutingService.deleteRoute(user.appUserId, deleteHandler.route);
     }
 
@@ -74,6 +74,7 @@ function BrokerGroupRouting(props: IProps) {
           />
 
           <BrokerGroupRoutingGrid
+            title={user.fullName}
             routes={brokerGroupRoutingState.payload}
             editRoute={setRouteFn}
             deleteRoute={confirmDeleteRoute}

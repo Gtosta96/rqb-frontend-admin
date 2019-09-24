@@ -9,6 +9,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import classnames from 'classnames';
 import React from 'react';
 
 import { appEnvironment } from '../../../settings/constants';
@@ -39,6 +40,9 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: "#fff",
       color: "#fff"
     },
+    dev: { backgroundColor: "#4F9024" },
+    uat: { backgroundColor: "#C2BE4A" },
+    prod: { backgroundColor: "#BD4949" },
     sectionDesktop: {
       display: "flex"
     }
@@ -76,7 +80,11 @@ function Header(props: IProps) {
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap={true}>
             RQB Administration
-            <Chip className={classes.environment} label={appEnvironment} variant="outlined" />
+            <Chip
+              className={classnames(classes.environment, classes[appEnvironment])}
+              label={appEnvironment}
+              variant="outlined"
+            />
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

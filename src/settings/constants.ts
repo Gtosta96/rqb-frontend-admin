@@ -42,7 +42,8 @@ export const AWS = {
 /**
  * ENVIRONMENT
  */
-export const appEnvironment = process.env.REACT_APP_ENDPOINT_ENVIRONMENT;
+type envs = "dev" | "uat" | "prod";
+export const appEnvironment: envs = process.env.REACT_APP_ENDPOINT_ENVIRONMENT as envs;
 
 /**
  * APIS

@@ -6,6 +6,7 @@ import { IBrokerGroupRoutingResponse } from '../../../interfaces/models/broker-g
 import MGrid from '../../shared/MGrid';
 
 interface IProps {
+  title: string;
   routes: IBrokerGroupRoutingResponse[] | null;
   editRoute: (info: IBrokerGroupRoutingResponse) => void;
   deleteRoute: (info: IBrokerGroupRoutingResponse) => void;
@@ -23,6 +24,7 @@ function BrokerGroupRoutingGrid(props: IProps) {
   return (
     props.routes && (
       <MGrid
+        title={props.title}
         actions={[
           {
             icon: () => <Edit color="action" />,

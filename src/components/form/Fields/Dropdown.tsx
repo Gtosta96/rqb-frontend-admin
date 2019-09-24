@@ -17,7 +17,7 @@ function Dropdown(props: IProps) {
   const { error, errorText, events } = useDefaultFieldEvents(props);
 
   return (
-    <FormControl className={className}>
+    <FormControl className={className} error={error}>
       <InputLabel htmlFor={field.name}>{label}</InputLabel>
       <Select
         {...field}
