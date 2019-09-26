@@ -1,18 +1,25 @@
 import Edit from '@material-ui/icons/Edit';
+import Timeline from '@material-ui/icons/Timeline';
 import React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { booleanToString } from '../../../helpers/functions';
 import { IFirmResponse } from '../../../interfaces/models/agent-firms';
+import { EPaths } from '../../../settings/constants';
 import MGrid from '../../shared/MGrid';
 
-interface IProps {
+interface IProps extends RouteComponentProps {
   firms: IFirmResponse[] | null;
   editFirm: (info: IFirmResponse) => void;
 }
 
 function AgentFirmGrid(props: IProps) {
-  function editFirm(user: IFirmResponse) {
-    props.editFirm(user);
+  function editFirm(firm: IFirmResponse) {
+    props.editFirm(firm);
+  }
+
+  function redirect(firm: IFirmResponse) {
+    props.history.push(EPaths.AGENT_COMMISSIONS, { firm });
   }
 
   return (
@@ -23,12 +30,18 @@ function AgentFirmGrid(props: IProps) {
             icon: () => <Edit color="action" />,
             tooltip: "Edit Firm",
             onClick: (event, rowData) => editFirm(rowData as IFirmResponse)
-          }
+          },
+          rowData => ({
+            icon: () => <Timeline color="action" />,
+            onClick: () => redirect(rowData as IFirmResponse),
+            tooltip: rowData.isAgentFirm ? "Agent Commissions" : undefined,
+            disabled: !rowData.isAgentFirm
+          })
         ]}
         columns={[
           { title: "Firm Name", field: "firmName" },
           { title: "Legal Name", field: "firmLegalName" },
-          { title: "globalClientId", field: "globalClientId" },
+          { title: "Global Client ID", field: "globalClientId" },
           {
             title: "isActive",
             field: "isActive",
@@ -51,4 +64,4 @@ function AgentFirmGrid(props: IProps) {
   );
 }
 
-export default React.memo(AgentFirmGrid);
+export default React.memo(withRouter(AgentFirmGrid));

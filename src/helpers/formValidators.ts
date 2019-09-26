@@ -25,3 +25,9 @@ export const minLength = (min: number) => (value: string) =>
 
 export const maxLength = (max: number) => (value: string) =>
   value && value.length > max ? `This field must have ${max} characters or less` : undefined;
+
+export const minValue = (min: number) => (value: string) =>
+  value && Number(value) < min ? `This field must be greater than ${min}` : undefined;
+
+export const maxValue = (max: number) => (value: string) =>
+  value && Number(value) > max ? `This field must be less than ${max}` : undefined;

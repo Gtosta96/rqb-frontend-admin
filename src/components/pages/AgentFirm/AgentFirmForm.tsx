@@ -59,18 +59,18 @@ function AgentFirmForm(props: IProps) {
   const formFields = React.useMemo(
     () => [
       {
-        name: "isActive",
-        controlLabel: "Firm Active",
+        name: "isAgentFirm",
+        controlLabel: "Agent Firm",
         label: { active: "True", inactive: "False" },
-        initValue: get(props.info, "isActive") || false,
+        initValue: get(props.info, "isAgentFirm") || false,
         validate: undefined,
         component: Toggle
       },
       {
-        name: "isAgentFirm",
-        controlLabel: "Agent Firm",
+        name: "isActive",
+        controlLabel: "Firm Active",
         label: { active: "Active", inactive: "Inactive" },
-        initValue: get(props.info, "isAgentFirm") || false,
+        initValue: get(props.info, "isActive") || false,
         validate: undefined,
         component: Toggle
       },

@@ -37,12 +37,6 @@ export interface IUserResponse {
   };
 }
 
-export interface IFirmResponse {
-  agentFirm: string;
-  firmId: number;
-  legalName: string;
-}
-
 export interface IRoleResponse {
   brokerFirmOnly: string;
   roleId: number;

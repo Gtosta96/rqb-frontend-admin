@@ -1,13 +1,20 @@
+import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import React from 'react';
 
 import { IDefaultFieldProps, useDefaultFieldEvents } from './useDefaultFieldEvents';
 
-interface IProps extends IDefaultFieldProps {}
+export interface IProps extends IDefaultFieldProps {
+  prefix?: string | undefined;
+}
 
 function Input(props: IProps) {
-  const { className, field, label, disabled } = props;
+  const { className, field, label, disabled, prefix } = props;
   const { error, errorText, events } = useDefaultFieldEvents(props);
+
+  const inputProps = prefix
+    ? { startAdornment: <InputAdornment position="start">{prefix}</InputAdornment> }
+    : undefined;
 
   return (
     <TextField
@@ -18,6 +25,7 @@ function Input(props: IProps) {
       error={error}
       helperText={errorText}
       disabled={disabled}
+      InputProps={inputProps}
     />
   );
 }

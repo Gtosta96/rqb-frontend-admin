@@ -33,13 +33,13 @@ class FirmsService extends State<IState> {
 
   public createFirm = (firm: IFirmRequest) => {
     uiService
-      .withUIFeedback(apiService.post<IFirmResponse>(`${API.xpto}/firms`, firm))
+      .withUIFeedback(apiService.post<IFirmResponse>(`${API.firm}/firms`, firm))
       .subscribe(response => this.handleFirm$.next(response));
   };
 
   public updateFirm = (firm: IFirmRequest) => {
     uiService
-      .withUIFeedback(apiService.patch<IFirmResponse>(`${API.xpto}/firms/${firm.firmId}`, firm))
+      .withUIFeedback(apiService.patch<IFirmResponse>(`${API.firm}/firms/${firm.firmId}`, firm))
       .subscribe(response => this.handleFirm$.next(response));
   };
 
@@ -49,7 +49,7 @@ class FirmsService extends State<IState> {
         tap(() => this.setLoadingState(true)),
         switchMap(() =>
           uiService.withSnackbarFeedback(
-            apiService.get<{ firms?: IFirmResponse[] }>(`${API.xpto}/firms`)
+            apiService.get<{ firms?: IFirmResponse[] }>(`${API.firm}/firms`)
           )
         )
       )

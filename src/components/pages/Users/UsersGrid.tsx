@@ -18,7 +18,7 @@ function UsersGrid(props: IProps) {
   }
 
   function redirectUser(user: IUserResponse) {
-    props.history.push(EPaths.USERS_BROKER_GROUP_ROUTING, { user, breadcrumb: user.shortName });
+    props.history.push(EPaths.USERS_BROKER_GROUP_ROUTING, { user });
   }
 
   return (

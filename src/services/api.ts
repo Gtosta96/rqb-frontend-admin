@@ -61,7 +61,10 @@ class ApiService {
       switchMap(xhr => defer(() => xhr.json()).pipe(switchMap(json => of({ xhr, json })))),
       switchMap(({ xhr, json }) => {
         const error = !xhr.ok;
-        const message = json.message || (error ? "NOK" : "OK") + " - " + xhr.status;
+        const message =
+          (json.tooltip && json.tooltip.message) ||
+          json.message ||
+          (error ? "NOK" : "OK") + " - " + xhr.status;
         const response = json as T;
 
         return of({ error, message, response });

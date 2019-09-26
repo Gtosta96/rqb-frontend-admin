@@ -5,9 +5,13 @@
 export enum EPaths {
   ROOT = "/",
   LOGIN = "/login",
+
   USERS = "/users",
   USERS_BROKER_GROUP_ROUTING = "/users/broker-group-routing",
+
   AGENT_FIRMS = "/agent-firms",
+  AGENT_COMMISSIONS = "/agent-firms/agent-commissions",
+
   BINDERS = "/binders",
   BROKER_GROUPS = "/broker-groups",
   SURPLUS_LINES = "/surplus-lines"
@@ -22,6 +26,8 @@ export const PATHS_LABEL = {
   [EPaths.USERS_BROKER_GROUP_ROUTING]: "Broker Group Routing",
 
   [EPaths.AGENT_FIRMS]: "Agent Firms",
+  [EPaths.AGENT_COMMISSIONS]: "Agent Commissions",
+
   [EPaths.BINDERS]: "Binders",
   [EPaths.BROKER_GROUPS]: "Broker Groups",
   [EPaths.SURPLUS_LINES]: "Surplus Lines"
@@ -57,15 +63,9 @@ const makeApiURL = (host: string | undefined) => {
 };
 
 export const API = {
-  submission: makeApiURL(process.env.REACT_APP_API_HOST_SUBMISSION),
-  questionnaire: makeApiURL(process.env.REACT_APP_API_HOST_QUESTIONNAIRE),
-  summary: makeApiURL(process.env.REACT_APP_API_HOST_SUMMARY),
-  reference: makeApiURL(process.env.REACT_APP_API_HOST_REFERENCE),
   user: makeApiURL(process.env.REACT_APP_API_HOST_USER),
-  document: makeApiURL(process.env.REACT_APP_API_HOST_DOCUMENT),
-  endorsement: makeApiURL(process.env.REACT_APP_API_HOST_ENDORSEMENT),
-  auditHistory: makeApiURL(process.env.REACT_APP_API_HOST_AUDIT_HISTORY),
-  cognito: makeApiURL(process.env.REACT_APP_API_HOST_COGNITO),
-  xpto: makeApiURL(process.env.REACT_APP_API_HOST_XPTO),
-  brokerGroup: makeApiURL(process.env.REACT_APP_API_HOST_BROKER_GROUP)
+  reference: makeApiURL(process.env.REACT_APP_API_HOST_REFERENCE),
+  firm: makeApiURL(process.env.REACT_APP_API_HOST_FIRM),
+  brokerGroup: makeApiURL(process.env.REACT_APP_API_HOST_BROKER_GROUP),
+  binder: makeApiURL(process.env.REACT_APP_API_HOST_BINDER)
 };
