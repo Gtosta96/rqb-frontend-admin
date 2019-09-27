@@ -59,8 +59,6 @@ function AgentCommissionsForm(props: IProps) {
 
   const isCreatingAgentCommission = isEmpty(props.info);
 
-  const [formValues, setFormValues] = React.useState<IFormValues>();
-
   const [risksState] = useObservable(() => risksService.getRisks(), []);
   const [bindersState] = useObservable(() => bindersService.getBinders(), []);
 
@@ -134,36 +132,28 @@ function AgentCommissionsForm(props: IProps) {
         {isCreatingAgentCommission ? "Add" : "Edit"} Agent Commission
       </Typography>
 
-      <Formik
-        initialValues={initialValues as any}
-        onSubmit={handleSubmit}
-        render={formProps => {
-          setFormValues(formProps.values);
+      <Formik initialValues={initialValues as any} onSubmit={handleSubmit}>
+        <Form className={classes.form}>
+          <div className={classes.inputsContainer}>
+            {formFields.map(formField => (
+              <Field key={formField.name} className={classes.textField} {...formField} />
+            ))}
+          </div>
 
-          return (
-            <Form className={classes.form}>
-              <div className={classes.inputsContainer}>
-                {formFields.map(formField => (
-                  <Field key={formField.name} className={classes.textField} {...formField} />
-                ))}
-              </div>
-
-              <div className={classes.controlsContainer}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="medium"
-                  fullWidth={true}
-                >
-                  <SaveIcon />
-                  Save
-                </Button>
-              </div>
-            </Form>
-          );
-        }}
-      />
+          <div className={classes.controlsContainer}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="medium"
+              fullWidth={true}
+            >
+              <SaveIcon />
+              Save
+            </Button>
+          </div>
+        </Form>
+      </Formik>
     </div>
   );
 }
