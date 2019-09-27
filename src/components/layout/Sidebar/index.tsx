@@ -14,6 +14,7 @@ import { Link as RouterLink, RouteComponentProps, withRouter } from 'react-route
 
 import { EPaths, PATHS_LABEL } from '../../../settings/constants';
 
+// import HomeIcon from '@material-ui/icons/HomeRounded';
 interface IProps extends RouteComponentProps {
   open: boolean;
   drawerOptions: {
@@ -43,7 +44,7 @@ function Sidebar(props: IProps) {
   const classes = useStyles(props);
 
   const paths = [
-    // { path: EPaths.ROOT, label: PATHS_LABEL[EPaths.ROOT], icon: null },
+    // { path: EPaths.ROOT, label: PATHS_LABEL[EPaths.ROOT], icon: HomeIcon },
     { path: EPaths.USERS, label: PATHS_LABEL[EPaths.USERS], icon: GroupIcon },
     { path: EPaths.AGENT_FIRMS, label: PATHS_LABEL[EPaths.AGENT_FIRMS], icon: PersonIcon },
     { path: EPaths.BINDERS, label: PATHS_LABEL[EPaths.BINDERS], icon: FolderIcon },

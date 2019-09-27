@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, RouteComponentProps, Switch }
 
 import { EPaths } from '../settings/constants';
 import Layout from './layout';
+import Home from './pages/Home';
 import Loading from './shared/Loading';
 
 // import Users from './pages/Users';
@@ -31,7 +32,7 @@ function Routes(props: IProps) {
       <Suspense fallback={<Loading fullscreen={true} />}>
         <Layout>
           <Switch>
-            {/* <Route exact={true} path={EPaths.ROOT} component={Users} /> */}
+            <Route exact={true} path={EPaths.ROOT} component={Home} />
             <Redirect exact={true} from={EPaths.ROOT} to={EPaths.USERS} />
 
             <Route exact={true} path={EPaths.USERS} component={Users} />
