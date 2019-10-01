@@ -5,6 +5,7 @@
 export enum EPaths {
   ROOT = "/",
   LOGIN = "/login",
+  LOGOUT = "/logout",
 
   USERS = "/users",
   USERS_BROKER_GROUP_ROUTING = "/users/broker-group-routing",
@@ -19,8 +20,8 @@ export enum EPaths {
 
 export const PATHS_LABEL = {
   [EPaths.ROOT]: "Home",
-
   [EPaths.LOGIN]: "Login",
+  [EPaths.LOGOUT]: "Logout",
 
   [EPaths.USERS]: "Users",
   [EPaths.USERS_BROKER_GROUP_ROUTING]: "Broker Group Routing",
@@ -41,7 +42,14 @@ export const AWS = {
     region: process.env.REACT_APP_AWS_REGION,
     userPoolId: process.env.REACT_APP_AWS_COGNITO_USER_POOL_ID,
     userPoolWebClientId: process.env.REACT_APP_AWS_COGNITO_USER_POOL_WEB_CLIENT_ID,
-    identityPoolId: process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID
+    identityPoolId: process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID,
+    oauth: {
+      domain: process.env.REACT_APP_AWS_COGNITO_OKTA_DOMAIN,
+      redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
+      redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
+      scope: ["phone", "email", "profile", "openid"],
+      responseType: "code"
+    }
   }
 };
 

@@ -18,22 +18,16 @@ const AgentFirm = React.lazy(() => import("./pages/AgentFirm"));
 const BrokerGroupRouting = React.lazy(() => import("./pages/BrokerGroupRouting"));
 const Err = React.lazy(() => import("./shared/Err"));
 
-interface IProps {
-  authState?: string;
-}
-
-function Routes(props: IProps) {
-  if (!props.authState || props.authState !== "signedIn") {
-    return null;
-  }
-
+function Routes() {
   return (
     <Router>
       <Suspense fallback={<Loading fullscreen={true} />}>
         <Layout>
           <Switch>
+            <Redirect exact={true} from={EPaths.LOGIN} to={EPaths.ROOT} />
+            <Redirect exact={true} from={EPaths.LOGOUT} to={EPaths.ROOT} />
+
             <Route exact={true} path={EPaths.ROOT} component={Home} />
-            <Redirect exact={true} from={EPaths.ROOT} to={EPaths.USERS} />
 
             <Route exact={true} path={EPaths.USERS} component={Users} />
 

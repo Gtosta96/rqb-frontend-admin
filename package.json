@@ -6,6 +6,7 @@
     "@aws-amplify/analytics": "^1.2.23",
     "@aws-amplify/api": "^1.0.42",
     "@aws-amplify/auth": "^1.2.31",
+    "@aws-amplify/core": "^1.1.2",
     "@aws-amplify/interactions": "^1.0.35",
     "@aws-amplify/storage": "^1.1.0",
     "@aws-amplify/ui": "^1.0.23",

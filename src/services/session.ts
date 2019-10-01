@@ -6,6 +6,7 @@ class SessionService {
   public configure(configs: any) {
     Auth.configure(configs);
   }
+
   public currentSession() {
     return Auth.currentSession();
   }

@@ -1,7 +1,5 @@
-/* eslint-disable no-nested-ternary */
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { Route } from 'react-router';
@@ -9,11 +7,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import { EPaths, PATHS_LABEL } from '../../../settings/constants';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}));
-
 export default function RouterBreadcrumbs() {
-  const classes = useStyles();
-
   return (
     <Route>
       {route => {
@@ -31,7 +25,7 @@ export default function RouterBreadcrumbs() {
               const label = PATHS_LABEL[to];
 
               if (!label) {
-                return;
+                return null;
               }
 
               return last ? (

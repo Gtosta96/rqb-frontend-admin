@@ -1,7 +1,6 @@
 import sessionService from '../services/session';
 import { AWS } from './constants';
 
-export const getAmplifyConfig = () => {
+export const configureAmplify = () => {
   sessionService.configure(AWS);
-  return AWS;
 };
