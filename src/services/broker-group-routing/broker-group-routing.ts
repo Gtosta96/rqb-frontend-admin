@@ -77,8 +77,8 @@ class BrokerGroupRoutingService extends State<IBrokerGroupRoutingResponse[]> {
         this.setState({
           loading: false,
           error: xhr.error,
-          payload: xhr.response.routes || [],
-          empty: isEmpty(xhr.response.routes)
+          empty: isEmpty(xhr.response.routes),
+          payload: xhr.response.routes || []
         });
       });
   };

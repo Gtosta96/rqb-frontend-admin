@@ -35,7 +35,7 @@ function Users() {
           <MGridActions
             openDrawer={!!user}
             onCloseDrawer={clearUserFn}
-            newUser={setUserFn}
+            add={setUserFn}
             refresh={getUsers}
             formListener={usersService.listenUser}
             form={<UsersForm info={user} />}

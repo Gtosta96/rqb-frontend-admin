@@ -81,8 +81,8 @@ class AgentCommissionsService extends State<IAgentCommissionsResponse[]> {
         this.setState({
           loading: false,
           error: xhr.error,
-          payload: xhr.response.agentCommissions || [],
-          empty: isEmpty(xhr.response.agentCommissions)
+          empty: isEmpty(xhr.response.agentCommissions),
+          payload: xhr.response.agentCommissions || []
         });
       });
   };

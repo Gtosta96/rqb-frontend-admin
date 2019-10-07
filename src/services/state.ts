@@ -24,8 +24,8 @@ class State<T> {
     empty: false
   });
 
-  protected next = (payload: any, force: boolean) => {
-    return this.stateHandler$.next({ payload, force } as INext);
+  protected next = (payload: any, force: boolean = true, fsLoader = false) => {
+    return this.stateHandler$.next({ payload, force, fsLoader } as INext);
   };
 
   protected onNext = () => {

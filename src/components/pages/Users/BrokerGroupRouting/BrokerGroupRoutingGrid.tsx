@@ -2,8 +2,8 @@ import Delete from '@material-ui/icons/Delete';
 import Edit from '@material-ui/icons/Edit';
 import React from 'react';
 
-import { IBrokerGroupRoutingResponse } from '../../../interfaces/models/broker-group-routing';
-import MGrid from '../../shared/MGrid';
+import { IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
+import MGrid from '../../../shared/MGrid';
 
 interface IProps {
   title: string;

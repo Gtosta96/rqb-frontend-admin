@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 interface IProps {
   openDrawer: boolean;
   onCloseDrawer?: () => void;
-  newUser: () => void;
+  add: () => void;
   refresh: () => void;
   form: React.ReactNode;
   formListener: () => Observable<IResponse<any>>;
@@ -59,7 +59,7 @@ function MGridActions(props: IProps) {
 
   function add() {
     setDrawer(true);
-    props.newUser();
+    props.add();
   }
 
   function closeDialog(discard: boolean) {

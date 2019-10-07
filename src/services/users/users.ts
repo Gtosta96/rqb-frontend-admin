@@ -17,7 +17,7 @@ class UsersService extends State<IUserResponse[]> {
     this.onGetUsers();
   }
 
-  public getUsers = (force: boolean) => {
+  public getUsers = (force: boolean = true) => {
     this.next(null, force);
   };
 
@@ -51,8 +51,8 @@ class UsersService extends State<IUserResponse[]> {
         this.setState({
           loading: false,
           error: xhr.error,
-          payload: xhr.response.users || [],
-          empty: isEmpty(xhr.response.users)
+          empty: isEmpty(xhr.response.users),
+          payload: xhr.response.users || []
         });
       });
   };

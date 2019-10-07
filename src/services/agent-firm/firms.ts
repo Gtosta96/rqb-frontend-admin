@@ -57,14 +57,14 @@ class FirmsService extends State<IState> {
         this.setState({
           loading: false,
           error: xhr.error,
+          empty: isEmpty(xhr.response.firms),
           payload: {
             firms: xhr.response.firms || [],
             options: (xhr.response.firms || []).map(firm => ({
               value: firm.firmId,
               label: firm.firmName
             }))
-          },
-          empty: isEmpty(xhr.response.firms)
+          }
         });
       });
   };

@@ -14,6 +14,9 @@ export enum EPaths {
   AGENT_COMMISSIONS = "/agent-firms/agent-commissions",
 
   BINDERS = "/binders",
+  BINDER_AUTHORITY = "/binders/binder-authority",
+  BROKERAGE_RATE = "/binders/brokerage_rate",
+
   BROKER_GROUPS = "/broker-groups",
   SURPLUS_LINES = "/surplus-lines"
 }
@@ -30,6 +33,9 @@ export const PATHS_LABEL = {
   [EPaths.AGENT_COMMISSIONS]: "Agent Commissions",
 
   [EPaths.BINDERS]: "Binders",
+  [EPaths.BINDER_AUTHORITY]: "Binder Authority",
+  [EPaths.BROKERAGE_RATE]: "Brokerage Rate",
+
   [EPaths.BROKER_GROUPS]: "Broker Groups",
   [EPaths.SURPLUS_LINES]: "Surplus Lines"
 };

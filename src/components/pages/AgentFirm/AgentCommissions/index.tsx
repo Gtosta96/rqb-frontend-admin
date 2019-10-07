@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useObservable } from 'react-use-observable';
 
-import { IAgentCommissionsResponse } from '../../../interfaces/models/agent-commissions';
-import { IFirmResponse } from '../../../interfaces/models/agent-firms';
-import agentCommissionsService from '../../../services/agent-firm/commissions';
-import ConfirmDiscardDialog from '../../shared/ConfirmDiscardDialog';
-import Feedback from '../../shared/Feedback';
-import MGridActions from '../../shared/MGridActions';
+import { IAgentCommissionsResponse } from '../../../../interfaces/models/agent-commissions';
+import { IFirmResponse } from '../../../../interfaces/models/agent-firms';
+import agentCommissionsService from '../../../../services/agent-firm/commissions';
+import ConfirmDiscardDialog from '../../../shared/ConfirmDiscardDialog';
+import Feedback from '../../../shared/Feedback';
+import MGridActions from '../../../shared/MGridActions';
 import AgentCommissionsForm from './AgentCommissionsForm';
 import AgentCommissionsGrid from './AgentCommissionsGrid';
 
@@ -67,7 +67,7 @@ function AgentCommissions(props: IProps) {
           <MGridActions
             openDrawer={!!commission}
             onCloseDrawer={clearAgentCommissionFn}
-            newUser={setCommissionFn}
+            add={setCommissionFn}
             refresh={getAgentCommissions}
             formListener={agentCommissionsService.listenAgentCommissions}
             form={<AgentCommissionsForm firm={firm} info={commission} />}

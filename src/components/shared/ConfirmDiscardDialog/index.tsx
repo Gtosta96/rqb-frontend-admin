@@ -22,7 +22,7 @@ function ConfirmDiscardDialog(props: IProps) {
   }
 
   return (
-    <Dialog open={props.open} onClose={close(true)}>
+    <Dialog open={props.open} onClose={close(false)}>
       <DialogTitle>{props.title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{props.content}</DialogContentText>

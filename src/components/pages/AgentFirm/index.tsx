@@ -35,7 +35,7 @@ function AgentFirm() {
           <MGridActions
             openDrawer={!!firm}
             onCloseDrawer={clearFirmFn}
-            newUser={setFirmFn}
+            add={setFirmFn}
             refresh={getFirms}
             formListener={firmsService.listenFirms}
             form={<AgentFirmForm info={firm} />}

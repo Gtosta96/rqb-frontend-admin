@@ -3,19 +3,17 @@ import { BrowserRouter as Router, Redirect, Route, RouteComponentProps, Switch }
 
 import { EPaths } from '../settings/constants';
 import Layout from './layout';
+import BinderAuthority from './pages/Binders/BinderAuthority';
+import BrokerageRate from './pages/Binders/BrokerageRate';
 import Home from './pages/Home';
 import Loading from './shared/Loading';
 
-// import Users from './pages/Users';
-// import AgentCommissions from './pages/AgentCommissions';
-// import AgentFirm from './pages/AgentFirm';
-// import BrokerGroupRouting from './pages/BrokerGroupRouting';
-// import Err from './shared/Err';
-
 const Users = React.lazy(() => import("./pages/Users"));
-const AgentCommissions = React.lazy(() => import("./pages/AgentCommissions"));
+const AgentCommissions = React.lazy(() => import("./pages/AgentFirm/AgentCommissions"));
 const AgentFirm = React.lazy(() => import("./pages/AgentFirm"));
-const BrokerGroupRouting = React.lazy(() => import("./pages/BrokerGroupRouting"));
+const BrokerGroupRouting = React.lazy(() => import("./pages/Users/BrokerGroupRouting"));
+const Binders = React.lazy(() => import("./pages/Binders"));
+
 const Err = React.lazy(() => import("./shared/Err"));
 
 function Routes() {
@@ -38,8 +36,18 @@ function Routes() {
 
             <Route exact={true} path={EPaths.AGENT_FIRMS} component={AgentFirm} />
             <Route
-              path={`${EPaths.AGENT_COMMISSIONS}`}
+              path={EPaths.AGENT_COMMISSIONS}
               render={redirectWithFallback("firm", AgentCommissions, EPaths.AGENT_FIRMS)}
+            />
+
+            <Route exact={true} path={EPaths.BINDERS} component={Binders} />
+            <Route
+              path={EPaths.BINDER_AUTHORITY}
+              render={redirectWithFallback("binder", BinderAuthority, EPaths.BINDERS)}
+            />
+            <Route
+              path={EPaths.BROKERAGE_RATE}
+              render={redirectWithFallback("binder", BrokerageRate, EPaths.BINDERS)}
             />
 
             <Route component={Err} />

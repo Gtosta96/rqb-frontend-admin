@@ -15,11 +15,6 @@ export interface IAgentCommissionsRequest {
   commissionRate: number;
 }
 
-export interface IBinderResponse {
-  binderId: number;
-  binderUiName: string;
-}
-
 export interface IRiskResponse {
   riskId: number;
   riskCodeSubName: string;

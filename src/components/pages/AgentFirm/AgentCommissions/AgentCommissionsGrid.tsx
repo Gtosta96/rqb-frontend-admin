@@ -2,8 +2,8 @@ import Delete from '@material-ui/icons/Delete';
 import Edit from '@material-ui/icons/Edit';
 import React from 'react';
 
-import { IAgentCommissionsResponse } from '../../../interfaces/models/agent-commissions';
-import MGrid from '../../shared/MGrid';
+import { IAgentCommissionsResponse } from '../../../../interfaces/models/agent-commissions';
+import MGrid from '../../../shared/MGrid';
 
 interface IProps {
   title: string;

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { useObservable } from 'react-use-observable';
 
-import { IBrokerGroupRoutingResponse } from '../../../interfaces/models/broker-group-routing';
-import { IUserResponse } from '../../../interfaces/models/user';
-import brokerGroupRoutingService from '../../../services/broker-group-routing/broker-group-routing';
-import ConfirmDiscardDialog from '../../shared/ConfirmDiscardDialog';
-import Feedback from '../../shared/Feedback';
-import MGridActions from '../../shared/MGridActions';
+import { IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
+import { IUserResponse } from '../../../../interfaces/models/user';
+import brokerGroupRoutingService from '../../../../services/broker-group-routing/broker-group-routing';
+import ConfirmDiscardDialog from '../../../shared/ConfirmDiscardDialog';
+import Feedback from '../../../shared/Feedback';
+import MGridActions from '../../../shared/MGridActions';
 import BrokerGroupRoutingForm from './BrokerGroupRoutingForm';
 import BrokerGroupRoutingGrid from './BrokerGroupRoutingGrid';
 
@@ -67,7 +67,7 @@ function BrokerGroupRouting(props: IProps) {
           <MGridActions
             openDrawer={!!route}
             onCloseDrawer={clearRouteFn}
-            newUser={setRouteFn}
+            add={setRouteFn}
             refresh={getRoutes}
             formListener={brokerGroupRoutingService.listenRoute}
             form={<BrokerGroupRoutingForm appUserId={user.appUserId} info={route} />}

@@ -15,8 +15,8 @@ class RisksService {
     risks: []
   });
 
-  public getRisks = (cache: boolean = true) => {
-    if (!cache || this.risksState$.getValue().risks.length === 0) {
+  public getRisks = (force: boolean = true) => {
+    if (force || this.risksState$.getValue().risks.length === 0) {
       uiService
         .withUIFeedback(
           apiService.get<{ risks?: IRiskResponse[] }>(`${API.reference}/references/risks`),

@@ -7,16 +7,16 @@ import { get, isEmpty } from 'lodash';
 import React from 'react';
 import { useObservable } from 'react-use-observable';
 
-import { getInitialValues } from '../../../helpers/form';
-import { compose, maxValue, minValue, required } from '../../../helpers/formValidators';
-import { IAgentCommissionsRequest, IAgentCommissionsResponse } from '../../../interfaces/models/agent-commissions';
-import { IFirmResponse } from '../../../interfaces/models/agent-firms';
-import { IBrokerGroupRoutingResponse } from '../../../interfaces/models/broker-group-routing';
-import bindersService from '../../../services/agent-firm/binders';
-import agentCommissionsService from '../../../services/agent-firm/commissions';
-import risksService from '../../../services/agent-firm/risks';
-import Dropdown from '../../form/Fields/Dropdown';
-import Input from '../../form/Fields/Input';
+import { getInitialValues } from '../../../../helpers/form';
+import { compose, maxValue, minValue, required } from '../../../../helpers/formValidators';
+import { IAgentCommissionsRequest, IAgentCommissionsResponse } from '../../../../interfaces/models/agent-commissions';
+import { IFirmResponse } from '../../../../interfaces/models/agent-firms';
+import { IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
+import agentCommissionsService from '../../../../services/agent-firm/commissions';
+import risksService from '../../../../services/agent-firm/risks';
+import bindersService from '../../../../services/binders/binders';
+import Dropdown from '../../../form/Fields/Dropdown';
+import Input from '../../../form/Fields/Input';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,7 +60,10 @@ function AgentCommissionsForm(props: IProps) {
   const isCreatingAgentCommission = isEmpty(props.info);
 
   const [risksState] = useObservable(() => risksService.getRisks(), []);
-  const [bindersState] = useObservable(() => bindersService.getBinders(), []);
+  const [bindersState] = useObservable(() => {
+    bindersService.getBinders(false);
+    return bindersService.listenState();
+  }, []);
 
   const formFields = React.useMemo(() => {
     return [
@@ -87,7 +90,7 @@ function AgentCommissionsForm(props: IProps) {
         initValue: get(props.info, "binderId") || "",
         validate: required,
         component: Dropdown,
-        options: bindersState && bindersState.binders,
+        options: bindersState && bindersState.payload && bindersState.payload.options,
         disabled: !isCreatingAgentCommission
       },
       {
