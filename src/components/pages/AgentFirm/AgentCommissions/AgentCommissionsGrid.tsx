@@ -44,7 +44,7 @@ function AgentCommissionsGrid(props: IProps) {
           {
             title: "Commission Rate",
             field: "commissionRate",
-            render: rowData => `${rowData["commissionRate"]} %`
+            render: rowData => `${rowData.commissionRate} %`
           }
         ]}
         rows={props.commissions}

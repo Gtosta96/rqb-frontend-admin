@@ -45,7 +45,7 @@ class BrokerGroupRoutingService extends State<IBrokerGroupRoutingResponse[]> {
 
   public deleteRoute = (appUserId: number, route: IBrokerGroupRoutingResponse) => {
     const payload: IBrokerGroupRoutesRequest = {
-      appUserId: appUserId,
+      appUserId,
       riskIdList: route.riskIdList,
       targetBgId: route.bgId
     };

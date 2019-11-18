@@ -5,6 +5,9 @@ import { EPaths } from '../settings/constants';
 import Layout from './layout';
 import BinderAuthority from './pages/Binders/BinderAuthority';
 import BrokerageRate from './pages/Binders/BrokerageRate';
+import BrokerGroupBinders from './pages/BrokerGroups/BrokerGroupBinders';
+import BrokerGroupRoutes from './pages/BrokerGroups/BrokerGroupRoutes';
+import BrokerGroupUsers from './pages/BrokerGroups/BrokerGroupUsers';
 import Home from './pages/Home';
 import Loading from './shared/Loading';
 
@@ -13,6 +16,7 @@ const AgentCommissions = React.lazy(() => import("./pages/AgentFirm/AgentCommiss
 const AgentFirm = React.lazy(() => import("./pages/AgentFirm"));
 const BrokerGroupRouting = React.lazy(() => import("./pages/Users/BrokerGroupRouting"));
 const Binders = React.lazy(() => import("./pages/Binders"));
+const BrokerGroups = React.lazy(() => import("./pages/BrokerGroups"));
 
 const Err = React.lazy(() => import("./shared/Err"));
 
@@ -50,6 +54,20 @@ function Routes() {
               render={redirectWithFallback("binder", BrokerageRate, EPaths.BINDERS)}
             />
 
+            <Route exact={true} path={EPaths.BROKER_GROUPS} component={BrokerGroups} />
+            <Route
+              path={EPaths.BROKER_GROUP_BINDERS}
+              render={redirectWithFallback("brokerGroup", BrokerGroupBinders, EPaths.BROKER_GROUPS)}
+            />
+            <Route
+              path={EPaths.BROKER_GROUP_USERS}
+              render={redirectWithFallback("brokerGroup", BrokerGroupUsers, EPaths.BROKER_GROUPS)}
+            />
+            <Route
+              path={EPaths.BROKER_GROUP_ROUTES}
+              render={redirectWithFallback("brokerGroup", BrokerGroupRoutes, EPaths.BROKER_GROUPS)}
+            />
+
             <Route component={Err} />
           </Switch>
         </Layout>
@@ -59,7 +77,7 @@ function Routes() {
 }
 
 function redirectWithFallback(item: string, Component: React.ElementType, fallback: EPaths) {
-  return function(props: RouteComponentProps<any, any, any>) {
+  return (props: RouteComponentProps<any, any, any>) => {
     return props.location.state && props.location.state[item] ? (
       <Component {...props} />
     ) : (

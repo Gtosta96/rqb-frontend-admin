@@ -4,17 +4,17 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import FolderIcon from '@material-ui/icons/FolderRounded';
-import GroupIcon from '@material-ui/icons/GroupRounded';
-import GroupWorkIcon from '@material-ui/icons/GroupWorkRounded';
-import PersonIcon from '@material-ui/icons/PersonRounded';
+import FolderIcon from '@material-ui/icons/Folder';
+import GroupIcon from '@material-ui/icons/Group';
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import PersonIcon from '@material-ui/icons/Person';
 import classnames from 'classnames';
 import React from 'react';
 import { Link as RouterLink, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { EPaths, PATHS_LABEL } from '../../../settings/constants';
 
-// import HomeIcon from '@material-ui/icons/HomeRounded';
+// import HomeIcon from '@material-ui/icons/Home';
 interface IProps extends RouteComponentProps {
   open: boolean;
   drawerOptions: {

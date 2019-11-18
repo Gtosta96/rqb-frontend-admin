@@ -98,7 +98,7 @@ function BrokerGroupRoutingForm(props: IProps) {
         options: (() => {
           const riskClassName = formValues && formValues.riskClass;
           const riskClass = targetBrokerGroups.riskClasses.find(
-            riskClass => riskClass.riskClassName === riskClassName
+            rc => rc.riskClassName === riskClassName
           );
 
           return riskClass
@@ -118,12 +118,11 @@ function BrokerGroupRoutingForm(props: IProps) {
         options: (() => {
           const riskClassName = formValues && formValues.riskClass;
           const riskClass = targetBrokerGroups.riskClasses.find(
-            riskClass => riskClass.riskClassName === riskClassName
+            rc => rc.riskClassName === riskClassName
           );
 
           const riskIdList = formValues && formValues.riskIdList;
-          const route =
-            riskClass && riskClass.routes.find(route => route.riskIdList === riskIdList);
+          const route = riskClass && riskClass.routes.find(r => r.riskIdList === riskIdList);
 
           return route
             ? route.brokerGroups.map(brokerGroup => ({

@@ -7,8 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { Theme } from '@material-ui/core/styles';
-import createStyles from '@material-ui/styles/createStyles';
-import makeStyles from '@material-ui/styles/makeStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import React from 'react';
 
 import { IDropdownOption } from '../../../interfaces/fields';
@@ -35,6 +35,26 @@ function MultipleDropdown(props: IProps) {
   const { error, errorText, events } = useDefaultFieldEvents(props);
   const classes = useStyles();
 
+  const optionsMap = React.useMemo(() => {
+    return props.options.reduce(
+      (prev, cur) => {
+        prev[cur.value] = cur.label;
+        return prev;
+      },
+      {} as { [key: string]: string }
+    );
+  }, [props.options]);
+
+  function renderValue(selected: unknown) {
+    return (
+      <div className={classes.chips}>
+        {(selected as string[]).map(value => (
+          <Chip key={value} label={optionsMap[value]} className={classes.chip} />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <FormControl className={className} error={error}>
       <InputLabel htmlFor={field.name}>{label}</InputLabel>
@@ -42,13 +62,7 @@ function MultipleDropdown(props: IProps) {
         {...field}
         {...events}
         multiple={true}
-        renderValue={selected => (
-          <div className={classes.chips}>
-            {(selected as string[]).map(value => (
-              <Chip key={value} label={value} className={classes.chip} />
-            ))}
-          </div>
-        )}
+        renderValue={renderValue}
         error={error}
         disabled={disabled}
         inputProps={{

@@ -7,7 +7,8 @@
     "no-empty-interface": false,
     "no-implicit-dependencies": [true, "dev"],
     "no-console": false,
-    "arrow-parens": true
+    "no-object-literal-type-assertion": false,
+    "jsx-no-lambda": false
   },
   "rulesDirectory": ["node_modules/tslint-eslint-rules/dist/rules"],
   "linterOptions": {

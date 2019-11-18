@@ -31,7 +31,7 @@ function Dropdown(props: IProps) {
       >
         {options &&
           options.map(option => (
-            <MenuItem key={option.value} value={option.value}>
+            <MenuItem key={option.key || option.value} value={option.value}>
               {option.label}
             </MenuItem>
           ))}

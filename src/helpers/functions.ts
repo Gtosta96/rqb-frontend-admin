@@ -1,3 +1,8 @@
-export function booleanToString<T>(rowData: T, property: keyof T) {
-  return rowData[property] ? "YES" : "NO";
+export function booleanToString<T>(
+  rowData: T,
+  property: keyof T,
+  trueMsg = "YES",
+  falseMsg = "NO"
+) {
+  return rowData[property] ? trueMsg : falseMsg;
 }

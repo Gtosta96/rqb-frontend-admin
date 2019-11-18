@@ -8,15 +8,18 @@ import React from 'react';
 import { useObservable } from 'react-use-observable';
 
 import { getInitialValues } from '../../../../helpers/form';
-import { compose, maxValue, minValue, required } from '../../../../helpers/formValidators';
-import { IAgentCommissionsRequest, IAgentCommissionsResponse } from '../../../../interfaces/models/agent-commissions';
-import { IFirmResponse } from '../../../../interfaces/models/agent-firms';
-import { IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
-import agentCommissionsService from '../../../../services/agent-firm/commissions';
+import { required } from '../../../../helpers/formValidators';
+import {
+  IBrokerGroupBindersRequest,
+  IBrokerGroupBindersResponse,
+  IBrokerGroupsResponse,
+} from '../../../../interfaces/models/broker-groups';
 import risksService from '../../../../services/agent-firm/risks';
 import bindersService from '../../../../services/binders/binders';
+import brokerGroupBindersService from '../../../../services/broker-groups/broker-group-binders';
 import Dropdown from '../../../form/Fields/Dropdown';
 import Input from '../../../form/Fields/Input';
+import Toggle from '../../../form/Fields/Toggle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,20 +49,21 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface IProps {
-  firm: IFirmResponse;
-  info?: IAgentCommissionsResponse;
+  brokerGroup: IBrokerGroupsResponse;
+  info?: IBrokerGroupBindersResponse;
 }
 
-interface IFormValues extends IAgentCommissionsRequest {
-  firmName: string; // only for front-end control
+interface IFormValues extends IBrokerGroupBindersRequest {
+  name: string; // only for front-end control
 }
 
-function AgentCommissionsForm(props: IProps) {
+function BrokerGroupBindersForm(props: IProps) {
   const classes = useStyles();
 
-  const isCreatingAgentCommission = isEmpty(props.info);
+  const isCreatingBgBinder = isEmpty(props.info);
 
   const [risksState] = useObservable(() => risksService.getRisks(), []);
+
   const [bindersState] = useObservable(() => {
     bindersService.getBinders(false);
     return bindersService.listenState();
@@ -68,9 +72,17 @@ function AgentCommissionsForm(props: IProps) {
   const formFields = React.useMemo(() => {
     return [
       {
-        name: "firmName",
+        name: "brokerGroupId",
         label: "Firm",
-        initValue: props.firm.firmName || "",
+        initValue: props.brokerGroup.brokerGroupId || "",
+        validate: required,
+        component: Input,
+        disabled: true
+      },
+      {
+        name: "name",
+        label: "Name",
+        initValue: props.brokerGroup.name || "",
         validate: required,
         component: Input,
         disabled: true
@@ -82,7 +94,7 @@ function AgentCommissionsForm(props: IProps) {
         validate: required,
         component: Dropdown,
         options: risksState && risksState.risks,
-        disabled: !isCreatingAgentCommission
+        disabled: !isCreatingBgBinder
       },
       {
         name: "binderId",
@@ -91,37 +103,26 @@ function AgentCommissionsForm(props: IProps) {
         validate: required,
         component: Dropdown,
         options: bindersState && bindersState.payload && bindersState.payload.options,
-        disabled: !isCreatingAgentCommission
+        disabled: !isCreatingBgBinder
       },
       {
-        name: "commissionRate",
-        label: "Commission Rate",
-        initValue: get(props.info, "commissionRate") || "",
-        validate: compose(
-          required,
-          minValue(0),
-          maxValue(100)
-        ),
-        component: Input,
-        prefix: "%"
+        name: "isBinderActive",
+        label: "Active",
+        initValue: get(props.info, "isBinderActive") || "",
+        component: Toggle
       }
     ];
-  }, [risksState, bindersState, props.info, props.firm, isCreatingAgentCommission]);
+  }, [risksState, bindersState, props.info, props.brokerGroup, isCreatingBgBinder]);
 
   const initialValues = React.useMemo(() => getInitialValues(formFields), [formFields]);
 
   function handleSubmit(values: IFormValues) {
-    const payload = {
-      ...values,
-      firmName: undefined,
-      firmId: props.firm.firmId,
-      commissionRate: Number(values.commissionRate)
-    } as IAgentCommissionsRequest;
+    const { name, ...payload } = values;
 
-    if (isCreatingAgentCommission) {
-      agentCommissionsService.createAgentCommission(payload);
+    if (isCreatingBgBinder) {
+      brokerGroupBindersService.createBrokerGroupBinders(payload);
     } else {
-      agentCommissionsService.updateAgentCommission(payload);
+      brokerGroupBindersService.updateBrokerGroupBinders(payload);
     }
   }
 
@@ -132,7 +133,7 @@ function AgentCommissionsForm(props: IProps) {
   return (
     <div className={classes.root}>
       <Typography align="center" variant="h4">
-        {isCreatingAgentCommission ? "Add" : "Edit"} Agent Commission
+        {isCreatingBgBinder ? "Add" : "Edit"} Broker Group Binder
       </Typography>
 
       <Formik initialValues={initialValues as any} onSubmit={handleSubmit}>
@@ -161,8 +162,8 @@ function AgentCommissionsForm(props: IProps) {
   );
 }
 
-AgentCommissionsForm.defaultProps = {
-  info: {} as IBrokerGroupRoutingResponse
+BrokerGroupBindersForm.defaultProps = {
+  info: {} as IBrokerGroupBindersResponse
 };
 
-export default React.memo(AgentCommissionsForm);
+export default React.memo(BrokerGroupBindersForm);

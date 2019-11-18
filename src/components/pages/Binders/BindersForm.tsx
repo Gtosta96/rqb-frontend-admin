@@ -16,6 +16,7 @@ import { IBinderRequest, IBinderResponse } from '../../../interfaces/models/bind
 import firmsService from '../../../services/agent-firm/firms';
 import binderDetailsService from '../../../services/binders/binder-details';
 import usersService from '../../../services/users/users';
+import { DEFAULT_FIRM_ID } from '../../../settings/constants';
 import ChipInput from '../../form/Fields/ChipInput';
 import DatePicker from '../../form/Fields/DatePicker';
 import Dropdown from '../../form/Fields/Dropdown';
@@ -77,7 +78,6 @@ function AgentFirmForm(props: IProps) {
     [props.info, binderDetailsState]
   );
 
-  const DEFAULT_FIRM_ID = 1;
   const [defaultFirmList] = useObservable(() => {
     firmsService.getFirms(false);
 

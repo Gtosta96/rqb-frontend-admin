@@ -12,33 +12,43 @@ interface IProps {
   handleMenuClose: any;
 }
 
-function Menu(props: IProps) {
-  const [email, setEmail] = useState("");
+class Menu extends React.Component<IProps> {
+  state = {
+    email: ""
+  };
 
-  useEffect(() => {
-    sessionService.userData().then(credentials => setEmail(credentials.email));
-  }, []);
-
-  function signOut() {
-    sessionService.signOut();
+  componentDidMount() {
+    sessionService.userData().then(credentials => this.setEmail(credentials.email));
   }
 
-  return (
-    <MuiMenu
-      anchorEl={props.anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={props.menuId}
-      keepMounted={true}
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={props.isMenuOpen}
-      onClose={props.handleMenuClose}
-    >
-      <MuiMenuItem>
-        <Typography variant="caption">{email}</Typography>
-      </MuiMenuItem>
-      <MuiMenuItem onClick={signOut}>Sign Out</MuiMenuItem>
-    </MuiMenu>
-  );
+  setEmail = (email: string) => {
+    this.setState({ email });
+  };
+
+  signOut = () => {
+    sessionService.signOut();
+  };
+
+  render() {
+    const { props, state } = this;
+
+    return (
+      <MuiMenu
+        anchorEl={props.anchorEl}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        id={props.menuId}
+        keepMounted={true}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        open={props.isMenuOpen}
+        onClose={props.handleMenuClose}
+      >
+        <MuiMenuItem>
+          <Typography variant="caption">{state.email}</Typography>
+        </MuiMenuItem>
+        <MuiMenuItem onClick={this.signOut}>Sign Out</MuiMenuItem>
+      </MuiMenu>
+    );
+  }
 }
 
 export default Menu;

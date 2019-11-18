@@ -1,4 +1,5 @@
-import { SignIn, withAuthenticator, withOAuth } from 'aws-amplify-react';
+import { Auth, Hub } from 'aws-amplify';
+import { withOAuth } from 'aws-amplify-react';
 import React from 'react';
 
 import { configureAmplify } from '../../../settings/amplify';
@@ -6,50 +7,64 @@ import Routes from '../../Routes';
 
 configureAmplify();
 
-const OktaLogin = withOAuth(
-  class extends SignIn {
-    timer: any = undefined;
+class App extends React.Component<any, any> {
+  timeout: any = null;
 
-    componentDidMount() {
-      this.handleRedirect();
-    }
+  constructor(props: any) {
+    super(props);
 
-    componentDidUpdate() {
-      this.handleRedirect();
-    }
+    this.state = {
+      authState: "loading"
+    };
 
-    handleRedirect = () => {
-      if (this.props.authState === "signedIn") {
-        this.cancelRedirect();
+    Hub.listen("auth", data => {
+      switch (data.payload.event) {
+        case "signIn":
+          clearTimeout(this.timeout);
+          this.setState({ authState: "signedIn" });
+          break;
+        case "signIn_failure":
+          this.setState({ authState: "signIn" });
+          break;
+        default:
+          break;
       }
-
-      if (this.props.authState === "signIn" && this.timer === undefined) {
-        this.redirect();
-      }
-    };
-
-    redirect = () => {
-      this.timer = setTimeout(() => this.props.OAuthSignIn(), 3000);
-    };
-
-    cancelRedirect = () => {
-      clearTimeout(this.timer);
-      this.timer = undefined;
-    };
-
-    render() {
-      return <div>loading...</div>;
-    }
+    });
   }
-);
 
-export default React.memo(
-  withAuthenticator(Routes, false, [<OktaLogin />], null, {
-    container: {
-      minHeight: "100vh",
-      height: "100vh",
-      display: "flex",
-      flexDirection: "column"
-    }
-  })
-);
+  componentDidMount() {
+    setTimeout(() => this.checkUser(), 1500);
+  }
+
+  checkUser = () => {
+    Auth.currentAuthenticatedUser()
+      .then(() => {
+        console.log("signedIn");
+        clearTimeout(this.timeout);
+        this.setState({ authState: "signedIn" });
+      })
+      .catch(() => {
+        this.setState({ authState: "signIn" });
+      });
+  };
+
+  redirect() {
+    this.timeout = setTimeout(() => this.props.OAuthSignIn(), 3000);
+  }
+
+  render() {
+    const { authState } = this.state;
+
+    console.log(authState);
+
+    return (
+      <div className="App">
+        {authState === "loading" || (authState === "signIn" && <div>loading...</div>)}
+        {authState === "signIn" && this.redirect()}
+        {authState === "signedIn" && <Routes />}
+      </div>
+    );
+  }
+}
+
+export default withOAuth(App);

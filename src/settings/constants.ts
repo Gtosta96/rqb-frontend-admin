@@ -18,6 +18,10 @@ export enum EPaths {
   BROKERAGE_RATE = "/binders/brokerage_rate",
 
   BROKER_GROUPS = "/broker-groups",
+  BROKER_GROUP_BINDERS = "/broker-groups/binders",
+  BROKER_GROUP_USERS = "/broker-groups/users",
+  BROKER_GROUP_ROUTES = "/broker-groups/routes",
+
   SURPLUS_LINES = "/surplus-lines"
 }
 
@@ -37,6 +41,10 @@ export const PATHS_LABEL = {
   [EPaths.BROKERAGE_RATE]: "Brokerage Rate",
 
   [EPaths.BROKER_GROUPS]: "Broker Groups",
+  [EPaths.BROKER_GROUP_BINDERS]: "Broker Groups Binders",
+  [EPaths.BROKER_GROUP_USERS]: "Broker Groups Users",
+  [EPaths.BROKER_GROUP_ROUTES]: "Broker Groups Routes",
+
   [EPaths.SURPLUS_LINES]: "Surplus Lines"
 };
 
@@ -51,8 +59,10 @@ export const AWS = {
     identityPoolId: process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID,
     oauth: {
       domain: process.env.REACT_APP_AWS_COGNITO_OKTA_DOMAIN,
-      redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
-      redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
+      // redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
+      // redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
+      redirectSignIn: "https://localhost:3000/login",
+      redirectSignOut: "https://localhost:3000/logout",
       scope: ["phone", "email", "profile", "openid"],
       responseType: "code"
     }
@@ -83,3 +93,8 @@ export const API = {
   brokerGroup: makeApiURL(process.env.REACT_APP_API_HOST_BROKER_GROUP),
   binder: makeApiURL(process.env.REACT_APP_API_HOST_BINDER)
 };
+
+/**
+ * ETC
+ */
+export const DEFAULT_FIRM_ID = 1;
