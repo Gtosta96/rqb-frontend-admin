@@ -3,7 +3,7 @@ import Timeline from '@material-ui/icons/Timeline';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import { booleanToString } from '../../../helpers/functions';
+import { booleanToString, parseDate } from '../../../helpers/functions';
 import { IFirmResponse } from '../../../interfaces/models/agent-firms';
 import { EPaths } from '../../../settings/constants';
 import MGrid from '../../shared/MGrid';
@@ -55,7 +55,7 @@ function AgentFirmGrid(props: IProps) {
           {
             title: "Onboarded",
             field: "onboarded",
-            render: rowData => rowData.onboarded.substr(0, rowData.onboarded.indexOf(" 00:00:00"))
+            render: rowData => parseDate(rowData.onboarded)
           }
         ]}
         rows={props.firms}

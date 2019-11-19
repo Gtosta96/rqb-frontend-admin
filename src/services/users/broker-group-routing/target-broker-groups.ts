@@ -1,10 +1,10 @@
 import { isEmpty } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 
-import { IBrokerGroupRoutesResponse } from '../../interfaces/models/broker-group-routing';
-import { API } from '../../settings/constants';
-import apiService from '../api';
-import uiService from '../ui';
+import { IBrokerGroupRoutesResponse } from '../../../interfaces/models/broker-group-routing';
+import { API } from '../../../settings/constants';
+import apiService from '../../api';
+import uiService from '../../ui';
 
 interface IState {
   riskClasses: IBrokerGroupRoutesResponse[];

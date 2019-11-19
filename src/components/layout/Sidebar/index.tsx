@@ -4,6 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import FindInPage from '@material-ui/icons/FindInPage';
 import FolderIcon from '@material-ui/icons/Folder';
 import GroupIcon from '@material-ui/icons/Group';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
@@ -48,7 +49,12 @@ function Sidebar(props: IProps) {
     { path: EPaths.USERS, label: PATHS_LABEL[EPaths.USERS], icon: GroupIcon },
     { path: EPaths.AGENT_FIRMS, label: PATHS_LABEL[EPaths.AGENT_FIRMS], icon: PersonIcon },
     { path: EPaths.BINDERS, label: PATHS_LABEL[EPaths.BINDERS], icon: FolderIcon },
-    { path: EPaths.BROKER_GROUPS, label: PATHS_LABEL[EPaths.BROKER_GROUPS], icon: GroupWorkIcon }
+    { path: EPaths.BROKER_GROUPS, label: PATHS_LABEL[EPaths.BROKER_GROUPS], icon: GroupWorkIcon },
+    {
+      path: EPaths.DOCUMENT_CLAUSES,
+      label: PATHS_LABEL[EPaths.DOCUMENT_CLAUSES],
+      icon: FindInPage
+    }
     // { path: EPaths.SURPLUS_LINES, label: PATHS_LABEL[EPaths.SURPLUS_LINES], icon: null }
   ];
 

@@ -4,7 +4,7 @@ import { useObservable } from 'react-use-observable';
 
 import { IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
 import { IUserResponse } from '../../../../interfaces/models/user';
-import brokerGroupRoutingService from '../../../../services/broker-group-routing/broker-group-routing';
+import brokerGroupRoutingService from '../../../../services/users/broker-group-routing/broker-group-routing';
 import ConfirmDiscardDialog from '../../../shared/ConfirmDiscardDialog';
 import Feedback from '../../../shared/Feedback';
 import MGridActions from '../../../shared/MGridActions';

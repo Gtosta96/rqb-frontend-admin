@@ -22,7 +22,9 @@ export enum EPaths {
   BROKER_GROUP_USERS = "/broker-groups/users",
   BROKER_GROUP_ROUTES = "/broker-groups/routes",
 
-  SURPLUS_LINES = "/surplus-lines"
+  SURPLUS_LINES = "/surplus-lines",
+
+  DOCUMENT_CLAUSES = "/document_clauses"
 }
 
 export const PATHS_LABEL = {
@@ -45,7 +47,9 @@ export const PATHS_LABEL = {
   [EPaths.BROKER_GROUP_USERS]: "Broker Groups Users",
   [EPaths.BROKER_GROUP_ROUTES]: "Broker Groups Routes",
 
-  [EPaths.SURPLUS_LINES]: "Surplus Lines"
+  [EPaths.SURPLUS_LINES]: "Surplus Lines",
+
+  [EPaths.DOCUMENT_CLAUSES]: "Document Clauses"
 };
 
 /**
@@ -59,10 +63,10 @@ export const AWS = {
     identityPoolId: process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID,
     oauth: {
       domain: process.env.REACT_APP_AWS_COGNITO_OKTA_DOMAIN,
-      // redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
-      // redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
-      redirectSignIn: "https://localhost:3000/login",
-      redirectSignOut: "https://localhost:3000/logout",
+      redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
+      redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
+      // redirectSignIn: "https://localhost:3000/login",
+      // redirectSignOut: "https://localhost:3000/logout",
       scope: ["phone", "email", "profile", "openid"],
       responseType: "code"
     }
@@ -91,7 +95,8 @@ export const API = {
   reference: makeApiURL(process.env.REACT_APP_API_HOST_REFERENCE),
   firm: makeApiURL(process.env.REACT_APP_API_HOST_FIRM),
   brokerGroup: makeApiURL(process.env.REACT_APP_API_HOST_BROKER_GROUP),
-  binder: makeApiURL(process.env.REACT_APP_API_HOST_BINDER)
+  binder: makeApiURL(process.env.REACT_APP_API_HOST_BINDER),
+  document: makeApiURL(process.env.REACT_APP_API_HOST_DOCUMENT)
 };
 
 /**

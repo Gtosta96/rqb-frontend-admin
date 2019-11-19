@@ -17,6 +17,7 @@ const AgentFirm = React.lazy(() => import("./pages/AgentFirm"));
 const BrokerGroupRouting = React.lazy(() => import("./pages/Users/BrokerGroupRouting"));
 const Binders = React.lazy(() => import("./pages/Binders"));
 const BrokerGroups = React.lazy(() => import("./pages/BrokerGroups"));
+const DocumentClauses = React.lazy(() => import("./pages/DocumentClauses"));
 
 const Err = React.lazy(() => import("./shared/Err"));
 
@@ -67,6 +68,8 @@ function Routes() {
               path={EPaths.BROKER_GROUP_ROUTES}
               render={redirectWithFallback("brokerGroup", BrokerGroupRoutes, EPaths.BROKER_GROUPS)}
             />
+
+            <Route exact={true} path={EPaths.DOCUMENT_CLAUSES} component={DocumentClauses} />
 
             <Route component={Err} />
           </Switch>

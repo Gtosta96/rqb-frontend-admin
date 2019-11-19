@@ -52,7 +52,6 @@ interface IProps {
 interface IFormValues extends IBrokerGroupsResponse {}
 
 function BrokerGroupsForm(props: IProps) {
-  console.log(props);
   const classes = useStyles();
 
   const isCreatingBrokerGroup = isEmpty(props.info);

@@ -4,17 +4,23 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import { EPaths } from '../../../settings/constants';
+import { EPaths, PATHS_LABEL } from '../../../settings/constants';
 import AgentFirmSVG from './agentFirm.svg';
 import BinderSVG from './binder.svg';
 import BrokerGroupSVG from './brokerGroup.svg';
+import DocumentClausesSVG from './documentClauses.svg';
 import UsersSVG from './user.svg';
 
 const cards = [
-  { title: "Users", redirect: EPaths.USERS, img: UsersSVG },
-  { title: "Agent Firms", redirect: EPaths.AGENT_FIRMS, img: AgentFirmSVG },
-  { title: "Binders", redirect: EPaths.BINDERS, img: BinderSVG },
-  { title: "Broker Groups", redirect: EPaths.BROKER_GROUPS, img: BrokerGroupSVG }
+  { title: PATHS_LABEL["/users"], redirect: EPaths.USERS, img: UsersSVG },
+  { title: PATHS_LABEL["/agent-firms"], redirect: EPaths.AGENT_FIRMS, img: AgentFirmSVG },
+  { title: PATHS_LABEL["/binders"], redirect: EPaths.BINDERS, img: BinderSVG },
+  { title: PATHS_LABEL["/broker-groups"], redirect: EPaths.BROKER_GROUPS, img: BrokerGroupSVG },
+  {
+    title: PATHS_LABEL["/document_clauses"],
+    redirect: EPaths.DOCUMENT_CLAUSES,
+    img: DocumentClausesSVG
+  }
 ];
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -22,13 +28,15 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: "flex",
       flexFlow: "row wrap",
-      justifyContent: "space-around",
-      marginTop: theme.spacing(3)
+      justifyContent: "space-between"
     },
     card: {
-      maxWidth: 345,
-      flexBasis: "50%",
-      marginBottom: theme.spacing(3)
+      flex: "1 0 30%",
+      margin: theme.spacing(3)
+    },
+    cardMedia: {
+      backgroundColor: "#e5e5e5",
+      objectFit: "unset"
     }
   })
 );
@@ -54,6 +62,7 @@ function Home(props: IProps) {
         <Card key={card.title} className={classes.card}>
           <CardActionArea onClick={() => redirect(card.redirect)}>
             <CardMedia
+              className={classes.cardMedia}
               alt={card.title}
               title={card.title}
               image={card.img}

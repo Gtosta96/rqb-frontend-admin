@@ -2,8 +2,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-import { Route } from 'react-router';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Route } from 'react-router-dom';
 
 import { EPaths, PATHS_LABEL } from '../../../settings/constants';
 

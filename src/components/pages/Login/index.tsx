@@ -55,8 +55,6 @@ class App extends React.Component<any, any> {
   render() {
     const { authState } = this.state;
 
-    console.log(authState);
-
     return (
       <div className="App">
         {authState === "loading" || (authState === "signIn" && <div>loading...</div>)}
