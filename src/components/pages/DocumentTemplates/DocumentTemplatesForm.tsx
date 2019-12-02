@@ -10,11 +10,12 @@ import { map } from 'rxjs/operators';
 
 import { getInitialValues } from '../../../helpers/form';
 import { required } from '../../../helpers/formValidators';
-import { IDocumentClauseRequest, IDocumentClauseResponse } from '../../../interfaces/models/document-clauses';
+import { IDocumentTemplateRequest, IDocumentTemplateResponse } from '../../../interfaces/models/document-templates';
 import bindersService from '../../../services/binders/binders';
-import DocumentClausesService from '../../../services/document-clauses/document-clauses';
+import DocumentTemplatesService from '../../../services/document-templates/document-templates';
+import bgrRiskListService from '../../../services/references/broker-group-routes-risk-list';
+import documentClassesService from '../../../services/references/document-classes';
 import fileExtensionsService from '../../../services/references/file-extensions';
-import statesService from '../../../services/references/states';
 import Dropdown from '../../form/Fields/Dropdown';
 import Input from '../../form/Fields/Input';
 
@@ -46,15 +47,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface IProps {
-  info?: IDocumentClauseResponse;
+  info?: IDocumentTemplateResponse;
 }
 
-interface IFormValues extends IDocumentClauseRequest {}
+interface IFormValues extends IDocumentTemplateRequest {
+  riskIdListString: string;
+}
 
-function DocumentClausesForm(props: IProps) {
+function DocumentTemplatesForm(props: IProps) {
   const classes = useStyles();
 
-  const isCreatingDocumentClause = isEmpty(props.info);
+  const isCreatingDocumentTemplate = isEmpty(props.info);
 
   const [binderOptions] = useObservable(() => {
     bindersService.getBinders(false);
@@ -69,41 +72,59 @@ function DocumentClausesForm(props: IProps) {
     return fileExtensionsService.getFileExtensions().pipe(map(state => state.fileExtensions));
   }, []);
 
-  const [statesOptions] = useObservable(() => {
-    return statesService.getStates().pipe(map(state => state.states));
+  const [documentClassesOptions] = useObservable(() => {
+    return documentClassesService.getDocumentClasses().pipe(map(state => state.documentClasses));
+  }, []);
+
+  const [bgrRiskLists] = useObservable(() => {
+    bgrRiskListService.getBrokerGroupRoutesRiskList(undefined, true);
+
+    return bgrRiskListService.listenState().pipe(
+      map(bgrRiskListState => bgrRiskListState.payload),
+      map(payload => payload && payload.riskList),
+      map(riskLists =>
+        (riskLists || []).map(riskList => ({
+          value: riskList.riskList.toString(),
+          label: riskList.riskListName
+        }))
+      )
+    );
   }, []);
 
   const formFields = React.useMemo(
     () => [
       {
-        name: "referenceNumber",
-        label: "Reference",
-        initValue: get(props.info, "reference") || "",
-        component: Input,
-        disabled: !isCreatingDocumentClause
-      },
-      {
-        name: "title",
-        label: "Title",
-        initValue: get(props.info, "title") || "",
-        component: Input,
-        validate: required,
-        disabled: !isCreatingDocumentClause
-      },
-      {
-        name: "specificToBinderId",
-        label: "Specific To Binder",
+        name: "binderId",
+        label: "Binder",
         initValue: get(props.info, "specificToBinderId") || "",
         component: Dropdown,
         disabled: isEmpty(binderOptions),
         options: binderOptions || []
       },
       {
-        name: "specificToState",
-        label: "Specific To State",
-        initValue: get(props.info, "specificToState") || "",
+        name: "riskIdListString",
+        label: "Applicable Risk(s)",
+        initValue: (get(props.info, "riskIdList") || "").toString(),
         component: Dropdown,
-        options: statesOptions || []
+        disabled: isEmpty(bgrRiskLists),
+        options: bgrRiskLists || [],
+        validate: required
+      },
+      {
+        name: "documentClass",
+        label: "Class",
+        initValue: get(props.info, "documentClass") || "",
+        component: Dropdown,
+        disabled: isEmpty(documentClassesOptions),
+        options: documentClassesOptions || [],
+        validate: required
+      },
+      {
+        name: "title",
+        label: "Title",
+        initValue: get(props.info, "title") || "",
+        component: Input,
+        validate: required
       },
       {
         name: "s3Path",
@@ -121,7 +142,14 @@ function DocumentClausesForm(props: IProps) {
         validate: required
       }
     ],
-    [props.info, binderOptions, fileExtensionsOptions, statesOptions, isCreatingDocumentClause]
+    [
+      props.info,
+      binderOptions,
+      fileExtensionsOptions,
+      documentClassesOptions,
+      bgrRiskLists,
+      isCreatingDocumentTemplate
+    ]
   );
 
   const initialValues = React.useMemo(() => getInitialValues(formFields), [formFields]);
@@ -129,20 +157,22 @@ function DocumentClausesForm(props: IProps) {
   function handleSubmit(values: IFormValues) {
     const payload = {
       ...values,
-      documentId: (props.info && props.info.clauseId) || null
-    } as IDocumentClauseRequest;
+      documentId: (props.info && props.info.templateId) || null,
+      riskIdList: values.riskIdListString.split(",").map(Number),
+      riskIdListString: undefined
+    } as IDocumentTemplateRequest;
 
-    if (isCreatingDocumentClause) {
-      DocumentClausesService.createDocumentClause(payload);
+    if (isCreatingDocumentTemplate) {
+      DocumentTemplatesService.createDocumentTemplate(payload);
     } else {
-      DocumentClausesService.updateDocumentClause(payload);
+      DocumentTemplatesService.updateDocumentTemplate(payload);
     }
   }
 
   return (
     <div className={classes.root}>
       <Typography align="center" variant="h4">
-        {isCreatingDocumentClause ? "Add" : "Edit"} DocumentClause
+        {isCreatingDocumentTemplate ? "Add" : "Edit"} Document Template
       </Typography>
 
       <Formik initialValues={initialValues as any} onSubmit={handleSubmit}>
@@ -171,8 +201,8 @@ function DocumentClausesForm(props: IProps) {
   );
 }
 
-DocumentClausesForm.defaultProps = {
-  info: {} as IDocumentClauseResponse
+DocumentTemplatesForm.defaultProps = {
+  info: {} as IDocumentTemplateResponse
 };
 
-export default React.memo(DocumentClausesForm);
+export default React.memo(DocumentTemplatesForm);

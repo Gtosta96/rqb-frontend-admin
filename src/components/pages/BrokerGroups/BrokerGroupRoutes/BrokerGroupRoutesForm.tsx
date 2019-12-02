@@ -16,8 +16,8 @@ import {
   IBrokerGroupsResponse,
 } from '../../../../interfaces/models/broker-groups';
 import brokerGroupRoutesService from '../../../../services/broker-groups/broker-group-routes';
-import bgrRiskClassesService from '../../../../services/broker-groups/broker-group-routes/broker-group-routes-risk-classes';
-import bgrRiskListService from '../../../../services/broker-groups/broker-group-routes/broker-group-routes-risk-list';
+import bgrRiskClassesService from '../../../../services/references/broker-group-routes-risk-classes';
+import bgrRiskListService from '../../../../services/references/broker-group-routes-risk-list';
 import Dropdown from '../../../form/Fields/Dropdown';
 import Input from '../../../form/Fields/Input';
 

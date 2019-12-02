@@ -10,8 +10,8 @@ import { useObservable } from 'react-use-observable';
 import { getInitialValues } from '../../../../helpers/form';
 import { required } from '../../../../helpers/formValidators';
 import { IBrokerageRateRequest, IBrokerageRateResponse } from '../../../../interfaces/models/brokerage-rate';
-import risksService from '../../../../services/agent-firm/risks';
 import brokerageRatesService from '../../../../services/binders/brokerage-rates';
+import risksService from '../../../../services/references/risks';
 import Dropdown from '../../../form/Fields/Dropdown';
 import Toggle from '../../../form/Fields/Toggle';
 

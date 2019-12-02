@@ -13,8 +13,8 @@ import { IAgentCommissionsRequest, IAgentCommissionsResponse } from '../../../..
 import { IFirmResponse } from '../../../../interfaces/models/agent-firms';
 import { IBrokerGroupRoutingResponse } from '../../../../interfaces/models/broker-group-routing';
 import agentCommissionsService from '../../../../services/agent-firm/commissions';
-import risksService from '../../../../services/agent-firm/risks';
 import bindersService from '../../../../services/binders/binders';
+import risksService from '../../../../services/references/risks';
 import Dropdown from '../../../form/Fields/Dropdown';
 import Input from '../../../form/Fields/Input';
 

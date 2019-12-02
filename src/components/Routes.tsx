@@ -18,6 +18,8 @@ const BrokerGroupRouting = React.lazy(() => import("./pages/Users/BrokerGroupRou
 const Binders = React.lazy(() => import("./pages/Binders"));
 const BrokerGroups = React.lazy(() => import("./pages/BrokerGroups"));
 const DocumentClauses = React.lazy(() => import("./pages/DocumentClauses"));
+const DocumentTemplates = React.lazy(() => import("./pages/DocumentTemplates"));
+const DocumentSchedules = React.lazy(() => import("./pages/DocumentSchedules"));
 
 const Err = React.lazy(() => import("./shared/Err"));
 
@@ -70,6 +72,8 @@ function Routes() {
             />
 
             <Route exact={true} path={EPaths.DOCUMENT_CLAUSES} component={DocumentClauses} />
+            <Route exact={true} path={EPaths.DOCUMENT_TEMPLATES} component={DocumentTemplates} />
+            <Route exact={true} path={EPaths.DOCUMENT_SCHEDULES} component={DocumentSchedules} />
 
             <Route component={Err} />
           </Switch>

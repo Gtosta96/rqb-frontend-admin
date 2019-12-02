@@ -14,9 +14,9 @@ import {
   IBrokerGroupBindersResponse,
   IBrokerGroupsResponse,
 } from '../../../../interfaces/models/broker-groups';
-import risksService from '../../../../services/agent-firm/risks';
 import bindersService from '../../../../services/binders/binders';
 import brokerGroupBindersService from '../../../../services/broker-groups/broker-group-binders';
+import risksService from '../../../../services/references/risks';
 import Dropdown from '../../../form/Fields/Dropdown';
 import Input from '../../../form/Fields/Input';
 import Toggle from '../../../form/Fields/Toggle';

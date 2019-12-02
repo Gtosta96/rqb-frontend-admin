@@ -1,3 +1,4 @@
+import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,8 +10,9 @@ import FolderIcon from '@material-ui/icons/Folder';
 import GroupIcon from '@material-ui/icons/Group';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import PersonIcon from '@material-ui/icons/Person';
+import ViewQuilt from '@material-ui/icons/ViewQuilt';
 import classnames from 'classnames';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link as RouterLink, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { EPaths, PATHS_LABEL } from '../../../settings/constants';
@@ -49,11 +51,26 @@ function Sidebar(props: IProps) {
     { path: EPaths.USERS, label: PATHS_LABEL[EPaths.USERS], icon: GroupIcon },
     { path: EPaths.AGENT_FIRMS, label: PATHS_LABEL[EPaths.AGENT_FIRMS], icon: PersonIcon },
     { path: EPaths.BINDERS, label: PATHS_LABEL[EPaths.BINDERS], icon: FolderIcon },
-    { path: EPaths.BROKER_GROUPS, label: PATHS_LABEL[EPaths.BROKER_GROUPS], icon: GroupWorkIcon },
+    {
+      path: EPaths.BROKER_GROUPS,
+      label: PATHS_LABEL[EPaths.BROKER_GROUPS],
+      icon: GroupWorkIcon,
+      divider: true
+    },
     {
       path: EPaths.DOCUMENT_CLAUSES,
       label: PATHS_LABEL[EPaths.DOCUMENT_CLAUSES],
       icon: FindInPage
+    },
+    {
+      path: EPaths.DOCUMENT_TEMPLATES,
+      label: PATHS_LABEL[EPaths.DOCUMENT_TEMPLATES],
+      icon: ViewQuilt
+    },
+    {
+      path: EPaths.DOCUMENT_SCHEDULES,
+      label: PATHS_LABEL[EPaths.DOCUMENT_SCHEDULES],
+      icon: ViewQuilt
     }
     // { path: EPaths.SURPLUS_LINES, label: PATHS_LABEL[EPaths.SURPLUS_LINES], icon: null }
   ];
@@ -75,17 +92,20 @@ function Sidebar(props: IProps) {
       <div className={classes.toolbar} />
       <List>
         {paths.map(path => (
-          <ListItem
-            key={path.path}
-            button={true}
-            component={RouterLink}
-            to={path.path}
-            tabIndex={props.open ? undefined : -1}
-            selected={path.path === props.location.pathname}
-          >
-            <ListItemIcon>{<path.icon />}</ListItemIcon>
-            <ListItemText primary={path.label} />
-          </ListItem>
+          <Fragment key={path.path}>
+            <ListItem
+              button={true}
+              component={RouterLink}
+              to={path.path}
+              tabIndex={props.open ? undefined : -1}
+              selected={path.path === props.location.pathname}
+            >
+              <ListItemIcon>{<path.icon />}</ListItemIcon>
+              <ListItemText primary={path.label} />
+            </ListItem>
+
+            {path.divider && <Divider />}
+          </Fragment>
         ))}
       </List>
     </Drawer>

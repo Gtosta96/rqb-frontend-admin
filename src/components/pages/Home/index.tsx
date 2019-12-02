@@ -20,6 +20,11 @@ const cards = [
     title: PATHS_LABEL["/document_clauses"],
     redirect: EPaths.DOCUMENT_CLAUSES,
     img: DocumentClausesSVG
+  },
+  {
+    title: PATHS_LABEL["/document_templates"],
+    redirect: EPaths.DOCUMENT_TEMPLATES,
+    img: DocumentClausesSVG
   }
 ];
 

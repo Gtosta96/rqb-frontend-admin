@@ -24,7 +24,9 @@ export enum EPaths {
 
   SURPLUS_LINES = "/surplus-lines",
 
-  DOCUMENT_CLAUSES = "/document_clauses"
+  DOCUMENT_CLAUSES = "/document_clauses",
+  DOCUMENT_TEMPLATES = "/document_templates",
+  DOCUMENT_SCHEDULES = "/document_schedules"
 }
 
 export const PATHS_LABEL = {
@@ -49,7 +51,9 @@ export const PATHS_LABEL = {
 
   [EPaths.SURPLUS_LINES]: "Surplus Lines",
 
-  [EPaths.DOCUMENT_CLAUSES]: "Document Clauses"
+  [EPaths.DOCUMENT_CLAUSES]: "Document Clauses",
+  [EPaths.DOCUMENT_TEMPLATES]: "Document Templates",
+  [EPaths.DOCUMENT_SCHEDULES]: "Document Schedules"
 };
 
 /**
@@ -63,10 +67,10 @@ export const AWS = {
     identityPoolId: process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID,
     oauth: {
       domain: process.env.REACT_APP_AWS_COGNITO_OKTA_DOMAIN,
-      redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
-      redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
-      // redirectSignIn: "https://localhost:3000/login",
-      // redirectSignOut: "https://localhost:3000/logout",
+      // redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
+      // redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
+      redirectSignIn: "https://localhost:3000/login",
+      redirectSignOut: "https://localhost:3000/logout",
       scope: ["phone", "email", "profile", "openid"],
       responseType: "code"
     }
@@ -96,7 +100,8 @@ export const API = {
   firm: makeApiURL(process.env.REACT_APP_API_HOST_FIRM),
   brokerGroup: makeApiURL(process.env.REACT_APP_API_HOST_BROKER_GROUP),
   binder: makeApiURL(process.env.REACT_APP_API_HOST_BINDER),
-  document: makeApiURL(process.env.REACT_APP_API_HOST_DOCUMENT)
+  document: makeApiURL(process.env.REACT_APP_API_HOST_DOCUMENT),
+  questionnaire: makeApiURL(process.env.REACT_APP_API_HOST_QUESTIONNAIRE)
 };
 
 /**
