@@ -6,20 +6,23 @@ import { IDefaultFieldProps, useDefaultFieldEvents } from './useDefaultFieldEven
 
 export interface IProps extends IDefaultFieldProps {
   prefix?: string | undefined;
+  type: string;
 }
 
 function Input(props: IProps) {
-  const { className, field, label, disabled, prefix } = props;
+  const { className, field, label, disabled, prefix, type } = props;
   const { error, errorText, events } = useDefaultFieldEvents(props);
 
-  const inputProps = prefix
-    ? { startAdornment: <InputAdornment position="start">{prefix}</InputAdornment> }
-    : undefined;
+  const inputProps = {
+    type,
+    startAdornment: prefix ? <InputAdornment position="start">{prefix}</InputAdornment> : undefined
+  };
 
   return (
     <TextField
       {...field}
       {...events}
+      type={type}
       className={className}
       label={label}
       error={error}
@@ -30,6 +33,8 @@ function Input(props: IProps) {
   );
 }
 
-Input.defaultProps = {};
+Input.defaultProps = {
+  type: "text"
+};
 
 export default React.memo(Input);

@@ -71,6 +71,17 @@ function Sidebar(props: IProps) {
       path: EPaths.DOCUMENT_SCHEDULES,
       label: PATHS_LABEL[EPaths.DOCUMENT_SCHEDULES],
       icon: ViewQuilt
+    },
+
+    {
+      path: EPaths.CLIENT_DOCUMENTS,
+      label: PATHS_LABEL[EPaths.CLIENT_DOCUMENTS],
+      icon: ViewQuilt
+    },
+    {
+      path: EPaths.DOCUMENT_ATTRIBUTES,
+      label: PATHS_LABEL[EPaths.DOCUMENT_ATTRIBUTES],
+      icon: ViewQuilt
     }
     // { path: EPaths.SURPLUS_LINES, label: PATHS_LABEL[EPaths.SURPLUS_LINES], icon: null }
   ];

@@ -17,12 +17,12 @@ const cards = [
   { title: PATHS_LABEL["/binders"], redirect: EPaths.BINDERS, img: BinderSVG },
   { title: PATHS_LABEL["/broker-groups"], redirect: EPaths.BROKER_GROUPS, img: BrokerGroupSVG },
   {
-    title: PATHS_LABEL["/document_clauses"],
+    title: PATHS_LABEL["/document-clauses"],
     redirect: EPaths.DOCUMENT_CLAUSES,
     img: DocumentClausesSVG
   },
   {
-    title: PATHS_LABEL["/document_templates"],
+    title: PATHS_LABEL["/document-templates"],
     redirect: EPaths.DOCUMENT_TEMPLATES,
     img: DocumentClausesSVG
   }
@@ -57,8 +57,8 @@ interface IProps extends RouteComponentProps {
 function Home(props: IProps) {
   const classes = useStyles();
 
-  function redirect(redirect: EPaths) {
-    props.history.push(redirect);
+  function redirect(path: EPaths) {
+    props.history.push(path);
   }
 
   return (
@@ -75,7 +75,7 @@ function Home(props: IProps) {
               height="255"
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="h2" align="center">
+              <Typography gutterBottom={true} variant="h5" component="h2" align="center">
                 {card.title}
               </Typography>
             </CardContent>

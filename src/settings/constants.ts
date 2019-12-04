@@ -24,9 +24,12 @@ export enum EPaths {
 
   SURPLUS_LINES = "/surplus-lines",
 
-  DOCUMENT_CLAUSES = "/document_clauses",
-  DOCUMENT_TEMPLATES = "/document_templates",
-  DOCUMENT_SCHEDULES = "/document_schedules"
+  DOCUMENT_CLAUSES = "/document-clauses",
+  DOCUMENT_TEMPLATES = "/document-templates",
+  DOCUMENT_SCHEDULES = "/document-schedules",
+
+  CLIENT_DOCUMENTS = "/client-documents",
+  DOCUMENT_ATTRIBUTES = "/document-attributes"
 }
 
 export const PATHS_LABEL = {
@@ -53,7 +56,10 @@ export const PATHS_LABEL = {
 
   [EPaths.DOCUMENT_CLAUSES]: "Document Clauses",
   [EPaths.DOCUMENT_TEMPLATES]: "Document Templates",
-  [EPaths.DOCUMENT_SCHEDULES]: "Document Schedules"
+  [EPaths.DOCUMENT_SCHEDULES]: "Document Schedules",
+
+  [EPaths.CLIENT_DOCUMENTS]: "Client Documents",
+  [EPaths.DOCUMENT_ATTRIBUTES]: "Document Attributes"
 };
 
 /**

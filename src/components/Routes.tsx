@@ -3,23 +3,29 @@ import { BrowserRouter as Router, Redirect, Route, RouteComponentProps, Switch }
 
 import { EPaths } from '../settings/constants';
 import Layout from './layout';
-import BinderAuthority from './pages/Binders/BinderAuthority';
-import BrokerageRate from './pages/Binders/BrokerageRate';
-import BrokerGroupBinders from './pages/BrokerGroups/BrokerGroupBinders';
-import BrokerGroupRoutes from './pages/BrokerGroups/BrokerGroupRoutes';
-import BrokerGroupUsers from './pages/BrokerGroups/BrokerGroupUsers';
 import Home from './pages/Home';
 import Loading from './shared/Loading';
 
 const Users = React.lazy(() => import("./pages/Users"));
-const AgentCommissions = React.lazy(() => import("./pages/AgentFirm/AgentCommissions"));
-const AgentFirm = React.lazy(() => import("./pages/AgentFirm"));
 const BrokerGroupRouting = React.lazy(() => import("./pages/Users/BrokerGroupRouting"));
+
+const AgentFirm = React.lazy(() => import("./pages/AgentFirm"));
+const AgentCommissions = React.lazy(() => import("./pages/AgentFirm/AgentCommissions"));
+
 const Binders = React.lazy(() => import("./pages/Binders"));
+const BinderAuthority = React.lazy(() => import("./pages/Binders/BinderAuthority"));
+const BrokerageRate = React.lazy(() => import("./pages/Binders/BrokerageRate"));
+
 const BrokerGroups = React.lazy(() => import("./pages/BrokerGroups"));
+const BrokerGroupBinders = React.lazy(() => import("./pages/BrokerGroups/BrokerGroupBinders"));
+const BrokerGroupRoutes = React.lazy(() => import("./pages/BrokerGroups/BrokerGroupRoutes"));
+const BrokerGroupUsers = React.lazy(() => import("./pages/BrokerGroups/BrokerGroupUsers"));
+
 const DocumentClauses = React.lazy(() => import("./pages/DocumentClauses"));
 const DocumentTemplates = React.lazy(() => import("./pages/DocumentTemplates"));
 const DocumentSchedules = React.lazy(() => import("./pages/DocumentSchedules"));
+const ClientDocuments = React.lazy(() => import("./pages/ClientDocuments"));
+const DocumentAttributes = React.lazy(() => import("./pages/DocumentAttributes"));
 
 const Err = React.lazy(() => import("./shared/Err"));
 
@@ -74,6 +80,10 @@ function Routes() {
             <Route exact={true} path={EPaths.DOCUMENT_CLAUSES} component={DocumentClauses} />
             <Route exact={true} path={EPaths.DOCUMENT_TEMPLATES} component={DocumentTemplates} />
             <Route exact={true} path={EPaths.DOCUMENT_SCHEDULES} component={DocumentSchedules} />
+
+            <Route exact={true} path={EPaths.CLIENT_DOCUMENTS} component={ClientDocuments} />
+
+            <Route exact={true} path={EPaths.DOCUMENT_ATTRIBUTES} component={DocumentAttributes} />
 
             <Route component={Err} />
           </Switch>
