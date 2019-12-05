@@ -2,8 +2,7 @@ import { isEmpty } from 'lodash';
 import { Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { IBinderAuthorityResponse } from '../../interfaces/models/binder-authority';
-import { IBinderRequest } from '../../interfaces/models/binders';
+import { IBinderAuthorityRequest, IBinderAuthorityResponse } from '../../interfaces/models/binder-authority';
 import { API } from '../../settings/constants';
 import apiService, { IResponse } from '../api';
 import State from '../state';
@@ -31,7 +30,7 @@ class BinderAuthorityService extends State<IBinderAuthorityResponse[]> {
     return this.handleBinderAuthorities$.asObservable();
   };
 
-  public createBinderAuthority = (binderId: number, binder: IBinderRequest) => {
+  public createBinderAuthority = (binderId: number, binder: IBinderAuthorityRequest) => {
     uiService
       .withUIFeedback(
         apiService.post<IBinderAuthorityResponse>(
@@ -42,7 +41,7 @@ class BinderAuthorityService extends State<IBinderAuthorityResponse[]> {
       .subscribe(response => this.handleBinderAuthorities$.next(response));
   };
 
-  public updateBinderAuthority = (binderId: number, binder: IBinderRequest) => {
+  public updateBinderAuthority = (binderId: number, binder: IBinderAuthorityRequest) => {
     uiService
       .withUIFeedback(
         apiService.patch<IBinderAuthorityResponse>(
@@ -53,7 +52,7 @@ class BinderAuthorityService extends State<IBinderAuthorityResponse[]> {
       .subscribe(response => this.handleBinderAuthorities$.next(response));
   };
 
-  public deleteBinderAuthority = (binderId: number, binder: IBinderRequest) => {
+  public deleteBinderAuthority = (binderId: number, binder: IBinderAuthorityRequest) => {
     const payload = {
       binderId,
       appUserId: binder.appUserId

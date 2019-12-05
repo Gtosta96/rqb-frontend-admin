@@ -97,6 +97,7 @@ function DocumentAttributesForm(props: IProps) {
         name: "jsonPathName",
         label: "Tag Name",
         initValue: get(props.info, "tagName") || "",
+        disabled: !isCreatingDocumentAttribute,
         component: Input,
         validate: required
       },

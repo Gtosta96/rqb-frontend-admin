@@ -1,7 +1,7 @@
-import { CardActionArea, CardContent, CardMedia, Typography } from '@material-ui/core';
+import { CardActionArea, CardContent, CardMedia, Divider, Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { EPaths, PATHS_LABEL } from '../../../settings/constants';
@@ -15,7 +15,12 @@ const cards = [
   { title: PATHS_LABEL["/users"], redirect: EPaths.USERS, img: UsersSVG },
   { title: PATHS_LABEL["/agent-firms"], redirect: EPaths.AGENT_FIRMS, img: AgentFirmSVG },
   { title: PATHS_LABEL["/binders"], redirect: EPaths.BINDERS, img: BinderSVG },
-  { title: PATHS_LABEL["/broker-groups"], redirect: EPaths.BROKER_GROUPS, img: BrokerGroupSVG },
+  {
+    title: PATHS_LABEL["/broker-groups"],
+    redirect: EPaths.BROKER_GROUPS,
+    img: BrokerGroupSVG,
+    divisor: true
+  },
   {
     title: PATHS_LABEL["/document-clauses"],
     redirect: EPaths.DOCUMENT_CLAUSES,
@@ -24,6 +29,21 @@ const cards = [
   {
     title: PATHS_LABEL["/document-templates"],
     redirect: EPaths.DOCUMENT_TEMPLATES,
+    img: DocumentClausesSVG
+  },
+  {
+    title: PATHS_LABEL["/document-schedules"],
+    redirect: EPaths.DOCUMENT_SCHEDULES,
+    img: DocumentClausesSVG
+  },
+  {
+    title: PATHS_LABEL["/client-documents"],
+    redirect: EPaths.CLIENT_DOCUMENTS,
+    img: DocumentClausesSVG
+  },
+  {
+    title: PATHS_LABEL["/document-attributes"],
+    redirect: EPaths.DOCUMENT_ATTRIBUTES,
     img: DocumentClausesSVG
   }
 ];
@@ -64,23 +84,26 @@ function Home(props: IProps) {
   return (
     <div className={classes.root}>
       {cards.map(card => (
-        <Card key={card.title} className={classes.card}>
-          <CardActionArea onClick={() => redirect(card.redirect)}>
-            <CardMedia
-              className={classes.cardMedia}
-              alt={card.title}
-              title={card.title}
-              image={card.img}
-              component="img"
-              height="255"
-            />
-            <CardContent>
-              <Typography gutterBottom={true} variant="h5" component="h2" align="center">
-                {card.title}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+        <Fragment key={card.title}>
+          <Card className={classes.card}>
+            <CardActionArea onClick={() => redirect(card.redirect)}>
+              <CardMedia
+                className={classes.cardMedia}
+                alt={card.title}
+                title={card.title}
+                image={card.img}
+                component="img"
+                height="255"
+              />
+              <CardContent>
+                <Typography gutterBottom={true} variant="h5" component="h2" align="center">
+                  {card.title}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          {card.divisor && <Divider style={{ width: "100%" }} variant="fullWidth" />}
+        </Fragment>
       ))}
     </div>
   );

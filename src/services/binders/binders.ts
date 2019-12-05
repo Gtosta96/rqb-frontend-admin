@@ -40,7 +40,7 @@ class BindersService extends State<IState> {
   public updateBinder = (binder: IBinderRequest) => {
     uiService
       .withUIFeedback(
-        apiService.patch<IBinderResponse>(`${API.binder}/binders/${binder.firmId}`, binder)
+        apiService.patch<IBinderResponse>(`${API.binder}/binders/${binder.binderId}`, binder)
       )
       .subscribe(response => this.handleBinder$.next(response));
   };

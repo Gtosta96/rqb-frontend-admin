@@ -142,14 +142,7 @@ function DocumentTemplatesForm(props: IProps) {
         validate: required
       }
     ],
-    [
-      props.info,
-      binderOptions,
-      fileExtensionsOptions,
-      documentClassesOptions,
-      bgrRiskLists,
-      isCreatingDocumentTemplate
-    ]
+    [props.info, binderOptions, fileExtensionsOptions, documentClassesOptions, bgrRiskLists]
   );
 
   const initialValues = React.useMemo(() => getInitialValues(formFields), [formFields]);

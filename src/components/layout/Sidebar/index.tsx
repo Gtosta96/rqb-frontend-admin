@@ -10,7 +10,6 @@ import FolderIcon from '@material-ui/icons/Folder';
 import GroupIcon from '@material-ui/icons/Group';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import PersonIcon from '@material-ui/icons/Person';
-import ViewQuilt from '@material-ui/icons/ViewQuilt';
 import classnames from 'classnames';
 import React, { Fragment } from 'react';
 import { Link as RouterLink, RouteComponentProps, withRouter } from 'react-router-dom';
@@ -65,23 +64,23 @@ function Sidebar(props: IProps) {
     {
       path: EPaths.DOCUMENT_TEMPLATES,
       label: PATHS_LABEL[EPaths.DOCUMENT_TEMPLATES],
-      icon: ViewQuilt
+      icon: FindInPage
     },
     {
       path: EPaths.DOCUMENT_SCHEDULES,
       label: PATHS_LABEL[EPaths.DOCUMENT_SCHEDULES],
-      icon: ViewQuilt
+      icon: FindInPage
     },
 
     {
       path: EPaths.CLIENT_DOCUMENTS,
       label: PATHS_LABEL[EPaths.CLIENT_DOCUMENTS],
-      icon: ViewQuilt
+      icon: FindInPage
     },
     {
       path: EPaths.DOCUMENT_ATTRIBUTES,
       label: PATHS_LABEL[EPaths.DOCUMENT_ATTRIBUTES],
-      icon: ViewQuilt
+      icon: FindInPage
     }
     // { path: EPaths.SURPLUS_LINES, label: PATHS_LABEL[EPaths.SURPLUS_LINES], icon: null }
   ];

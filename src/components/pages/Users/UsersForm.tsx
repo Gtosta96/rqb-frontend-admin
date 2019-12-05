@@ -143,7 +143,6 @@ function UsersForm(props: IProps) {
         name: "telephoneNumber",
         label: "Telephone",
         initValue: get(props.info, "telephoneNumber") || "",
-        validate: required,
         component: Input
       },
       {
@@ -174,7 +173,7 @@ function UsersForm(props: IProps) {
         initValue: get(props.info, "onboarded") || new Date(),
         validate: required,
         component: DatePicker,
-        disabled: !isCreatingUser
+        disabled: true
       }
     ],
     [props.info, firmsState, rolesState, isCreatingUser]

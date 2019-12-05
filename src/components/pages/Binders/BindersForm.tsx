@@ -11,10 +11,11 @@ import { map } from 'rxjs/operators';
 
 import { getInitialValues } from '../../../helpers/form';
 import { compose, maxValue, minValue, required } from '../../../helpers/formValidators';
-import { IFirmRequest, IFirmResponse } from '../../../interfaces/models/agent-firms';
+import { IFirmResponse } from '../../../interfaces/models/agent-firms';
 import { IBinderRequest, IBinderResponse } from '../../../interfaces/models/binders';
 import firmsService from '../../../services/agent-firm/firms';
 import binderDetailsService from '../../../services/binders/binder-details';
+import bindersService from '../../../services/binders/binders';
 import usersService from '../../../services/users/users';
 import { DEFAULT_FIRM_ID } from '../../../settings/constants';
 import ChipInput from '../../form/Fields/ChipInput';
@@ -130,7 +131,7 @@ function AgentFirmForm(props: IProps) {
         name: "binderId",
         label: "Binder ID",
         component: Input,
-        initValue: get(defaultValues, "binderId") || "",
+        initValue: get(defaultValues, "binderId") || undefined,
         disabled: true
       },
       {
@@ -251,43 +252,37 @@ function AgentFirmForm(props: IProps) {
         name: "surplusLinesApply",
         label: "Surplus Lines Apply",
         component: Toggle,
-        initValue: get(defaultValues, "surplusLinesApply") || false,
-        validate: required
+        initValue: get(defaultValues, "surplusLinesApply") || false
       },
       {
         name: "isFatcaRequired",
         label: "Fatca Required",
         component: Toggle,
-        initValue: get(defaultValues, "isFatcaRequired") || false,
-        validate: required
+        initValue: get(defaultValues, "isFatcaRequired") || false
       },
       {
         name: "subjectToEnglishLaw",
         label: "Subject toEnglish Law",
         component: Toggle,
-        initValue: get(defaultValues, "subjectToEnglishLaw") || false,
-        validate: required
+        initValue: get(defaultValues, "subjectToEnglishLaw") || false
       },
       {
         name: "isMultiCountry",
         label: "Multi Country",
         component: Toggle,
-        initValue: get(defaultValues, "isMultiCountry") || false,
-        validate: required
+        initValue: get(defaultValues, "isMultiCountry") || false
       },
       {
         name: "isMultiCurrency",
         label: "Multi Currency",
         component: Toggle,
-        initValue: get(defaultValues, "isMultiCurrency") || false,
-        validate: required
+        initValue: get(defaultValues, "isMultiCurrency") || false
       },
       {
         name: "isGrossPremiumRounded",
         label: "Round Gross Premium",
         component: Toggle,
-        initValue: get(defaultValues, "isGrossPremiumRounded") || false,
-        validate: required
+        initValue: get(defaultValues, "isGrossPremiumRounded") || false
       },
       {
         name: "consumerProdExposure",
@@ -524,12 +519,12 @@ function AgentFirmForm(props: IProps) {
   const initialValues = React.useMemo(() => getInitialValues(formFields), [formFields]);
 
   function handleSubmit(values: IFormValues) {
-    const payload = values as IFirmRequest;
+    const payload = values as IBinderRequest;
 
     if (isCreatingBinder) {
-      firmsService.createFirm(payload);
+      bindersService.createBinder(payload);
     } else {
-      firmsService.updateFirm(payload);
+      bindersService.updateBinder(payload);
     }
   }
 

@@ -42,8 +42,13 @@ class ClientDocumentsService extends State<IClientDocumentResponse[]> {
   };
 
   public deleteClientDocument = (clientDocument: IClientDocumentResponse) => {
+    const payload = {
+      documentClass: clientDocument.documentClass,
+      riskIdList: clientDocument.riskIdList
+    };
+
     uiService
-      .withUIFeedback(apiService.delete(`${API.document}/documents/upload_menu`, {}))
+      .withUIFeedback(apiService.delete(`${API.document}/documents/upload_menu`, payload))
       .subscribe(response => this.handleClientDocument$.next(response));
   };
 

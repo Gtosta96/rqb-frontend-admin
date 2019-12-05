@@ -257,7 +257,7 @@ function DocumentSchedulesForm(props: IProps) {
   function handleSubmit(values: IFormValues) {
     const payload = {
       ...values,
-      documentScheduleId: (props.info && props.info.binderId) || null,
+      documentScheduleId: (props.info && props.info.binderId) || undefined,
       riskIdList: values.riskIdListString.split(",").map(Number),
       riskIdListString: undefined,
       isSubmissionDoc: "Submission" ? true : false,

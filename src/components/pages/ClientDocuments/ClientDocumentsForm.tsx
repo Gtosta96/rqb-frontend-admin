@@ -150,7 +150,7 @@ function ClientDocumentsForm(props: IProps) {
   return (
     <div className={classes.root}>
       <Typography align="center" variant="h4">
-        {isCreatingClientDocument ? "Add" : "Edit"} Document Schedule
+        {isCreatingClientDocument ? "Add" : "Edit"} Client Document
       </Typography>
 
       <Formik initialValues={initialValues as any} onSubmit={handleSubmit}>
