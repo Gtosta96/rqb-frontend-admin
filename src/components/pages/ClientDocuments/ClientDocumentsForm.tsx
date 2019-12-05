@@ -83,8 +83,6 @@ function ClientDocumentsForm(props: IProps) {
     return documentClassesService.getDocumentClasses().pipe(map(state => state.documentClasses));
   }, []);
 
-  console.log(props);
-
   const formFields = React.useMemo(
     () => [
       {

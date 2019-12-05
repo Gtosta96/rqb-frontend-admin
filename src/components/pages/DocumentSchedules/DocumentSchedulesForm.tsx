@@ -250,7 +250,6 @@ function DocumentSchedulesForm(props: IProps) {
       generateOnActionOptions
     ]
   );
-  console.log({ formFields, info: props.info });
 
   const initialValues = React.useMemo(() => getInitialValues(formFields), [formFields]);
 

@@ -73,10 +73,10 @@ export const AWS = {
     identityPoolId: process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID,
     oauth: {
       domain: process.env.REACT_APP_AWS_COGNITO_OKTA_DOMAIN,
-      // redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
-      // redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
-      redirectSignIn: "https://localhost:3000/login",
-      redirectSignOut: "https://localhost:3000/logout",
+      redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
+      redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
+      // redirectSignIn: "https://localhost:3000/login",
+      // redirectSignOut: "https://localhost:3000/logout",
       scope: ["phone", "email", "profile", "openid"],
       responseType: "code"
     }
