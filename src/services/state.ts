@@ -12,10 +12,17 @@ interface IState<T> {
 interface INext {
   payload: any;
   force: boolean;
+  fullScreenLoader: boolean;
 }
 
+/**
+ * State (helper) Service.
+ *
+ * This is an abstract service responsible for creating a standard state structure.
+ * You might not need to extend it in simple services. Check out the Questionnaire Service as an example (src/services/references/questionnaires.ts)
+ */
 class State<T> {
-  protected stateHandler$ = new Subject<any>();
+  protected stateHandler$ = new Subject<INext>();
 
   private state$ = new BehaviorSubject<IState<T>>({
     payload: null,
@@ -24,8 +31,12 @@ class State<T> {
     empty: false
   });
 
-  protected next = (payload: any, force: boolean = true, fsLoader = false) => {
-    return this.stateHandler$.next({ payload, force, fsLoader } as INext);
+  public listenState = () => {
+    return this.state$.asObservable();
+  };
+
+  protected next = (payload: any, force: boolean = true, fullScreenLoader = false) => {
+    return this.stateHandler$.next({ payload, force, fullScreenLoader });
   };
 
   protected onNext = () => {
@@ -38,9 +49,9 @@ class State<T> {
     );
   };
 
-  public listenState = () => {
-    return this.state$.asObservable();
-  };
+  protected getStateValues() {
+    return this.state$.getValue();
+  }
 
   protected setLoadingState = (loading: boolean) => {
     this.setInternal("loading", loading);
@@ -64,10 +75,6 @@ class State<T> {
       ...next
     });
   };
-
-  protected getStateValues() {
-    return this.state$.getValue();
-  }
 
   private setInternal = (property: keyof IState<T>, value: boolean | T) => {
     this.state$.next({

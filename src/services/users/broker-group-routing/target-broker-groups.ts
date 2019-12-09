@@ -23,7 +23,7 @@ class TargetBrokerGroupsService {
             `${API.brokerGroup}/broker_groups/routes`
           ),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

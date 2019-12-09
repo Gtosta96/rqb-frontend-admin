@@ -22,7 +22,7 @@ class StatesService {
             `${API.reference}/references/us_states`
           ),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

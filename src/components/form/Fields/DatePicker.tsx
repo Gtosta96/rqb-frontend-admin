@@ -1,7 +1,6 @@
-import 'date-fns';
-
-import DateFnsUtils from '@date-io/date-fns';
+import MomentUtils from '@date-io/moment';
 import { DatePicker as MuiDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import moment from 'moment';
 import React from 'react';
 
 import { IDefaultFieldProps, useDefaultFieldEvents } from './useDefaultFieldEvents';
@@ -12,12 +11,13 @@ function DatePicker(props: IProps) {
   const { form, field, className, label, disabled } = props;
   const { error, errorText, events } = useDefaultFieldEvents(props);
 
-  function onChange(value: any) {
-    form.setFieldValue(field.name, value);
+  function onChange(date: any) {
+    const isoDate = moment(date).toISOString(true);
+    form.setFieldValue(field.name, isoDate);
   }
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils}>
       <MuiDatePicker
         {...field}
         className={className}
@@ -27,7 +27,8 @@ function DatePicker(props: IProps) {
         disabled={disabled}
         disableToolbar={true}
         variant="inline"
-        format="MM/dd/yyyy"
+        format="MM/DD/YYYY"
+        autoOk={true}
       />
     </MuiPickersUtilsProvider>
   );

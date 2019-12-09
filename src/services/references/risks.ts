@@ -21,7 +21,7 @@ class RisksService {
         .withUIFeedback(
           apiService.get<{ risks?: IRiskResponse[] }>(`${API.reference}/references/risks`),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

@@ -22,7 +22,7 @@ class FileExtensionsService {
             `${API.reference}/references/file_extensions`
           ),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

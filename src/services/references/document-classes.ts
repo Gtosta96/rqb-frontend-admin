@@ -22,7 +22,7 @@ class DocumentClassesService {
             documentClasses?: Array<{ documentClass: string; documentUiClass: string }>;
           }>(`${API.reference}/references/document_classes`),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

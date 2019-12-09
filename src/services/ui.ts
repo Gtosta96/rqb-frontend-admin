@@ -4,12 +4,17 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { ISnackbarPayload } from '../interfaces/ui';
 import { IResponse } from './api';
 
+/**
+ * UI Service.
+ *
+ * Responsible for handling the global UI updates, such as Loader and Snackbar.
+ */
 class UiService {
   private loader$ = new BehaviorSubject<number>(0);
   private snackbar$ = new Subject<ISnackbarPayload>();
 
   public listenLoader = () => {
-    return this.loader$.asObservable().pipe(map((number) => number > 0));
+    return this.loader$.asObservable().pipe(map(buffer => buffer > 0));
   };
 
   public startLoader = () => {
@@ -34,13 +39,13 @@ class UiService {
 
   public withSnackbarFeedback = <T = any>(
     action: Observable<IResponse<T>>,
-    opts: { withToasty?: boolean } = {}
+    opts: { withToast?: boolean } = {}
   ) => {
     return action.pipe(
-      tap((response) => {
+      tap(response => {
         if (response.error) {
           uiService.enqueueMessage({ variant: "error", message: response.message });
-        } else if (opts.withToasty) {
+        } else if (opts.withToast) {
           uiService.enqueueMessage({ variant: "success", message: response.message });
         }
       })
@@ -49,9 +54,9 @@ class UiService {
 
   public withUIFeedback = <T = any>(
     action: Observable<IResponse<T>>,
-    opts: { withLoader?: boolean; withToasty?: boolean } = {}
+    opts: { withLoader?: boolean; withToast?: boolean } = {}
   ) => {
-    const options = { withLoader: true, withToasty: true, ...opts };
+    const options = { withLoader: true, withToast: true, ...opts };
 
     return of(true).pipe(
       tap(() => options.withLoader && this.startLoader()),
@@ -61,7 +66,7 @@ class UiService {
           this.stopLoader();
         }
       }),
-      switchMap((response) => this.withSnackbarFeedback(of(response), options))
+      switchMap(response => this.withSnackbarFeedback(of(response), options))
     );
   };
 }

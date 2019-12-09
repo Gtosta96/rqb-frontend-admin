@@ -19,7 +19,7 @@ class RolesService {
     if (!cache || this.rolesState$.getValue().roles.length === 0) {
       uiService
         .withUIFeedback(apiService.get<{ roles?: IRoleResponse[] }>(`${API.user}/roles`), {
-          withToasty: false
+          withToast: false
         })
         .subscribe(xhr => {
           this.rolesState$.next({

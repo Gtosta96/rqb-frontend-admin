@@ -12,7 +12,10 @@ export const compose = (...validators: IValidatorFunction[]) => (value: string) 
 };
 
 export const required = (value: string) => {
-  return value !== null || value !== undefined ? undefined : "This field is required";
+  // it should allow 0
+  return value !== null && value !== undefined && value !== ""
+    ? undefined
+    : "This field is required";
 };
 
 export const email = (value: string) =>

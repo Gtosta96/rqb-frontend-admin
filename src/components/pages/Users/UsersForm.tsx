@@ -77,7 +77,7 @@ function UsersForm(props: IProps) {
         label: "User ID",
         initValue: get(props.info, "appUserId") || undefined,
         component: Input,
-        disabled: !isCreatingUser
+        disabled: true
       },
       {
         name: "fullName",
@@ -176,7 +176,7 @@ function UsersForm(props: IProps) {
         disabled: true
       }
     ],
-    [props.info, firmsState, rolesState, isCreatingUser]
+    [props.info, firmsState, rolesState]
   );
 
   const initialValues = React.useMemo(() => getInitialValues(formFields), [formFields]);

@@ -8,12 +8,12 @@ import React from 'react';
 import { useObservable } from 'react-use-observable';
 
 import { getInitialValues } from '../../../../helpers/form';
-import { required } from '../../../../helpers/formValidators';
+import { compose, maxValue, minValue, required } from '../../../../helpers/formValidators';
 import { IBrokerageRateRequest, IBrokerageRateResponse } from '../../../../interfaces/models/brokerage-rate';
 import brokerageRatesService from '../../../../services/binders/brokerage-rates';
 import risksService from '../../../../services/references/risks';
 import Dropdown from '../../../form/Fields/Dropdown';
-import Toggle from '../../../form/Fields/Toggle';
+import Input from '../../../form/Fields/Input';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,7 +70,13 @@ function BrokerageRateForm(props: IProps) {
         name: "rate",
         label: "Authorised to Issue",
         initValue: get(props.info, "rate") || "",
-        component: Toggle
+        component: Input,
+        validate: compose(
+          required,
+          minValue(0),
+          maxValue(100)
+        ),
+        prefix: "%"
       }
     ];
   }, [props.info, risksState]);

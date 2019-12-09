@@ -22,7 +22,7 @@ class QuestionnairesService {
             questionnaires?: Array<{ questionnaireId: string; questionnaireUiTitle: string }>;
           }>(`${API.questionnaire}/questionnaire`),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

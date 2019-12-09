@@ -25,7 +25,7 @@ class QuestionnaireFieldNameService {
             `${API.reference}/references/questionnaire_field_names`
           ),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

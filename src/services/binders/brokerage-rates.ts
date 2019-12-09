@@ -31,22 +31,32 @@ class BrokerageRatesService extends State<IBrokerageRateResponse[]> {
   };
 
   public createBrokerageRate = (binderId: number, brokerageRate: IBrokerageRateRequest) => {
+    const payload = {
+      ...brokerageRate,
+      binderId
+    };
+
     uiService
       .withUIFeedback(
         apiService.post<IBrokerageRateResponse>(
           `${API.binder}/binders/${binderId}/brokerage_rates`,
-          brokerageRate
+          payload
         )
       )
       .subscribe(response => this.handleBrokerageRates$.next(response));
   };
 
   public updateBrokerageRate = (binderId: number, brokerageRate: IBrokerageRateRequest) => {
+    const payload = {
+      ...brokerageRate,
+      binderId
+    };
+
     uiService
       .withUIFeedback(
         apiService.patch<IBrokerageRateResponse>(
           `${API.binder}/binders/${binderId}/brokerage_rates`,
-          brokerageRate
+          payload
         )
       )
       .subscribe(response => this.handleBrokerageRates$.next(response));

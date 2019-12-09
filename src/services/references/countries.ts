@@ -20,7 +20,7 @@ class CountriesService {
         .withUIFeedback(
           apiService.get<{ countries?: string[] }>(`${API.reference}/references/countries`),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

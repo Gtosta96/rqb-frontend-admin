@@ -23,7 +23,7 @@ class BrokerGroupRoutesRiskClassesService {
             `${API.reference}/references/risk_classes`
           ),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

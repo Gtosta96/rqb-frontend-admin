@@ -1,7 +1,6 @@
 /**
- * PATHS
+ * Routes Paths
  */
-
 export enum EPaths {
   ROOT = "/",
   LOGIN = "/login",
@@ -32,6 +31,9 @@ export enum EPaths {
   DOCUMENT_ATTRIBUTES = "/document-attributes"
 }
 
+/**
+ * Paths Label used in the Breadcrumb/Sidebar Component
+ */
 export const PATHS_LABEL = {
   [EPaths.ROOT]: "Home",
   [EPaths.LOGIN]: "Login",
@@ -73,10 +75,14 @@ export const AWS = {
     identityPoolId: process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID,
     oauth: {
       domain: process.env.REACT_APP_AWS_COGNITO_OKTA_DOMAIN,
-      redirectSignIn: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN,
-      redirectSignOut: process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT,
-      // redirectSignIn: "https://localhost:3000/login",
-      // redirectSignOut: "https://localhost:3000/logout",
+      redirectSignIn:
+        process.env.NODE_ENV === "production"
+          ? process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_IN
+          : "https://localhost:3000/login",
+      redirectSignOut:
+        process.env.NODE_ENV === "production"
+          ? process.env.REACT_APP_AWS_COGNITO_OKTA_REDIRECT_SIGN_OUT
+          : "https://localhost:3000/logout",
       scope: ["phone", "email", "profile", "openid"],
       responseType: "code"
     }
@@ -94,7 +100,7 @@ export const appEnvironment: envs = process.env.REACT_APP_ENDPOINT_ENVIRONMENT a
  */
 const makeApiURL = (host: string | undefined) => {
   if (!appEnvironment || !host || host.includes("http")) {
-    throw new Error("INVALID ENV/HOST RECEIVED");
+    throw new Error(`INVALID ENV/HOST -> env: ${appEnvironment} | host: ${host}`);
   }
 
   return `https://${host}/${appEnvironment}`;
@@ -113,4 +119,4 @@ export const API = {
 /**
  * ETC
  */
-export const DEFAULT_FIRM_ID = 1;
+export const DEFAULT_FIRM_ID = 1; // BESSO FIRM ID HARDCODED

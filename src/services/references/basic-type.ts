@@ -20,7 +20,7 @@ class BasicTypeService {
         .withUIFeedback(
           apiService.get<{ basicTypes: string[] }>(`${API.reference}/references/basic_type`),
           {
-            withToasty: false
+            withToast: false
           }
         )
         .subscribe(xhr => {

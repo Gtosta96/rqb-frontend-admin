@@ -8,6 +8,12 @@ import apiService, { IResponse } from '../api';
 import State from '../state';
 import uiService from '../ui';
 
+/**
+ * Users Service.
+ *
+ * This Service is responsible to handle the main requests and visual feedbacks
+ * the Users page has.
+ */
 class UsersService extends State<IUserResponse[]> {
   private handleUser$ = new Subject<IResponse<IUserResponse>>();
 
@@ -17,10 +23,13 @@ class UsersService extends State<IUserResponse[]> {
     this.onGetUsers();
   }
 
+  // Responsible for getting the users. If the force flag is true, it will invalidate the cache
   public getUsers = (force: boolean = true) => {
     this.next(null, force);
   };
 
+  // Responsible for listen the changes when a user is created/updated to be used in order to update the UI
+  // Check out the Users page for a better understanding (src/components/pages/Users)
   public listenUser = () => {
     return this.handleUser$.asObservable();
   };
@@ -37,6 +46,8 @@ class UsersService extends State<IUserResponse[]> {
       .subscribe(response => this.handleUser$.next(response));
   };
 
+  // Responsible to execute the already filtered request (preventing cache if necessary)
+  // and populating the state with the response from the back-end.
   private onGetUsers = () => {
     this.onNext()
       .pipe(

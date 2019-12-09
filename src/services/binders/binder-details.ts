@@ -19,7 +19,7 @@ class BinderDetailsService {
       .withUIFeedback(
         apiService.get<{ binder?: IBinderDetailsResponse }>(`${API.binder}/binders/${binderId}`),
         {
-          withToasty: false
+          withToast: false
         }
       )
       .subscribe(xhr => {
