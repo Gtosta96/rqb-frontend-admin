@@ -1,10 +1,10 @@
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
-import React from 'react';
-import { Link as RouterLink, Route } from 'react-router-dom';
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
+import React from "react";
+import { Link as RouterLink, Route } from "react-router-dom";
 
-import { EPaths, PATHS_LABEL } from '../../../settings/constants';
+import { EPaths, PATHS_LABEL } from "../../../settings/constants";
 
 export default function RouterBreadcrumbs() {
   return (
@@ -15,7 +15,7 @@ export default function RouterBreadcrumbs() {
         return (
           <Breadcrumbs aria-label="breadcrumb">
             <Link to={EPaths.ROOT} color="inherit" component={RouterLink}>
-              RQB
+              HOME
             </Link>
 
             {pathnames.map((value, index) => {

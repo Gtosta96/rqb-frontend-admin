@@ -1,11 +1,9 @@
-import DeviceHub from '@material-ui/icons/DeviceHub';
-import Edit from '@material-ui/icons/Edit';
-import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import Edit from "@material-ui/icons/Edit";
+import React from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
-import { IUserResponse } from '../../../interfaces/models/user';
-import { EPaths } from '../../../settings/constants';
-import MGrid from '../../shared/MGrid';
+import { IUserResponse } from "../../../interfaces/models/user";
+import MGrid from "../../shared/MGrid";
 
 interface IProps extends RouteComponentProps {
   users: IUserResponse[] | null;
@@ -17,10 +15,6 @@ function UsersGrid(props: IProps) {
     props.editUser(user);
   }
 
-  function redirectUser(user: IUserResponse) {
-    props.history.push(EPaths.USERS_BROKER_GROUP_ROUTING, { user });
-  }
-
   return (
     props.users && (
       <MGrid
@@ -29,11 +23,6 @@ function UsersGrid(props: IProps) {
             icon: () => <Edit color="action" />,
             tooltip: "Edit User",
             onClick: (event, rowData) => editUser(rowData as IUserResponse)
-          },
-          {
-            icon: () => <DeviceHub color="action" />,
-            tooltip: "Broker Group Routing",
-            onClick: (event, rowData) => redirectUser(rowData as IUserResponse)
           }
         ]}
         columns={[

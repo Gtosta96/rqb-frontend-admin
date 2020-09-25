@@ -1,12 +1,12 @@
-import { isEmpty } from 'lodash';
-import { Subject } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { isEmpty } from "lodash";
+import { Subject } from "rxjs";
+import { switchMap, tap } from "rxjs/operators";
 
-import { IUserRequest, IUserResponse } from '../../interfaces/models/user';
-import { API } from '../../settings/constants';
-import apiService, { IResponse } from '../api';
-import State from '../state';
-import uiService from '../ui';
+import { IUserRequest, IUserResponse } from "../../interfaces/models/user";
+import { API } from "../../settings/constants";
+import apiService, { IResponse } from "../api";
+import State from "../state";
+import uiService from "../ui";
 
 /**
  * Users Service.

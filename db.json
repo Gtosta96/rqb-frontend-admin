@@ -1,0 +1,58 @@
+{
+  "users": {
+    "users": [
+      {
+        "appUserId": 23,
+        "firstName": "Gabriel",
+        "lastName": "Tosta",
+        "onboarded": "02-Aug-2018 01:08:21",
+        "telephoneNumber": null,
+        "mobileTelephone": null,
+        "email": "glhu@gft.com",
+        "username": "glhu",
+        "fullName": "Gabriel Tosta",
+        "jobTitle": null,
+        "initials": "GHT",
+        "shortName": "GTosta",
+        "userStatus": true,
+        "firm": {
+          "firmId": 1,
+          "agentFirm": "Tosta Ltda",
+          "legalName": null
+        },
+        "role": {
+          "roleId": 3,
+          "roleName": "Broker",
+          "brokerFirmOnly": null,
+          "canViewSystemAdmin": null,
+          "canChangeSystemAdmin": null,
+          "canViewBrokerAdmin": null,
+          "canChangeBrokerAdmin": null,
+          "canView": null,
+          "canCreateSubmission": null,
+          "canEditSubmission": null,
+          "canCancelSubmission": null,
+          "canPrice": null,
+          "canQuote": null,
+          "canRequestBind": null,
+          "canBind": null,
+          "canIssue": null,
+          "canRequestEndorsement": null,
+          "canEndorse": null,
+          "canCancelPolicy": null,
+          "canDecline": null,
+          "canGenerateDocs": null,
+          "canAttachDocs": null,
+          "canValidateDocs": null,
+          "canViewBrokerView": null,
+          "canEditBrokerView": null,
+          "canViewReports": null,
+          "canRejectQuote": null,
+          "canPrint": null,
+          "canReassign": null,
+          "canReroute": null
+        }
+      }
+    ]
+  }
+}

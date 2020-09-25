@@ -99,11 +99,7 @@ export const appEnvironment: envs = process.env.REACT_APP_ENDPOINT_ENVIRONMENT a
  * APIS
  */
 const makeApiURL = (host: string | undefined) => {
-  if (!appEnvironment || !host || host.includes("http")) {
-    throw new Error(`INVALID ENV/HOST -> env: ${appEnvironment} | host: ${host}`);
-  }
-
-  return `https://${host}/${appEnvironment}`;
+  return `http://localhost:5000`;
 };
 
 export const API = {

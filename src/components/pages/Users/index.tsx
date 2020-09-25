@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useObservable } from 'react-use-observable';
+import React, { useState } from "react";
+import { useObservable } from "react-use-observable";
 
-import { IUserResponse } from '../../../interfaces/models/user';
-import usersService from '../../../services/users/users';
-import Feedback from '../../shared/Feedback';
-import MGridActions from '../../shared/MGridActions';
-import UsersForm from './UsersForm';
-import UsersGrid from './UsersGrid';
+import { IUserResponse } from "../../../interfaces/models/user";
+import usersService from "../../../services/users/users";
+import Feedback from "../../shared/Feedback";
+import MGridActions from "../../shared/MGridActions";
+import UsersForm from "./UsersForm";
+import UsersGrid from "./UsersGrid";
 
 function Users() {
   const [usersState] = useObservable(() => {
@@ -27,6 +27,8 @@ function Users() {
   function getUsers(force: boolean = true) {
     usersService.getUsers(force);
   }
+
+  console.log({ usersState });
 
   return (
     <>

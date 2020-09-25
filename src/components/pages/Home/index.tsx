@@ -1,52 +1,17 @@
-import { CardActionArea, CardContent, CardMedia, Divider, Typography } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React, { Fragment } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { CardActionArea, CardContent, CardMedia, Divider, Typography } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import React, { Fragment } from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
-import { EPaths, PATHS_LABEL } from '../../../settings/constants';
-import AgentFirmSVG from './agentFirm.svg';
-import BinderSVG from './binder.svg';
-import BrokerGroupSVG from './brokerGroup.svg';
-import DocumentClausesSVG from './documentClauses.svg';
-import UsersSVG from './user.svg';
+import { EPaths, PATHS_LABEL } from "../../../settings/constants";
+import AgentFirmSVG from "./agentFirm.svg";
+import BinderSVG from "./binder.svg";
+import BrokerGroupSVG from "./brokerGroup.svg";
+import DocumentClausesSVG from "./documentClauses.svg";
+import UsersSVG from "./user.svg";
 
-const cards = [
-  { title: PATHS_LABEL["/users"], redirect: EPaths.USERS, img: UsersSVG },
-  { title: PATHS_LABEL["/agent-firms"], redirect: EPaths.AGENT_FIRMS, img: AgentFirmSVG },
-  { title: PATHS_LABEL["/binders"], redirect: EPaths.BINDERS, img: BinderSVG },
-  {
-    title: PATHS_LABEL["/broker-groups"],
-    redirect: EPaths.BROKER_GROUPS,
-    img: BrokerGroupSVG,
-    divisor: true
-  },
-  {
-    title: PATHS_LABEL["/document-clauses"],
-    redirect: EPaths.DOCUMENT_CLAUSES,
-    img: DocumentClausesSVG
-  },
-  {
-    title: PATHS_LABEL["/document-templates"],
-    redirect: EPaths.DOCUMENT_TEMPLATES,
-    img: DocumentClausesSVG
-  },
-  {
-    title: PATHS_LABEL["/document-schedules"],
-    redirect: EPaths.DOCUMENT_SCHEDULES,
-    img: DocumentClausesSVG
-  },
-  {
-    title: PATHS_LABEL["/client-documents"],
-    redirect: EPaths.CLIENT_DOCUMENTS,
-    img: DocumentClausesSVG
-  },
-  {
-    title: PATHS_LABEL["/document-attributes"],
-    redirect: EPaths.DOCUMENT_ATTRIBUTES,
-    img: DocumentClausesSVG
-  }
-];
+const cards = [{ title: PATHS_LABEL["/users"], redirect: EPaths.USERS, img: UsersSVG }];
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -102,7 +67,6 @@ function Home(props: IProps) {
               </CardContent>
             </CardActionArea>
           </Card>
-          {card.divisor && <Divider style={{ width: "100%" }} variant="fullWidth" />}
         </Fragment>
       ))}
     </div>

@@ -1,19 +1,19 @@
-import AppBar from '@material-ui/core/AppBar';
-import Badge from '@material-ui/core/Badge';
-import Chip from '@material-ui/core/Chip';
-import IconButton from '@material-ui/core/IconButton';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import classnames from 'classnames';
-import React from 'react';
+import AppBar from "@material-ui/core/AppBar";
+import Badge from "@material-ui/core/Badge";
+import Chip from "@material-ui/core/Chip";
+import IconButton from "@material-ui/core/IconButton";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MailIcon from "@material-ui/icons/Mail";
+import MenuIcon from "@material-ui/icons/Menu";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import classnames from "classnames";
+import React from "react";
 
-import { appEnvironment } from '../../../settings/constants';
-import Menu from './Menu';
+import { appEnvironment } from "../../../settings/constants";
+import Menu from "./Menu";
 
 interface IProps {
   onClickSidebarButton: () => void;
@@ -79,7 +79,7 @@ function Header(props: IProps) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap={true}>
-            RQB Administration
+            Administration
             <Chip
               className={classnames(classes.environment, classes[appEnvironment])}
               label={appEnvironment}

@@ -1,22 +1,20 @@
-import Button from '@material-ui/core/Button';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import SaveIcon from '@material-ui/icons/Save';
-import { Field, Form, Formik } from 'formik';
-import { get, isEmpty } from 'lodash';
-import React from 'react';
-import { useObservable } from 'react-use-observable';
+import Button from "@material-ui/core/Button";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import SaveIcon from "@material-ui/icons/Save";
+import { Field, Form, Formik } from "formik";
+import { get, isEmpty } from "lodash";
+import React from "react";
+import { useObservable } from "react-use-observable";
 
-import { getInitialValues } from '../../../helpers/form';
-import { compose, email, required } from '../../../helpers/formValidators';
-import { IUserRequest, IUserResponse } from '../../../interfaces/models/user';
-import firmsService from '../../../services/agent-firm/firms';
-import rolesService from '../../../services/users/roles';
-import usersService from '../../../services/users/users';
-import DatePicker from '../../form/Fields/DatePicker';
-import Dropdown from '../../form/Fields/Dropdown';
-import Input from '../../form/Fields/Input';
-import Toggle from '../../form/Fields/Toggle';
+import { getInitialValues } from "../../../helpers/form";
+import { compose, email, required } from "../../../helpers/formValidators";
+import { IUserRequest, IUserResponse } from "../../../interfaces/models/user";
+import usersService from "../../../services/users/users";
+import DatePicker from "../../form/Fields/DatePicker";
+import Dropdown from "../../form/Fields/Dropdown";
+import Input from "../../form/Fields/Input";
+import Toggle from "../../form/Fields/Toggle";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -55,12 +53,6 @@ function UsersForm(props: IProps) {
   const classes = useStyles();
 
   const isCreatingUser = isEmpty(props.info);
-
-  const [firmsState] = useObservable(() => {
-    firmsService.getFirms(false);
-    return firmsService.listenState();
-  }, []);
-  const [rolesState] = useObservable(() => rolesService.getRoles(), []);
 
   const formFields = React.useMemo(
     () => [
@@ -137,7 +129,7 @@ function UsersForm(props: IProps) {
         initValue: get(props.info, "firm.firmId") || "",
         validate: required,
         component: Dropdown,
-        options: firmsState && firmsState.payload && firmsState.payload.options
+        options: []
       },
       {
         name: "telephoneNumber",
@@ -161,11 +153,11 @@ function UsersForm(props: IProps) {
       },
       {
         name: "roleId",
-        label: "RQB Role",
+        label: "Role",
         initValue: get(props.info, "role.roleId") || "",
         validate: required,
         component: Dropdown,
-        options: rolesState && rolesState.roles
+        options: []
       },
       {
         name: "onboarded",
@@ -176,7 +168,7 @@ function UsersForm(props: IProps) {
         disabled: true
       }
     ],
-    [props.info, firmsState, rolesState]
+    [props.info]
   );
 
   const initialValues = React.useMemo(() => getInitialValues(formFields), [formFields]);

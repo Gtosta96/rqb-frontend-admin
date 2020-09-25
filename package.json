@@ -1,5 +1,5 @@
 {
-  "name": "rqb-frontend-admin",
+  "name": "frontend-admin",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -34,6 +34,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.3",
     "@types/uuid": "^3.4.4",
+    "json-server": "^0.16.1",
     "prettier": "^1.17.1",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
@@ -42,6 +43,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "json-server": "json-server --watch db.json --port 5000",
     "build": "react-scripts build",
     "build:all": "./envs/build.sh",
     "test": "react-scripts test",
